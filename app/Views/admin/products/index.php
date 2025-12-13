@@ -5,18 +5,33 @@
 <div class="table-container">
     <div class="table-header">
         <h2>Manajemen Produk</h2>
-        <div class="table-actions">
-            <input type="text" class="form-control search-input" placeholder="Cari produk..." style="width: 250px;">
-            <select class="form-control" style="width: 150px;">
+        <form action="" method="get" class="table-actions">
+            <input type="text" name="keyword" class="form-control search-input" placeholder="Cari produk..."
+                style="width: 250px;" value="<?= esc($keyword) ?>">
+
+            <select name="category_id" class="form-control" style="width: 150px;" onchange="this.form.submit()">
                 <option value="">Semua Kategori</option>
-                <option value="1">Elektronik</option>
-                <option value="2">Fashion Pria</option>
+                <?php foreach($categories as $cat): ?>
+                <option value="<?= $cat['id'] ?>" <?= ($selectedCat == $cat['id']) ? 'selected' : '' ?>>
+                    <?= esc($cat['name']) ?>
+                </option>
+                <?php endforeach; ?>
             </select>
+
+            <button type="submit" style="display:none"></button>
+
             <a href="<?= base_url('admin/products/add') ?>" class="btn btn-success">
                 <i class="fas fa-plus"></i> Tambah Produk
             </a>
-        </div>
+        </form>
     </div>
+
+    <?php if(session()->getFlashdata('success')): ?>
+    <div class="alert alert-success"
+        style="margin-bottom: 20px; padding: 10px; background: #d4edda; color: #155724; border-radius: 5px;">
+        <?= session()->getFlashdata('success') ?>
+    </div>
+    <?php endif; ?>
 
     <table class="data-table">
         <thead>
@@ -31,121 +46,74 @@
             </tr>
         </thead>
         <tbody>
+            <?php if(empty($products)): ?>
+            <tr>
+                <td colspan="7" style="text-align: center; padding: 20px;">
+                    Data produk tidak ditemukan.
+                </td>
+            </tr>
+            <?php else: ?>
+            <?php foreach($products as $product): ?>
             <tr>
                 <td>
                     <div class="product-img">
-                        <i class="fas fa-laptop" style="font-size: 32px; color: var(--text-light);"></i>
+                        <?php if($product['image'] && $product['image'] != 'default.jpg'): ?>
+                        <img src="<?= base_url('uploads/products/' . $product['image']) ?>" alt="Img"
+                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                        <?php else: ?>
+                        <i class="fas fa-box" style="font-size: 24px; color: var(--text-light);"></i>
+                        <?php endif; ?>
                     </div>
                 </td>
                 <td>
-                    <div><strong>Laptop Gaming Asus</strong></div>
-                    <small style="color: #6b7280;">Laptop spek dewa rata kanan</small>
+                    <div><strong><?= esc($product['name']) ?></strong></div>
+                    <small style="color: #6b7280;">
+                        <?= character_limiter(strip_tags($product['description']), 40) ?>
+                    </small>
                 </td>
-                <td>Elektronik</td>
-                <td><strong>Rp 15.000.000</strong></td>
-                <td>5</td>
-                <td><span class="badge badge-success">Active</span></td>
                 <td>
-                    <a href="<?= base_url('admin/products/edit/1') ?>" class="btn btn-warning btn-sm">
+                    <span class="badge badge-info" style="background: #e0f2fe; color: #0369a1;">
+                        <?= esc($product['category_name']) ?>
+                    </span>
+                </td>
+                <td>
+                    <strong>Rp <?= number_format($product['price'], 0, ',', '.') ?></strong>
+                </td>
+                <td><?= $product['stock'] ?></td>
+                <td>
+                    <?php if($product['stock'] <= 0): ?>
+                    <span class="badge badge-danger" style="background: #fee2e2; color: #991b1b;">Out of Stock</span>
+                    <?php elseif($product['is_active']): ?>
+                    <span class="badge badge-success" style="background: #dcfce7; color: #166534;">Active</span>
+                    <?php else: ?>
+                    <span class="badge badge-secondary" style="background: #f3f4f6; color: #374151;">Inactive</span>
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <a href="<?= base_url('admin/products/edit/' . $product['id']) ?>" class="btn btn-warning btn-sm">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <button class="btn btn-danger btn-sm" onclick="confirmDelete(1)">
+                    <button class="btn btn-danger btn-sm" onclick="confirmDelete(<?= $product['id'] ?>)">
                         <i class="fas fa-trash"></i>
                     </button>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <div class="product-img">
-                        <i class="fas fa-tshirt" style="font-size: 32px; color: var(--text-light);"></i>
-                    </div>
-                </td>
-                <td>
-                    <div><strong>Kemeja Flannel</strong></div>
-                    <small style="color: #6b7280;">Bahan adem dan nyaman</small>
-                </td>
-                <td>Fashion Pria</td>
-                <td><strong>Rp 150.000</strong></td>
-                <td>20</td>
-                <td><span class="badge badge-success">Active</span></td>
-                <td>
-                    <a href="<?= base_url('admin/products/edit/2') ?>" class="btn btn-warning btn-sm">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                    <button class="btn btn-danger btn-sm" onclick="confirmDelete(2)">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="product-img">
-                        <i class="fas fa-running" style="font-size: 32px; color: var(--text-light);"></i>
-                    </div>
-                </td>
-                <td>
-                    <div><strong>Sepatu Sneakers</strong></div>
-                    <small style="color: #6b7280;">Nyaman untuk aktivitas sehari-hari</small>
-                </td>
-                <td>Fashion Pria</td>
-                <td><strong>Rp 350.000</strong></td>
-                <td>15</td>
-                <td><span class="badge badge-success">Active</span></td>
-                <td>
-                    <a href="<?= base_url('admin/products/edit/3') ?>" class="btn btn-warning btn-sm">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                    <button class="btn btn-danger btn-sm" onclick="confirmDelete(3)">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="product-img">
-                        <i class="fas fa-mobile-alt" style="font-size: 32px; color: var(--text-light);"></i>
-                    </div>
-                </td>
-                <td>
-                    <div><strong>Smartphone Samsung Galaxy</strong></div>
-                    <small style="color: #6b7280;">Kamera canggih, performa maksimal</small>
-                </td>
-                <td>Elektronik</td>
-                <td><strong>Rp 8.500.000</strong></td>
-                <td>0</td>
-                <td><span class="badge badge-danger">Out of Stock</span></td>
-                <td>
-                    <a href="<?= base_url('admin/products/edit/4') ?>" class="btn btn-warning btn-sm">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                    <button class="btn btn-danger btn-sm" onclick="confirmDelete(4)">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
+            <?php endforeach; ?>
+            <?php endif; ?>
         </tbody>
     </table>
 
-    <!-- Pagination -->
     <div class="pagination-container">
         <div class="pagination-info">
-            Menampilkan 1 - 4 dari 45 produk
+            Menampilkan <?= count($products) ?> data
         </div>
-        <div class="pagination">
-            <button class="btn btn-sm" disabled>
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="btn btn-sm btn-primary">1</button>
-            <button class="btn btn-sm">2</button>
-            <button class="btn btn-sm">3</button>
-            <button class="btn btn-sm">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+        <div class="pagination-links">
+            <?= $pager->links('products', 'default_full') // Pastikan view pager dikonfigurasi atau gunakan default ?>
         </div>
     </div>
 </div>
 
-<?= $this->endSection() ?>
+
 
 <style>
 .product-img {
@@ -156,14 +124,38 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+}
+
+/* Styling tambahan untuk pagination bawaan CI4 agar sesuai tema */
+.pagination-links ul {
+    display: flex;
+    list-style: none;
+    gap: 5px;
+    padding: 0;
+}
+
+.pagination-links li a,
+.pagination-links li span {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+    text-decoration: none;
+}
+
+.pagination-links li.active span {
+    background-color: var(--primary-color, #007bff);
+    color: white;
+    border-color: var(--primary-color, #007bff);
 }
 </style>
 
 <script>
 function confirmDelete(id) {
     if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
-        // Ajax delete atau redirect
         window.location.href = '<?= base_url('admin/products/delete/') ?>' + id;
     }
 }
 </script>
+<?= $this->endSection() ?>
