@@ -435,7 +435,8 @@ a {
 
             <div class="cat-banner">
                 <div class="cat-banner-content animate-up">
-                    <h2 class="fw-bold mb-0 text-uppercase"><?= $filter == 'all' ? "MEN'S" : $filter ?> COLLECTION</h2>
+                    <h2 style="color: white;" class="fw-bold mb-0 text-uppercase">
+                        <?= $filter == 'all' ? "MEN'S" : $filter ?> COLLECTION</h2>
                     <p class="mb-0">Koleksi terbaru untuk gaya terbaikmu.</p>
                 </div>
             </div>

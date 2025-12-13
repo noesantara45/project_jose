@@ -18,10 +18,10 @@
             <div class="col-lg-2 col-6">
                 <h6 class="footer-title">Company</h6>
                 <ul class="list-unstyled">
-                    <li><a href="#" class="footer-link">About Us</a></li>
-                    <li><a href="#" class="footer-link">Contact</a></li>
-                    <li><a href="#" class="footer-link">FAQ</a></li>
-                    <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                    <li><a href="about" class="footer-link">About Us</a></li>
+                    <li><a href="contact" class="footer-link">Contact</a></li>
+                    <li><a href="faq" class="footer-link">FAQ</a></li>
+                    <li><a href="Privacy Policy" class="footer-link">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="col-lg-4">
