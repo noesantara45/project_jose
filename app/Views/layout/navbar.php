@@ -6,129 +6,191 @@ $isHome = ($current == '' || $current == 'home' || $current == 'index');
 ?>
 
 <style>
-/* CSS TRANSISI NAVBAR */
+/* --- CSS DASAR NAVBAR (BASE) --- */
 .navbar {
-    padding: 15px 0;
-    transition: all 0.4s ease;
-    z-index: 1050;
-}
-
-/* --- 1. KHUSUS HALAMAN HOME (POSISI AWAL) --- */
-.navbar-home {
-    background-color: transparent !important;
-    /* BENING TOTAL */
     position: fixed;
-    /* Mengambang */
     top: 0;
     width: 100%;
-    border-bottom: none;
+    z-index: 1050;
+    padding: 20px 0;
+    transition: all 0.4s ease-in-out;
 }
 
-/* Teks Putih di Awal */
-.navbar-home .nav-link,
-.navbar-home .navbar-brand,
-.navbar-home .btn-cart-icon {
-    color: #fff !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+/* ============================================================
+       SETTING FONT & ACTIVE STATE MENU LINK (BAGIAN PENTING)
+    ============================================================ */
+.navbar .nav-link {
+    font-weight: 800 !important;
+    /* Extra Bold */
+    font-size: 15px;
+    transition: color 0.3s ease;
+    letter-spacing: 0.5px;
+    position: relative;
+    /* Penting untuk garis bawah */
+    margin: 0 10px;
 }
 
-/* Search Bar Transparan */
-.navbar-home .nav-search-input {
+/* --- GARIS BAWAH MENU AKTIF --- */
+/* Membuat garis pseudo-element sebelum link */
+.navbar .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    /* Awalnya lebarnya 0 (tidak terlihat) */
+    height: 3px;
+    /* Ketebalan garis */
+    bottom: -5px;
+    /* Jarak dari teks */
+    left: 0;
+    background-color: currentColor;
+    /* Warna mengikuti warna teksnya */
+    transition: width 0.3s ease-in-out;
+    /* Animasi melebar */
+}
+
+/* Saat Link Halaman AKTIF atau DI-HOVER: Lebarkan garisnya jadi 100% */
+.navbar .nav-link.active::after,
+.navbar .nav-link:hover::after {
+    width: 100%;
+}
+
+/* ============================================================ */
+
+
+/* =========================================
+       STATE 1: MODE TRANSPARAN (Khusus Home di Atas)
+    ========================================= */
+.navbar-transparent {
+    background-color: transparent !important;
+    box-shadow: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Teks & Icon PUTIH */
+.navbar-transparent .navbar-brand,
+.navbar-transparent .nav-link,
+.navbar-transparent .btn-cart-icon i {
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Saat hover/aktif di transparan, warna teksnya jadi agak terang */
+.navbar-transparent .nav-link:hover,
+.navbar-transparent .nav-link.active {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Search Bar Gaya Transparan */
+.navbar-transparent .nav-search-input {
     background: rgba(255, 255, 255, 0.2) !important;
     border: 1px solid rgba(255, 255, 255, 0.5) !important;
     color: #fff !important;
 }
 
-.navbar-home .nav-search-input::placeholder {
+.navbar-transparent .nav-search-input::placeholder {
     color: rgba(255, 255, 255, 0.8);
 }
 
-.navbar-home .nav-search-btn {
+.navbar-transparent .nav-search-btn {
     color: #fff !important;
 }
 
-.navbar-home .btn-account {
-    background: #fff;
-    color: #000;
+.navbar-transparent .btn-account {
+    background: #ffffff;
+    color: #000000;
     border: none;
 }
 
 
-/* --- 2. SAAT SCROLL (ATAU HALAMAN LAIN) --- */
-.navbar-scrolled,
-.navbar-default {
+/* =========================================
+       STATE 2: MODE SOLID (Saat Scroll / Halaman Lain)
+    ========================================= */
+.navbar-solid {
     background-color: #ffffff !important;
-    /* Putih Solid */
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-    padding: 12px 0;
-    position: sticky;
-    top: 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Teks Hitam */
-.navbar-scrolled .nav-link,
-.navbar-default .nav-link,
-.navbar-scrolled .navbar-brand,
-.navbar-default .navbar-brand,
-.navbar-scrolled .btn-cart-icon,
-.navbar-default .btn-cart-icon {
-    color: #333 !important;
+/* Teks & Icon HITAM */
+.navbar-solid .navbar-brand,
+.navbar-solid .nav-link,
+.navbar-solid .btn-cart-icon i {
+    color: #222222 !important;
     text-shadow: none;
 }
 
-.navbar-scrolled .nav-link.active,
-.navbar-default .nav-link.active {
-    color: #000 !important;
-    font-weight: 800;
+/* Link Aktif & Hover di mode solid, warna teks jadi hitam pekat */
+.navbar-solid .nav-link:hover,
+.navbar-solid .nav-link.active {
+    color: #000000 !important;
 }
 
-/* Search Bar Normal */
-.navbar-scrolled .nav-search-input,
-.navbar-default .nav-search-input {
-    background: #f1f1f1 !important;
-    border: 1px solid #ddd !important;
+/* Search Bar Gaya Solid */
+.navbar-solid .nav-search-input {
+    background: #f5f5f5 !important;
+    border: 1px solid #eee !important;
     color: #333 !important;
 }
 
-.navbar-scrolled .nav-search-btn,
-.navbar-default .nav-search-btn {
-    color: #555 !important;
+.navbar-solid .nav-search-btn {
+    color: #666 !important;
 }
 
-.navbar-scrolled .btn-account,
-.navbar-default .btn-account {
-    background: #000;
-    color: #fff;
+.navbar-solid .btn-account {
+    background: #000000;
+    color: #ffffff;
 }
 
 
-/* --- ELEMENT LAIN --- */
+/* --- ELEMENT LAINNYA --- */
 .search-wrapper-nav {
     position: relative;
 }
 
 .nav-search-input {
     border-radius: 50px;
-    padding: 8px 20px;
-    padding-right: 40px;
+    padding: 10px 20px;
+    padding-right: 45px;
     width: 280px;
     transition: 0.3s;
     outline: none;
+    font-size: 14px;
 }
 
 .nav-search-btn {
     position: absolute;
-    right: 10px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     border: none;
     background: none;
 }
 
+.btn-cart-icon {
+    position: relative;
+    transition: 0.3s;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background: #dc3545;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 3px 6px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+}
+
+.navbar-solid .cart-badge {
+    border-color: #fff;
+}
+
 /* Popup Search */
 .search-popup {
     position: absolute;
-    top: 120%;
+    top: 130%;
     right: 0;
     width: 350px;
     background: #fff;
@@ -179,7 +241,7 @@ $isHome = ($current == '' || $current == 'home' || $current == 'index');
 }
 </style>
 
-<nav class="navbar navbar-expand-lg <?= $isHome ? 'navbar-home' : 'navbar-default' ?>">
+<nav class="navbar navbar-expand-lg <?= $isHome ? 'navbar-transparent' : 'navbar-solid' ?>">
     <div class="container">
 
         <a class="navbar-brand fw-bold fs-3" href="<?= base_url('/') ?>" style="letter-spacing: -1px;">
@@ -187,18 +249,18 @@ $isHome = ($current == '' || $current == 'home' || $current == 'index');
         </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
-            <i class="fas fa-bars text-secondary"></i>
+            <i class="fas fa-bars" style="color: inherit;"></i>
         </button>
 
         <div class="collapse navbar-collapse" id="navContent">
 
-            <ul class="navbar-nav ms-auto align-items-center me-4">
+            <ul class="navbar-nav ms-auto align-items-center me-4 mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link fw-bold <?= ($current == '') ? 'active' : '' ?>"
+                    <a class="nav-link px-3 <?= ($current == '') ? 'active' : '' ?>"
                         href="<?= base_url('/') ?>">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-bold <?= ($current == 'kategori') ? 'active' : '' ?>"
+                    <a class="nav-link px-3 <?= ($current == 'kategori') ? 'active' : '' ?>"
                         href="<?= base_url('kategori') ?>">Kategori</a>
                 </li>
             </ul>
@@ -229,12 +291,10 @@ $isHome = ($current == '' || $current == 'home' || $current == 'index');
                 </div>
             </div>
 
-            <div class="d-flex align-items-center gap-3">
+            <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
                 <a href="<?= base_url('cart') ?>" class="btn position-relative p-0 me-2 btn-cart-icon">
                     <i class="fas fa-shopping-bag fa-lg"></i>
-                    <span
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger border border-light p-1"
-                        style="font-size: 10px;">2</span>
+                    <span class="cart-badge">2</span>
                 </a>
 
                 <a href="<?= base_url('login') ?>" class="btn btn-account rounded-pill px-4 py-2 shadow-sm fw-bold"
@@ -247,27 +307,24 @@ $isHome = ($current == '' || $current == 'home' || $current == 'index');
 </nav>
 
 <script>
-// 1. LOGIKA SCROLL (KHUSUS HOME)
+// LOGIKA SCROLL HOME
 <?php if($isHome): ?>
 window.addEventListener('scroll', function() {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 50) {
-        // Scroll Turun: Jadi Putih
-        navbar.classList.add('navbar-scrolled');
-        navbar.classList.remove('navbar-home');
+        navbar.classList.add('navbar-solid');
+        navbar.classList.remove('navbar-transparent');
     } else {
-        // Posisi Atas: Jadi Transparan
-        navbar.classList.add('navbar-home');
-        navbar.classList.remove('navbar-scrolled');
+        navbar.classList.add('navbar-transparent');
+        navbar.classList.remove('navbar-solid');
     }
 });
 <?php endif; ?>
 
-// 2. SEARCH POPUP
+// SEARCH POPUP JS
 document.addEventListener("DOMContentLoaded", function() {
     const searchInput = document.getElementById('searchInput');
     const searchPopup = document.getElementById('searchPopup');
-
     if (searchInput && searchPopup) {
         searchInput.addEventListener('focus', () => searchPopup.classList.add('active'));
         document.addEventListener('click', (e) => {

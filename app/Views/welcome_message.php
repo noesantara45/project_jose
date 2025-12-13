@@ -249,15 +249,16 @@ $flash_sale = [
 .exclusive-section {
     background-color: #111;
     color: white;
-    border-radius: 0;
+    border-radius: 100px;
     overflow: hidden;
-    margin: 80px 0;
+    margin: 80px 80px;
 }
 
 .exclusive-img {
     height: 100%;
     min-height: 450px;
     object-fit: cover;
+    border-radius: 100px;
 }
 
 .exclusive-content {
@@ -450,7 +451,7 @@ $flash_sale = [
             </div>
             <div class="col-lg-6 exclusive-content order-lg-1">
                 <span class="text-warning fw-bold text-uppercase ls-2">Limited Time Offer</span>
-                <h2 class="display-4 fw-bold mt-3 mb-4">Couple Edition <br>Street Style</h2>
+                <h2 style="color: white;" class="display-4 fw-bold mt-3 mb-4">Couple Edition <br>Street Style</h2>
                 <p class="text-white-50 mb-5 fs-5">Dapatkan diskon spesial 30% untuk pembelian paket couple edisi
                     Valentine. Stok terbatas!</p>
                 <a href="#" class="btn btn-warning btn-lg rounded-pill px-5 py-3 fw-bold text-dark">Beli Paket Hemat</a>
