@@ -1,109 +1,64 @@
 /* ==========================================================================
-   HLOutfit - MAIN STYLESHEET GLOBAL (VERSI FINAL & LENGKAP)
+   HLOutfit - MAIN STYLESHEET GLOBAL (FINAL UNIFIED VERSION)
    ========================================================================== */
 
-/* --- 1. GLOBAL & STRUKTUR DASAR (Agar Footer Sticky di Bawah) --- */
+/* --- 1. GLOBAL & STRUKTUR DASAR --- */
 body {
     font-family: 'Poppins', sans-serif;
     display: flex; flex-direction: column; min-height: 100vh;
-    background-color: #fff;
+    background-color: #fff; margin: 0;
 }
-main { flex: 1; } /* Mengisi ruang kosong */
+main { flex: 1; } /* Footer sticky di bawah */
 
 /* Helper Classes */
-.ls-1 { letter-spacing: 1px; }
-.fw-800 { font-weight: 800; } .fw-900 { font-weight: 900; }
-.section-gap { padding: 80px 0; }
+.ls-1 { letter-spacing: 1px; } .ls-2 { letter-spacing: 2px; }
+.fw-500 { font-weight: 500; } .fw-800 { font-weight: 800; } .fw-900 { font-weight: 900; }
+.section-gap { padding: 60px 0; }
 .hover-scale { transition: transform 0.3s; } .hover-scale:hover { transform: scale(1.03); }
-.text-justify-custom { text-align: justify; }
+
+/* Animasi Fade In Up */
+.animate-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; }
+.delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
 
 /* ==========================================================================
-   2. NAVBAR STYLES (DESAIN CANGGIH DENGAN SEARCH BAR)
+   2. NAVBAR STYLES (DESAIN CANGGIH)
    ========================================================================== */
-/* Base Navbar */
-.navbar {
-    position: fixed; top: 0; width: 100%; z-index: 1050; padding: 15px 0;
-    transition: all 0.4s ease-in-out;
-}
-
-/* Font Menu Link - BAGIAN INI YANG DIUBAH */
-.navbar .nav-link {
-    font-weight: 500 !important; /* <-- DIUBAH JADI 500 (MEDIUM/NORMAL) */
-    font-size: 14px; text-transform: uppercase;
-    transition: color 0.3s ease; letter-spacing: 1px; position: relative; margin: 0 8px;
-}
-
-/* Garis Bawah Menu Aktif (Underline Effect) */
-.navbar .nav-link::after {
-    content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0;
-    background-color: currentColor; transition: width 0.3s ease-in-out;
-}
+.navbar { position: fixed; top: 0; width: 100%; z-index: 1050; padding: 15px 0; transition: all 0.4s ease-in-out; }
+.navbar .nav-link { font-weight: 500 !important; font-size: 14px; text-transform: uppercase; transition: color 0.3s ease; letter-spacing: 1px; position: relative; margin: 0 8px; }
+.navbar .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background-color: currentColor; transition: width 0.3s ease-in-out; }
 .navbar .nav-link.active::after, .navbar .nav-link:hover::after { width: 100%; }
 
-
-/* --- MODE 1: TRANSPARAN (Khusus Home di atas) --- */
-.navbar-transparent {
-    background: transparent !important; box-shadow: none;
-    border-bottom: 1px solid rgba(255,255,255,0.15);
-}
-/* Semua elemen jadi PUTIH */
-.navbar-transparent .navbar-brand,
-.navbar-transparent .nav-link,
-.navbar-transparent .btn-cart-icon i,
-.navbar-transparent .navbar-toggler {
-    color: #ffffff !important; text-shadow: 0 1px 5px rgba(0,0,0,0.3);
-}
-.navbar-transparent .nav-link:hover,
-.navbar-transparent .nav-link.active { color: rgba(255,255,255,0.8) !important; }
-/* Style Search Bar saat Transparan */
-.navbar-transparent .nav-search-input {
-    background: rgba(255, 255, 255, 0.15) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    color: #fff !important;
-}
+/* Mode Transparan (Home Top) */
+.navbar-transparent { background: transparent !important; box-shadow: none; border-bottom: 1px solid rgba(255,255,255,0.15); }
+.navbar-transparent .navbar-brand, .navbar-transparent .nav-link, .navbar-transparent .btn-cart-icon i, .navbar-transparent .navbar-toggler { color: #ffffff !important; text-shadow: 0 1px 5px rgba(0,0,0,0.3); }
+.navbar-transparent .nav-link:hover, .navbar-transparent .nav-link.active { color: rgba(255,255,255,0.8) !important; }
+.navbar-transparent .nav-search-input { background: rgba(255, 255, 255, 0.15) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; color: #fff !important; }
 .navbar-transparent .nav-search-input::placeholder { color: rgba(255, 255, 255, 0.7); }
 .navbar-transparent .nav-search-btn { color: rgba(255, 255, 255, 0.8) !important; }
-/* Tombol Akun jadi Putih */
 .navbar-transparent .btn-account { background: #ffffff; color: #000000; border: none; }
 
-
-/* --- MODE 2: SOLID (Saat Scroll atau di halaman lain) --- */
-.navbar-solid {
-    background: #ffffff !important; /* Latar Putih */
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    padding: 10px 0; /* Sedikit lebih tipis saat discroll */
-}
-/* Semua elemen jadi HITAM */
-.navbar-solid .navbar-brand,
-.navbar-solid .nav-link,
-.navbar-solid .btn-cart-icon i,
-.navbar-solid .navbar-toggler {
-    color: #222222 !important; text-shadow: none;
-}
-.navbar-solid .nav-link:hover,
-.navbar-solid .nav-link.active { color: #000000 !important; }
-/* Style Search Bar saat Solid */
-.navbar-solid .nav-search-input {
-    background: #f5f5f5 !important; border: 1px solid #eee !important; color: #333 !important;
-}
+/* Mode Solid (Scrolled / Other Pages) */
+.navbar-solid { background: #ffffff !important; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 10px 0; }
+.navbar-solid .navbar-brand, .navbar-solid .nav-link, .navbar-solid .btn-cart-icon i, .navbar-solid .navbar-toggler { color: #222222 !important; text-shadow: none; }
+.navbar-solid .nav-link:hover, .navbar-solid .nav-link.active { color: #000000 !important; }
+.navbar-solid .nav-search-input { background: #f5f5f5 !important; border: 1px solid #eee !important; color: #333 !important; }
 .navbar-solid .nav-search-btn { color: #666 !important; }
-/* Tombol Akun jadi Hitam */
 .navbar-solid .btn-account { background: #000000; color: #ffffff; }
 
-
-/* --- Elemen Pendukung Navbar (Search & Icons) --- */
+/* Navbar Elements */
 .search-wrapper-nav { position: relative; }
 .nav-search-input { border-radius: 50px; padding: 8px 20px; padding-right: 40px; width: 220px; transition: 0.3s; outline: none; font-size: 13px;}
-.nav-search-input:focus { width: 280px; } /* Melebar saat diklik */
+.nav-search-input:focus { width: 280px; }
 .nav-search-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: none; font-size: 14px; }
-
 .btn-cart-icon { position: relative; transition: 0.3s; }
 .cart-badge { position: absolute; top: -5px; right: -8px; background: #dc3545; color: white; font-size: 9px; font-weight: bold; padding: 2px 5px; border-radius: 50%; }
 
 
 /* ==========================================================================
-   3. FOOTER STYLES (DESAIN GELAP & RAPI)
+   3. FOOTER STYLES (GELAP)
    ========================================================================== */
 .main-footer { background: #111; color: #fff; padding: 50px 0 30px; margin-top: auto; }
 .footer-links a { color: #aaa; text-decoration: none; margin: 0 15px; font-size: 0.95rem; transition: color 0.3s ease; display: inline-block; }
@@ -112,97 +67,82 @@ main { flex: 1; } /* Mengisi ruang kosong */
 
 
 /* ==========================================================================
-   4. STYLE HALAMAN (HOME, ABOUT, FAQ, DLL)
+   4. STANDARD PAGE HEADER (Untuk halaman selain Home)
    ========================================================================== */
-/* Home Hero */
-.hero-section { height: 100vh; min-height: 600px; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1490481651871-732db6182260?q=80&w=1470'); background-size: cover; background-position: center; display: flex; align-items: center; color: white; }
-/* About */
-.about-hero { height: 70vh; min-height: 500px; background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1470'); background-size: cover; background-position: center; background-attachment: fixed; display: flex; align-items: center; justify-content: center; color: white; text-align: center; margin-top: -80px; padding-top: 80px; position: relative; }
-.about-title { font-size: 4rem; font-weight: 900; letter-spacing: -2px; text-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-.story-img-tall { height: 600px; object-fit: cover; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-/* Contact */
-.contact-hero { height: 50vh; min-height: 400px; background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1470'); background-size: cover; background-position: center; display: flex; align-items: center; color: white; margin-top: -80px; padding-top: 80px; }
-.contact-title { font-size: 3.5rem; font-weight: 900; letter-spacing: -1px; }
-.contact-info-box { padding: 30px; background: #fff; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; transition: 0.3s; display: flex; align-items: flex-start; }
-.contact-icon-wrap { flex-shrink: 0; width: 50px; height: 50px; background: #f8f9fa; color: #222; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 20px; }
-.form-wrapper { padding: 40px; background: #fff; border-radius: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
-.custom-form-control { border: 2px solid #eee; border-radius: 8px; padding: 12px 20px; font-weight: 500; transition: 0.3s; }
-.custom-form-control:focus { border-color: #222; box-shadow: none; background: #fbfbfb; }
-/* FAQ */
-.faq-header { background-color: #f8f9fa; padding: 120px 0 60px; text-align: center; border-bottom: 1px solid #e9ecef; }
-.faq-title { font-weight: 900; color: #222; letter-spacing: -1px; }
-.faq-search-box { max-width: 600px; margin: 30px auto 0; position: relative; }
-.faq-input { border-radius: 50px; padding: 15px 30px; padding-right: 60px; border: 2px solid #eee; box-shadow: 0 5px 20px rgba(0,0,0,0.03); font-size: 1rem; transition: 0.3s; }
-.faq-cat-title { font-weight: 800; font-size: 1.3rem; margin-top: 50px; margin-bottom: 25px; display: flex; align-items: center; color: #333; }
-.faq-page .accordion-item { border: 1px solid #f0f0f0; margin-bottom: 15px; border-radius: 12px !important; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-.faq-page .accordion-button { font-weight: 700; font-size: 1.05rem; padding: 20px 25px; color: #444; background: #fff; box-shadow: none !important; }
-.faq-page .accordion-button:not(.collapsed) { color: #000; background-color: #fcfcfc; border-bottom: 2px solid #ffc107; }
-.faq-page .accordion-body { padding: 25px; line-height: 1.7; color: #666; background-color: #fff; }
-.faq-cta-box { background: #f8f9fa; border-radius: 20px; padding: 50px; text-align: center; border: 1px solid #eee; margin-top: 60px; }
-/* Privacy Policy */
-.legal-header { background-color: #f8f9fa; padding: 100px 0 40px; text-align: center; border-bottom: 1px solid #eee; }
-.legal-title { font-weight: 900; color: #222; letter-spacing: -0.5px; margin-bottom: 10px; }
-.legal-container { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
-.legal-text { color: #444; line-height: 1.8; font-size: 1rem; }
-.legal-text h2 { font-weight: 800; color: #222; margin-top: 40px; margin-bottom: 20px; font-size: 1.5rem; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; }
+.page-header-section { background-color: #f8f9fa; padding-top: 130px; padding-bottom: 60px; text-align: center; border-bottom: 1px solid #e9ecef; position: relative; margin-bottom: 40px; }
+.page-header-title { font-weight: 800; color: #212529; letter-spacing: -0.5px; margin-bottom: 0; }
+.breadcrumb-custom { display: inline-flex; background: transparent; padding: 0; margin: 10px 0 0; font-size: 0.9rem; font-weight: 500; }
+.breadcrumb-custom .breadcrumb-item a { color: #6c757d; text-decoration: none; transition: color 0.2s; }
+.breadcrumb-custom .breadcrumb-item a:hover { color: #212529; }
+.breadcrumb-custom .breadcrumb-item.active { color: #adb5bd; }
+.breadcrumb-custom .breadcrumb-item + .breadcrumb-item::before { color: #ced4da; }
+
 
 /* ==========================================================================
-   TAMBAHAN: STANDARD PAGE HEADER
-   (Agar halaman selain Home terlihat menyatu dan profesional)
+   5. HOME PAGE SPECIFIC STYLES & FITUR KEREN
    ========================================================================== */
+/* Hero Video Background */
+.hero-section { position: relative; height: 100vh; min-height: 600px; background: #111; display: flex; align-items: center; color: white; overflow: hidden; padding-top: 0; }
+.hero-video-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.hero-bg-video { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
+.hero-section .container { position: relative; z-index: 2; }
+.hero-title { font-size: 4rem; font-weight: 900; line-height: 1.1; letter-spacing: -1px; margin-bottom: 25px; }
 
-.page-header-section {
-    /* Latar belakang abu terang yang bersih.
-       Ganti jadi url('gambar.jpg') jika ingin pakai gambar background */
-    background-color: #f0f2f5;
+/* Brand Marquee */
+.brand-marquee { background: #000; padding: 20px 0; overflow: hidden; white-space: nowrap; }
+.marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
+.brand-logo { color: #555; font-size: 24px; font-weight: 800; margin: 0 40px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+.brand-logo:hover { color: #fff; }
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-    /* Padding ATAS harus besar untuk kompensasi tinggi navbar yang fixed */
-    padding-top: 130px;
-    padding-bottom: 60px;
-    text-align: center;
-    border-bottom: 1px solid #e1e4e8;
-    position: relative;
-}
+/* Flash Sale & Stock Indicator */
+.flash-section { background: #f8f9fa; padding: 60px 0; }
+.timer-box { display: inline-block; background: #d32f2f; color: #fff; padding: 5px 10px; border-radius: 5px; font-weight: 700; margin: 0 3px; font-size: 18px; }
+.flash-card { border: 1px solid #eee; transition: 0.3s; background: #fff; position: relative; overflow: hidden; border-radius: 12px; }
+.flash-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); }
+.flash-badge { position: absolute; top: 10px; left: 10px; background: #d32f2f; color: #fff; font-weight: 700; font-size: 12px; padding: 3px 8px; border-radius: 3px; z-index: 2; }
+.stock-bar-wrapper { height: 6px; background: #eee; border-radius: 10px; overflow: hidden; margin: 8px 0; }
+.stock-bar-fill { height: 100%; background: #d32f2f; border-radius: 10px; animation: pulseStock 2s infinite; }
+@keyframes pulseStock { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
 
-/* Judul Halaman */
-.page-header-title {
-    font-weight: 900;
-    color: #222;
-    letter-spacing: -1px;
-    margin-bottom: 15px;
-}
+/* Service Box */
+.service-box { background: white; padding: 30px 20px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03); text-align: center; transition: 0.3s; height: 100%; border: 1px solid #f0f0f0; }
+.service-box:hover { transform: translateY(-5px); border-color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+.service-icon { font-size: 2rem; margin-bottom: 20px; }
 
-/* Breadcrumb (Navigasi kecil: Home > Kategori) */
-.breadcrumb-custom {
-    display: inline-flex;
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-.breadcrumb-custom .breadcrumb-item a {
-    color: #666;
-    text-decoration: none;
-    transition: color 0.2s;
-}
-.breadcrumb-custom .breadcrumb-item a:hover {
-    color: #ffc107; /* Warna kuning saat dihover */
-}
-.breadcrumb-custom .breadcrumb-item.active {
-    color: #999;
-}
-/* Mengubah pemisah breadcrumb (/) jadi warna abu */
-.breadcrumb-custom .breadcrumb-item + .breadcrumb-item::before {
-    color: #ccc;
-}
+/* Horizontal Scroll */
+.scroll-container-wrapper { position: relative; }
+.horizontal-scroll { display: flex; overflow-x: auto; gap: 25px; padding: 10px 5px 30px 5px; scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none; }
+.horizontal-scroll::-webkit-scrollbar { display: none; }
+.product-card-item { min-width: 280px; max-width: 280px; flex-shrink: 0; }
+.scroll-btn { position: absolute; top: 45%; transform: translateY(-50%); width: 50px; height: 50px; background: #fff; border-radius: 50%; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); border: none; z-index: 10; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
+.scroll-btn:hover { background: #111; color: #fff; }
+.scroll-btn.left { left: -20px; } .scroll-btn.right { right: -20px; }
 
-/* Hiasan garis kecil di bawah judul */
-.title-underline {
-    width: 60px;
-    height: 4px;
-    background: #ffc107;
-    margin: 20px auto 0;
-    border-radius: 2px;
-}
+/* General Card Styles */
+.card-custom { border: 1px solid #f0f0f0; border-radius: 12px; overflow: hidden; background: #fff; transition: 0.4s; height: 100%; }
+.card-custom:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08); }
+.product-img { height: 300px; object-fit: cover; width: 100%; }
+.card-body-custom { padding: 15px; }
 
+/* Exclusive Section */
+.exclusive-section { background-color: #111; color: white; border-radius: 0; overflow: hidden; }
+@media (min-width: 992px) { .exclusive-section { border-radius: 100px; margin: 80px; } }
+.exclusive-img { height: 100%; min-height: 450px; object-fit: cover; }
+.exclusive-content { padding: 60px; }
+
+/* Instagram Lookbook Grid */
+.lookbook-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (min-width: 768px) { .lookbook-grid { grid-template-columns: repeat(4, 1fr); gap: 15px; } }
+.lookbook-item { position: relative; overflow: hidden; border-radius: 12px; aspect-ratio: 4/5; cursor: pointer; }
+.lookbook-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.lookbook-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; color: white; font-size: 1.5rem; }
+.lookbook-item:hover .lookbook-overlay { opacity: 1; } .lookbook-item:hover .lookbook-img { transform: scale(1.1); }
+
+/* Newsletter Section */
+.newsletter-section { background-color: #000; color: #fff; padding: 80px 0; text-align: center; background-image: url('https://www.transparenttextures.com/patterns/cubes.png'); }
+.newsletter-input-group { max-width: 500px; margin: 30px auto 0; position: relative; }
+.newsletter-input { width: 100%; padding: 15px 25px; padding-right: 120px; border-radius: 50px; border: 2px solid #333; background: #111; color: #fff; outline: none; transition: 0.3s; }
+.newsletter-input:focus { border-color: #ffc107; }
+.newsletter-btn { position: absolute; right: 5px; top: 5px; bottom: 5px; border-radius: 40px; padding: 0 25px; background: #ffc107; color: #000; border: none; font-weight: 700; transition: 0.3s; }
+.newsletter-btn:hover { background: #e0a800; }
