@@ -91,7 +91,7 @@
                 <a href="<?= base_url('about') ?>">About Us</a>
                 <a href="<?= base_url('contact') ?>">Contact</a>
                 <a href="<?= base_url('faq') ?>">FAQ</a>
-                <a href="<?= base_url('privacy-policy') ?>">Privacy Policy</a>
+                <a href="<?= base_url('privacy') ?>">Privacy Policy</a>
             </div>
             <div class="footer-copyright">
                 &copy; <?= date('Y'); ?> HLOutfit. Dibuat dengan <i class="fas fa-heart text-danger mx-1"></i> di
@@ -104,22 +104,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-    // --- SCRIPT NAVBAR SCROLL EFFECT ---
-    // Script ini hanya berjalan di halaman Home ($isHome)
-    <?php if($isHome): ?>
-    window.addEventListener('scroll', function() {
-        const navbar = document.querySelector('.navbar');
-        // Jika scroll lebih dari 50px, ubah jadi solid
-        if (window.scrollY > 50) {
-            navbar.classList.add('navbar-solid');
-            navbar.classList.remove('navbar-transparent');
-        } else {
-            // Jika di paling atas, kembalikan jadi transparan
-            navbar.classList.add('navbar-transparent');
-            navbar.classList.remove('navbar-solid');
-        }
-    });
-    <?php endif; ?>
+        // --- SCRIPT NAVBAR SCROLL EFFECT ---
+        // Script ini hanya berjalan di halaman Home ($isHome)
+        <?php if ($isHome): ?>
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                // Jika scroll lebih dari 50px, ubah jadi solid
+                if (window.scrollY > 50) {
+                    navbar.classList.add('navbar-solid');
+                    navbar.classList.remove('navbar-transparent');
+                } else {
+                    // Jika di paling atas, kembalikan jadi transparan
+                    navbar.classList.add('navbar-transparent');
+                    navbar.classList.remove('navbar-solid');
+                }
+            });
+        <?php endif; ?>
     </script>
 
     <?= $this->renderSection('scripts'); ?>

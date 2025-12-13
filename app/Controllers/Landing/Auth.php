@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Landing;
+
+use App\Controllers\BaseController;
 
 class Auth extends BaseController
 {
@@ -9,7 +11,7 @@ class Auth extends BaseController
         $data = [
             'title' => 'Masuk Akun | HLOutfit'
         ];
-        return view('login', $data);
+        return view('landing/login', $data);
     }
 
     public function register()
@@ -17,6 +19,6 @@ class Auth extends BaseController
         $data = [
             'title' => 'Daftar Akun | HLOutfit'
         ];
-        return view('register', $data);
+        return view('landing/register', $data);
     }
 }

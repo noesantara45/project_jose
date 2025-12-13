@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Landing;
+
+use App\Controllers\BaseController;
+
 
 class Kategori extends BaseController
 {
@@ -8,6 +11,6 @@ class Kategori extends BaseController
     {
         // Ini Halaman Kategori
         $data = ['title' => 'Katalog Produk | HLOutfit'];
-        return view('kategori', $data);
+        return view('landing/kategori', $data);
     }
 }

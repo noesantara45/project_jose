@@ -1,94 +1,9 @@
-<?= $this->extend('layout/template'); ?>
+<?= $this->extend('landing/layout/template'); ?>
 
 <?= $this->section('content'); ?>
 
 <style>
 /* Header yang simpel dan bersih */
-.legal-header {
-    background-color: #f8f9fa;
-    padding: 140px 0 40px;
-    /* Kompensasi navbar fixed */
-    text-align: center;
-    border-bottom: 1px solid #eee;
-}
-
-.legal-title {
-    font-weight: 900;
-    color: #222;
-    letter-spacing: -0.5px;
-    margin-bottom: 10px;
-}
-
-.legal-date {
-    color: #666;
-    font-size: 0.9rem;
-    font-style: italic;
-}
-
-/* Kontainer Teks Utama */
-.legal-content-section {
-    padding: 60px 0;
-    background: #fff;
-}
-
-.legal-container {
-    /* Membatasi lebar teks agar nyaman dibaca di layar besar */
-    max-width: 800px;
-    margin: 0 auto;
-    /* Tengah */
-    padding: 0 20px;
-}
-
-/* Tipografi Teks Legal */
-.legal-text {
-    color: #444;
-    /* Tidak hitam pekat, agar tidak cepat lelah di mata */
-    line-height: 1.8;
-    /* Jarak antar baris lega */
-    font-size: 1rem;
-}
-
-.legal-text h2 {
-    font-weight: 800;
-    color: #222;
-    margin-top: 40px;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #f0f0f0;
-}
-
-.legal-text h3 {
-    font-weight: 700;
-    color: #333;
-    margin-top: 25px;
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-}
-
-.legal-text p,
-.legal-text ul {
-    margin-bottom: 20px;
-}
-
-.legal-text ul,
-.legal-text ol {
-    padding-left: 25px;
-}
-
-.legal-text li {
-    margin-bottom: 10px;
-}
-
-.legal-text a {
-    color: #000;
-    text-decoration: underline;
-    font-weight: 600;
-}
-
-.legal-text a:hover {
-    color: #ffc107;
-}
 </style>
 
 <section class="legal-header">

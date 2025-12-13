@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Landing;
+
+use App\Controllers\BaseController;
 
 class Detail extends BaseController
 {
@@ -8,6 +10,6 @@ class Detail extends BaseController
     {
         // Ini Halaman Detail Produk
         $data = ['title' => 'Detail Produk | HLOutfit'];
-        return view('detail', $data);
+        return view('landing/detail', $data);
     }
 }

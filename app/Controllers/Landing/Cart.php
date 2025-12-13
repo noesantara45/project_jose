@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Landing;
+
+use App\Controllers\BaseController;
+
 
 class Cart extends BaseController
 {
@@ -67,6 +70,6 @@ class Cart extends BaseController
             ]
         ];
 
-        return view('cart', $data);
+        return view('landing/cart', $data);
     }
 }

@@ -1,250 +1,7 @@
-<?= $this->extend('layout/template'); ?>
+<?= $this->extend('landing/layout/template'); ?>
 
 <?= $this->section('content'); ?>
 
-<style>
-/* 1. Gallery Layout */
-.product-gallery {
-    position: relative;
-}
-
-.main-image-wrap {
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 15px;
-    cursor: zoom-in;
-    /* Indikasi bisa di-zoom */
-    background: #f9f9f9;
-    aspect-ratio: 3/4;
-    /* Portrait Fashion */
-}
-
-.main-img-display {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: 0.3s;
-}
-
-.thumbnail-list {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-}
-
-.thumb-btn {
-    width: 70px;
-    height: 90px;
-    border: 2px solid transparent;
-    border-radius: 8px;
-    cursor: pointer;
-    overflow: hidden;
-    opacity: 0.7;
-    transition: 0.2s;
-}
-
-.thumb-btn.active,
-.thumb-btn:hover {
-    border-color: #000;
-    opacity: 1;
-}
-
-.thumb-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* 2. Product Info (Sticky di Kanan) */
-.product-info-sticky {
-    position: sticky;
-    top: 100px;
-    /* Jarak dari navbar */
-}
-
-.p-brand {
-    font-weight: 700;
-    color: #999;
-    text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: 1px;
-}
-
-.p-title {
-    font-size: 24px;
-    font-weight: 600;
-    color: #222;
-    margin-top: 5px;
-    line-height: 1.3;
-}
-
-.price-wrap {
-    margin: 15px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.final-price {
-    font-size: 24px;
-    font-weight: 700;
-    color: #111;
-}
-
-.origin-price {
-    font-size: 16px;
-    color: #aaa;
-    text-decoration: line-through;
-}
-
-.disc-label {
-    background: #ffebeb;
-    color: #d32f2f;
-    font-weight: 700;
-    font-size: 12px;
-    padding: 3px 8px;
-    border-radius: 4px;
-}
-
-/* 3. Variants (Color & Size) */
-.variant-label {
-    font-size: 13px;
-    font-weight: 700;
-    color: #444;
-    margin-bottom: 8px;
-    display: block;
-}
-
-/* Radio Button Gaya Button */
-.size-selector input {
-    display: none;
-}
-
-.size-btn {
-    display: inline-block;
-    min-width: 45px;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    text-align: center;
-    font-size: 14px;
-    cursor: pointer;
-    margin-right: 5px;
-    transition: 0.2s;
-    background: #fff;
-}
-
-.size-selector input:checked+.size-btn {
-    border-color: #000;
-    background: #000;
-    color: #fff;
-}
-
-.size-selector input:disabled+.size-btn {
-    background: #f5f5f5;
-    color: #ccc;
-    cursor: not-allowed;
-    border-color: #eee;
-    text-decoration: line-through;
-}
-
-/* Color Selector */
-.color-selector input {
-    display: none;
-}
-
-.color-circle {
-    display: inline-block;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-    box-shadow: 0 0 0 1px #ddd;
-    /* Border luar halus */
-    margin-right: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.color-selector input:checked+.color-circle {
-    box-shadow: 0 0 0 2px #000;
-    transform: scale(1.1);
-}
-
-/* 4. Action Buttons */
-.qty-input {
-    width: 50px;
-    text-align: center;
-    border: none;
-    font-weight: 600;
-}
-
-.btn-qty {
-    width: 35px;
-    height: 35px;
-    background: #f5f5f5;
-    border: none;
-    border-radius: 4px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.btn-qty:hover {
-    background: #e0e0e0;
-}
-
-.btn-buy {
-    background: #000;
-    color: #fff;
-    border: none;
-    padding: 12px;
-    font-weight: 600;
-    width: 100%;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-
-.btn-buy:hover {
-    background: #333;
-    transform: translateY(-2px);
-}
-
-.btn-wishlist-outline {
-    border: 1px solid #ddd;
-    background: #fff;
-    width: 50px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    transition: 0.2s;
-    cursor: pointer;
-}
-
-.btn-wishlist-outline:hover {
-    border-color: #000;
-    color: #d32f2f;
-}
-
-/* 5. Accordion Details */
-.accordion-button:not(.collapsed) {
-    color: #000;
-    background-color: #f9f9f9;
-    box-shadow: none;
-}
-
-.accordion-button:focus {
-    box-shadow: none;
-    border-color: rgba(0, 0, 0, 0.1);
-}
-
-.feature-list li {
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #555;
-}
-</style>
 
 <?php
 $produk = [
@@ -286,11 +43,11 @@ $produk = [
                     <img src="<?= $produk['img_main'] ?>" id="mainImage" class="main-img-display" alt="Produk Utama">
                 </div>
                 <div class="thumbnail-list">
-                    <?php foreach($produk['gallery'] as $idx => $img): ?>
-                    <div class="thumb-btn <?= $idx==0 ? 'active' : '' ?>"
-                        onclick="changeImage(this, '<?= str_replace('w=200','w=800',$img) ?>')">
-                        <img src="<?= $img ?>" class="thumb-img">
-                    </div>
+                    <?php foreach ($produk['gallery'] as $idx => $img): ?>
+                        <div class="thumb-btn <?= $idx == 0 ? 'active' : '' ?>"
+                            onclick="changeImage(this, '<?= str_replace('w=200', 'w=800', $img) ?>')">
+                            <img src="<?= $img ?>" class="thumb-img">
+                        </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -312,11 +69,11 @@ $produk = [
                 </div>
 
                 <div class="price-wrap">
-                    <span class="final-price">Rp <?= number_format($produk['harga'],0,',','.') ?></span>
-                    <?php if($produk['old'] > 0): ?>
-                    <span class="origin-price">Rp <?= number_format($produk['old'],0,',','.') ?></span>
-                    <span
-                        class="disc-label">-<?= round((($produk['old'] - $produk['harga']) / $produk['old']) * 100) ?>%</span>
+                    <span class="final-price">Rp <?= number_format($produk['harga'], 0, ',', '.') ?></span>
+                    <?php if ($produk['old'] > 0): ?>
+                        <span class="origin-price">Rp <?= number_format($produk['old'], 0, ',', '.') ?></span>
+                        <span
+                            class="disc-label">-<?= round((($produk['old'] - $produk['harga']) / $produk['old']) * 100) ?>%</span>
                     <?php endif; ?>
                 </div>
 
@@ -418,17 +175,17 @@ $produk = [
     <div class="mt-5 pt-5 border-top">
         <h4 class="fw-bold mb-4">Mungkin Kamu Suka</h4>
         <div class="row row-cols-2 row-cols-md-4 g-4">
-            <?php for($i=1; $i<=4; $i++): ?>
-            <div class="col">
-                <div class="card border-0 shadow-sm h-100">
-                    <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400" class="card-img-top"
-                        style="height: 250px; object-fit: cover;">
-                    <div class="card-body p-3">
-                        <h6 class="card-title text-truncate fw-bold mb-1">Basic Oversize Tee White</h6>
-                        <span class="fw-bold text-dark">Rp 149.000</span>
+            <?php for ($i = 1; $i <= 4; $i++): ?>
+                <div class="col">
+                    <div class="card border-0 shadow-sm h-100">
+                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400" class="card-img-top"
+                            style="height: 250px; object-fit: cover;">
+                        <div class="card-body p-3">
+                            <h6 class="card-title text-truncate fw-bold mb-1">Basic Oversize Tee White</h6>
+                            <span class="fw-bold text-dark">Rp 149.000</span>
+                        </div>
                     </div>
                 </div>
-            </div>
             <?php endfor; ?>
         </div>
     </div>
@@ -451,28 +208,28 @@ $produk = [
 </div>
 
 <script>
-// Ganti Gambar Utama saat Thumbnail diklik
-function changeImage(element, src) {
-    document.getElementById('mainImage').src = src;
-    // Reset active class
-    document.querySelectorAll('.thumb-btn').forEach(el => el.classList.remove('active'));
-    element.classList.add('active');
-}
-
-// Update Nama Warna saat diklik
-function updateColor(colorName) {
-    document.getElementById('colorName').innerText = colorName;
-}
-
-// Fungsi Plus Minus Quantity
-function updateQty(change) {
-    let input = document.getElementById('qtyVal');
-    let current = parseInt(input.value);
-    let newVal = current + change;
-    if (newVal >= 1 && newVal <= <?= $produk['stok'] ?>) {
-        input.value = newVal;
+    // Ganti Gambar Utama saat Thumbnail diklik
+    function changeImage(element, src) {
+        document.getElementById('mainImage').src = src;
+        // Reset active class
+        document.querySelectorAll('.thumb-btn').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
     }
-}
+
+    // Update Nama Warna saat diklik
+    function updateColor(colorName) {
+        document.getElementById('colorName').innerText = colorName;
+    }
+
+    // Fungsi Plus Minus Quantity
+    function updateQty(change) {
+        let input = document.getElementById('qtyVal');
+        let current = parseInt(input.value);
+        let newVal = current + change;
+        if (newVal >= 1 && newVal <= <?= $produk['stok'] ?>) {
+            input.value = newVal;
+        }
+    }
 </script>
 
 <?= $this->endSection(); ?>

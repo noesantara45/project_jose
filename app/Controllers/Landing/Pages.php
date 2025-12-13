@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Landing;
+
+use App\Controllers\BaseController;
+
 
 class Pages extends BaseController
 {
@@ -9,7 +12,7 @@ class Pages extends BaseController
     {
         $data = ['title' => 'About Us | HLOutfit'];
         // Ini memerintahkan untuk membuka file di folder 'app/Views/pages/about.php'
-        return view('pages/about', $data);
+        return view('landing/pages/about', $data);
     }
 
     // Method untuk halaman Contact
@@ -17,7 +20,7 @@ class Pages extends BaseController
     {
         $data = ['title' => 'Hubungi Kami | HLOutfit'];
         // Ini memerintahkan untuk membuka file di folder 'app/Views/pages/contact.php'
-        return view('pages/contact', $data);
+        return view('landing/pages/contact', $data);
     }
 
     // Method untuk halaman FAQ
@@ -25,13 +28,13 @@ class Pages extends BaseController
     {
         $data = ['title' => 'FAQ & Bantuan | HLOutfit'];
         // Ini memerintahkan untuk membuka file di folder 'app/Views/pages/faq.php'
-        return view('pages/faq', $data);
+        return view('landing/pages/faq', $data);
     }
 
-       public function privacy()
+    public function privacy()
     {
         $data = ['title' => 'Privacy Policy | HLOutfit'];
         // Ini memerintahkan untuk membuka file di folder 'app/Views/pages/faq.php'
-        return view('pages/privacy', $data);
+        return view('landing/pages/privacy', $data);
     }
 }

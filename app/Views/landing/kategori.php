@@ -1,4 +1,4 @@
-<?= $this->extend('layout/template'); ?>
+<?= $this->extend('landing/layout/template'); ?>
 
 <?= $this->section('content'); ?>
 
@@ -29,292 +29,6 @@ $products = [
 ];
 ?>
 
-<style>
-/* CSS GLOBAL */
-body {
-    background-color: #fff;
-    color: #333;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-    transition: 0.2s;
-}
-
-/* Gender Tabs */
-.gender-tabs {
-    border-bottom: 1px solid #eee;
-    margin-bottom: 30px;
-    text-align: center;
-    padding-top: 10px;
-}
-
-.gender-link {
-    font-size: 14px;
-    font-weight: 600;
-    color: #888;
-    padding: 15px 25px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 3px solid transparent;
-    text-decoration: none;
-    display: inline-block;
-    transition: 0.3s;
-}
-
-.gender-link:hover {
-    color: #000;
-}
-
-.gender-link.active {
-    color: #000;
-    border-bottom-color: #000;
-}
-
-/* Banner */
-.cat-banner {
-    background: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1200&q=80') no-repeat center center;
-    background-size: cover;
-    height: 200px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    margin-bottom: 30px;
-    position: relative;
-}
-
-.cat-banner::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 12px;
-}
-
-.cat-banner-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-}
-
-/* SIDEBAR FILTER (LENGKAP) */
-.filter-sidebar {
-    background-color: #fff;
-    padding-right: 20px;
-}
-
-.filter-section {
-    margin-bottom: 20px;
-    border-bottom: 1px solid #f0f0f0;
-    padding-bottom: 15px;
-}
-
-.filter-head {
-    font-weight: 700;
-    font-size: 13px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-    color: #111;
-}
-
-.custom-check {
-    font-size: 13px;
-    color: #555;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 6px;
-    transition: 0.2s;
-}
-
-.custom-check:hover {
-    color: #000;
-}
-
-.count-badge {
-    font-size: 10px;
-    color: #999;
-    background: #f8f9fa;
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-.color-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.color-opt {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.color-opt:hover {
-    transform: scale(1.2);
-    border-color: #000;
-}
-
-.size-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-}
-
-.size-btn {
-    font-size: 11px;
-    padding: 4px 10px;
-    border: 1px solid #eee;
-    border-radius: 4px;
-    background: #fff;
-    cursor: pointer;
-}
-
-.size-btn:hover {
-    border-color: #000;
-    background: #000;
-    color: #fff;
-}
-
-.star-active {
-    color: #f1c40f;
-}
-
-/* Product Card */
-.product-card {
-    border: none;
-    transition: 0.3s;
-    position: relative;
-    margin-bottom: 20px;
-    background: #fff;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-}
-
-.card-img-wrap {
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
-    aspect-ratio: 3/4;
-    background: #f9f9f9;
-}
-
-.card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: 0.5s;
-}
-
-.product-card:hover .card-img {
-    transform: scale(1.05);
-}
-
-.tag-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 4px 10px;
-    font-size: 10px;
-    font-weight: 700;
-    color: white;
-    border-radius: 4px;
-    text-transform: uppercase;
-    z-index: 5;
-}
-
-.bg-sale {
-    background: #e74c3c;
-}
-
-.bg-new {
-    background: #2ecc71;
-}
-
-.bg-best {
-    background: #f39c12;
-}
-
-.overlay-actions {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: 0.3s;
-}
-
-.product-card:hover .overlay-actions {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.btn-action {
-    width: 35px;
-    height: 35px;
-    background: white;
-    border-radius: 50%;
-    border: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    color: #333;
-    transition: 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-action:hover {
-    background: #000;
-    color: white;
-}
-
-.color-dots {
-    margin-top: 8px;
-    display: flex;
-    gap: 5px;
-}
-
-.dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-}
-
-.product-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-.product-link:hover {
-    color: inherit;
-}
-</style>
 
 <div class="container pb-5">
 
@@ -443,9 +157,9 @@ a {
 
             <div class="row row-cols-2 row-cols-md-3 g-4">
 
-                <?php 
+                <?php
                 $count = 0;
-                foreach($products as $p): 
+                foreach ($products as $p):
                     // FILTER LOGIC
                     $show = false;
                     if ($filter == 'sale') {
@@ -456,69 +170,70 @@ a {
                         if ($p['gender'] == $filter) $show = true;
                     }
 
-                    if ($show): 
+                    if ($show):
                         $count++;
                 ?>
-                <div class="col">
-                    <div class="product-card">
+                        <div class="col">
+                            <div class="product-card">
 
-                        <a href="<?= base_url('detail') ?>" class="product-link">
+                                <a href="<?= base_url('detail') ?>" class="product-link">
 
-                            <div class="card-img-wrap">
-                                <?php if($p['tag'] == 'new'): ?>
-                                <span class="tag-badge bg-new">NEW</span>
-                                <?php elseif($p['tag'] == 'sale'): ?>
-                                <span class="tag-badge bg-sale">SALE</span>
-                                <?php elseif($p['tag'] == 'best'): ?>
-                                <span class="tag-badge bg-best">HOT</span>
-                                <?php endif; ?>
+                                    <div class="card-img-wrap">
+                                        <?php if ($p['tag'] == 'new'): ?>
+                                            <span class="tag-badge bg-new">NEW</span>
+                                        <?php elseif ($p['tag'] == 'sale'): ?>
+                                            <span class="tag-badge bg-sale">SALE</span>
+                                        <?php elseif ($p['tag'] == 'best'): ?>
+                                            <span class="tag-badge bg-best">HOT</span>
+                                        <?php endif; ?>
 
-                                <img src="<?= $p['img'] ?>" class="card-img" alt="<?= $p['nama'] ?>">
+                                        <img src="<?= $p['img'] ?>" class="card-img" alt="<?= $p['nama'] ?>">
 
-                                <div class="overlay-actions">
-                                    <button class="btn-action" title="Wishlist"><i class="far fa-heart"></i></button>
-                                    <button class="btn-action" title="Lihat"><i class="far fa-eye"></i></button>
-                                    <button class="btn-action" title="Beli"><i class="fas fa-shopping-bag"></i></button>
-                                </div>
+                                        <div class="overlay-actions">
+                                            <button class="btn-action" title="Wishlist"><i class="far fa-heart"></i></button>
+                                            <button class="btn-action" title="Lihat"><i class="far fa-eye"></i></button>
+                                            <button class="btn-action" title="Beli"><i class="fas fa-shopping-bag"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3 px-2 pb-3">
+                                        <small class="text-muted text-uppercase fw-bold"
+                                            style="font-size: 10px;"><?= $p['cat'] ?></small>
+                                        <h6 class="text-dark fw-bold mb-1 text-truncate" style="font-size: 14px;">
+                                            <?= $p['nama'] ?></h6>
+
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span class="fw-bold text-dark" style="font-size: 14px;">Rp
+                                                <?= number_format($p['harga'], 0, ',', '.') ?></span>
+                                            <?php if ($p['old'] > 0): ?>
+                                                <small class="text-muted text-decoration-line-through ms-2"
+                                                    style="font-size: 11px;">
+                                                    Rp <?= number_format($p['old'], 0, ',', '.') ?>
+                                                </small>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="color-dots">
+                                            <?php foreach ($p['colors'] as $c): ?>
+                                                <div class="dot" style="background-color: <?= $c ?>;"></div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+
+                                </a>
+
                             </div>
+                        </div>
+                <?php endif;
+                endforeach; ?>
 
-                            <div class="mt-3 px-2 pb-3">
-                                <small class="text-muted text-uppercase fw-bold"
-                                    style="font-size: 10px;"><?= $p['cat'] ?></small>
-                                <h6 class="text-dark fw-bold mb-1 text-truncate" style="font-size: 14px;">
-                                    <?= $p['nama'] ?></h6>
+            </div>
 
-                                <div class="d-flex align-items-center mb-2">
-                                    <span class="fw-bold text-dark" style="font-size: 14px;">Rp
-                                        <?= number_format($p['harga'],0,',','.') ?></span>
-                                    <?php if($p['old'] > 0): ?>
-                                    <small class="text-muted text-decoration-line-through ms-2"
-                                        style="font-size: 11px;">
-                                        Rp <?= number_format($p['old'],0,',','.') ?>
-                                    </small>
-                                    <?php endif; ?>
-                                </div>
-
-                                <div class="color-dots">
-                                    <?php foreach($p['colors'] as $c): ?>
-                                    <div class="dot" style="background-color: <?= $c ?>;"></div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-
-                        </a>
-
-                    </div>
+            <?php if ($count == 0): ?>
+                <div class="text-center py-5">
+                    <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Produk tidak ditemukan untuk kategori ini.</h5>
                 </div>
-                <?php endif; endforeach; ?>
-
-            </div>
-
-            <?php if($count == 0): ?>
-            <div class="text-center py-5">
-                <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
-                <h5 class="text-muted">Produk tidak ditemukan untuk kategori ini.</h5>
-            </div>
             <?php endif; ?>
 
             <div class="mt-5 text-center">
