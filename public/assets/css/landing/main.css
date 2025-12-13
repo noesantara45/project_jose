@@ -48,6 +48,7 @@ main {
   z-index: 1050;
   padding: 15px 0;
   transition: all 0.4s ease-in-out;
+  outline: none !important;
 }
 
 /* Font Menu Link - BAGIAN INI YANG DIUBAH */
@@ -81,7 +82,7 @@ main {
 .navbar-transparent {
   background: transparent !important;
   box-shadow: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  outline: none !important;
 }
 /* Semua elemen jadi PUTIH */
 .navbar-transparent .navbar-brand,
@@ -245,7 +246,7 @@ main {
   justify-content: center;
   color: white;
   text-align: center;
-  margin-top: -80px;
+  margin-top: 0px;
   /* Kompensasi navbar fixed */
   padding-top: 80px;
   position: relative;
@@ -769,6 +770,7 @@ body {
 
 .cart-header {
   margin-bottom: 20px;
+  margin-top: 50px;
 }
 
 /* Box Item Keranjang */

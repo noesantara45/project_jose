@@ -15,62 +15,55 @@
         <div class="col-lg-8 animate-up delay-1">
 
             <?php if (empty($cart_items)): ?>
-                <div class="cart-item-box empty-cart">
-                    <div>
-                        <i class="fas fa-shopping-basket empty-icon"></i>
-                        <h4>Tas Belanja Kosong</h4>
-                        <p class="text-muted">Sepertinya kamu belum menambahkan apapun.</p>
-                        <a href="<?= base_url('produk') ?>" class="btn btn-dark rounded-pill px-4 mt-3">Mulai Belanja</a>
-                    </div>
+            <div class="cart-item-box empty-cart">
+                <div>
+                    <i class="fas fa-shopping-basket empty-icon"></i>
+                    <h4>Tas Belanja Kosong</h4>
+                    <p class="text-muted">Sepertinya kamu belum menambahkan apapun.</p>
+                    <a href="<?= base_url('produk') ?>" class="btn btn-dark rounded-pill px-4 mt-3">Mulai Belanja</a>
                 </div>
+            </div>
             <?php else: ?>
 
-                <?php $total_belanja = 0; ?>
-                <?php foreach ($cart_items as $item):
+            <?php $total_belanja = 0; ?>
+            <?php foreach ($cart_items as $item):
                     $subtotal = $item['price'] * $item['qty'];
                     $total_belanja += $subtotal;
                 ?>
-                    <div class="cart-item-box" id="row-<?= $item['id'] ?>">
+            <div class="cart-item-box" id="row-<?= $item['id'] ?>">
 
-                        <div class="cart-img-wrap">
-                            <img src="<?= $item['img'] ?>" class="cart-img" alt="Produk">
-                        </div>
+                <div class="cart-img-wrap">
+                    <img src="<?= $item['img'] ?>" class="cart-img" alt="Produk">
+                </div>
 
-                        <div class="cart-info">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <a href="#" class="cart-prod-name"><?= $item['name'] ?></a>
-                                    <div class="cart-prod-variant">Warna: <?= $item['color'] ?>, Ukuran: <?= $item['size'] ?>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="cart-prod-price" data-price="<?= $item['price'] ?>">
-                                Rp <?= number_format($item['price'], 0, ',', '.') ?>
-                            </div>
-
-                            <div class="qty-control">
-                                <button class="qty-btn" onclick="updateCart(<?= $item['id'] ?>, -1)">-</button>
-                                <input type="text" class="qty-input" id="qty-<?= $item['id'] ?>" value="<?= $item['qty'] ?>"
-                                    readonly>
-                                <button class="qty-btn" onclick="updateCart(<?= $item['id'] ?>, 1)">+</button>
+                <div class="cart-info">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <a href="#" class="cart-prod-name"><?= $item['name'] ?></a>
+                            <div class="cart-prod-variant">Warna: <?= $item['color'] ?>, Ukuran: <?= $item['size'] ?>
                             </div>
                         </div>
-
-                        <button class="btn-remove" onclick="removeItem(<?= $item['id'] ?>)" title="Hapus Item">
-                            <i class="far fa-trash-alt fa-lg"></i>
-                        </button>
                     </div>
-                <?php endforeach; ?>
+
+                    <div class="cart-prod-price" data-price="<?= $item['price'] ?>">
+                        Rp <?= number_format($item['price'], 0, ',', '.') ?>
+                    </div>
+
+                    <div class="qty-control">
+                        <button class="qty-btn" onclick="updateCart(<?= $item['id'] ?>, -1)">-</button>
+                        <input type="text" class="qty-input" id="qty-<?= $item['id'] ?>" value="<?= $item['qty'] ?>"
+                            readonly>
+                        <button class="qty-btn" onclick="updateCart(<?= $item['id'] ?>, 1)">+</button>
+                    </div>
+                </div>
+
+                <button class="btn-remove" onclick="removeItem(<?= $item['id'] ?>)" title="Hapus Item">
+                    <i class="far fa-trash-alt fa-lg"></i>
+                </button>
+            </div>
+            <?php endforeach; ?>
 
             <?php endif; ?>
-
-            <div class="alert alert-light border mt-3 d-flex align-items-center gap-3">
-                <i class="fas fa-truck text-primary fs-4"></i>
-                <div class="small text-muted">
-                    <strong>Gratis Ongkir</strong> untuk pesanan di atas Rp 300.000. Tambah sedikit lagi!
-                </div>
-            </div>
 
         </div>
 
@@ -121,51 +114,51 @@
 </div>
 
 <script>
-    function updateCart(id, change) {
-        let input = document.getElementById('qty-' + id);
-        let currentQty = parseInt(input.value);
-        let newQty = currentQty + change;
+function updateCart(id, change) {
+    let input = document.getElementById('qty-' + id);
+    let currentQty = parseInt(input.value);
+    let newQty = currentQty + change;
 
-        if (newQty >= 1) {
-            input.value = newQty;
-            recalculateTotal();
-        }
+    if (newQty >= 1) {
+        input.value = newQty;
+        recalculateTotal();
     }
+}
 
-    function removeItem(id) {
-        if (confirm('Yakin ingin menghapus item ini dari keranjang?')) {
-            document.getElementById('row-' + id).remove();
-            recalculateTotal();
-            // Di sistem asli, disini Anda akan memanggil AJAX ke Controller untuk hapus data di session/db
-        }
+function removeItem(id) {
+    if (confirm('Yakin ingin menghapus item ini dari keranjang?')) {
+        document.getElementById('row-' + id).remove();
+        recalculateTotal();
+        // Di sistem asli, disini Anda akan memanggil AJAX ke Controller untuk hapus data di session/db
     }
+}
 
-    function recalculateTotal() {
-        let total = 0;
-        let items = document.querySelectorAll('.cart-item-box');
+function recalculateTotal() {
+    let total = 0;
+    let items = document.querySelectorAll('.cart-item-box');
 
-        items.forEach(item => {
-            let priceText = item.querySelector('.cart-prod-price').dataset.price;
-            let qty = item.querySelector('.qty-input').value;
-            total += parseInt(priceText) * parseInt(qty);
-        });
+    items.forEach(item => {
+        let priceText = item.querySelector('.cart-prod-price').dataset.price;
+        let qty = item.querySelector('.qty-input').value;
+        total += parseInt(priceText) * parseInt(qty);
+    });
 
-        // Format Rupiah JS
-        let formatted = new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0
-        }).format(total);
+    // Format Rupiah JS
+    let formatted = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0
+    }).format(total);
 
-        // Update Tampilan
-        document.getElementById('subtotal-val').innerText = formatted;
-        document.getElementById('total-val').innerText = formatted;
+    // Update Tampilan
+    document.getElementById('subtotal-val').innerText = formatted;
+    document.getElementById('total-val').innerText = formatted;
 
-        // Jika kosong
-        if (items.length === 0) {
-            location.reload(); // Refresh halaman agar masuk ke state "Kosong" (karena PHP handle view kosong)
-        }
+    // Jika kosong
+    if (items.length === 0) {
+        location.reload(); // Refresh halaman agar masuk ke state "Kosong" (karena PHP handle view kosong)
     }
+}
 </script>
 
 <?= $this->endSection(); ?>
