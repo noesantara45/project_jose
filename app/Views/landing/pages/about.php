@@ -3,7 +3,7 @@
 <?= $this->section('content'); ?>
 
 <style>
-    /* HERO SECTION (Tinggi & Efek Parallax) */
+/* HERO SECTION (Tinggi & Efek Parallax) */
 </style>
 
 
