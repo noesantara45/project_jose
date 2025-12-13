@@ -1,0 +1,207 @@
+/* ==========================================================================
+   HLOutfit - MAIN STYLESHEET GLOBAL (VERSI FINAL & LENGKAP)
+   ========================================================================== */
+
+/* --- 1. GLOBAL & STRUKTUR DASAR (Agar Footer Sticky di Bawah) --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex; flex-direction: column; min-height: 100vh;
+    background-color: #fff;
+}
+main { flex: 1; } /* Mengisi ruang kosong */
+
+/* Helper Classes */
+.ls-1 { letter-spacing: 1px; }
+.fw-800 { font-weight: 800; } .fw-900 { font-weight: 900; }
+.section-gap { padding: 80px 0; }
+.hover-scale { transition: transform 0.3s; } .hover-scale:hover { transform: scale(1.03); }
+.text-justify-custom { text-align: justify; }
+
+
+/* ==========================================================================
+   2. NAVBAR STYLES (DESAIN CANGGIH DENGAN SEARCH BAR)
+   ========================================================================== */
+/* Base Navbar */
+.navbar {
+    position: fixed; top: 0; width: 100%; z-index: 1050; padding: 15px 0;
+    transition: all 0.4s ease-in-out;
+}
+
+/* Font Menu Link - BAGIAN INI YANG DIUBAH */
+.navbar .nav-link {
+    font-weight: 500 !important; /* <-- DIUBAH JADI 500 (MEDIUM/NORMAL) */
+    font-size: 14px; text-transform: uppercase;
+    transition: color 0.3s ease; letter-spacing: 1px; position: relative; margin: 0 8px;
+}
+
+/* Garis Bawah Menu Aktif (Underline Effect) */
+.navbar .nav-link::after {
+    content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0;
+    background-color: currentColor; transition: width 0.3s ease-in-out;
+}
+.navbar .nav-link.active::after, .navbar .nav-link:hover::after { width: 100%; }
+
+
+/* --- MODE 1: TRANSPARAN (Khusus Home di atas) --- */
+.navbar-transparent {
+    background: transparent !important; box-shadow: none;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+/* Semua elemen jadi PUTIH */
+.navbar-transparent .navbar-brand,
+.navbar-transparent .nav-link,
+.navbar-transparent .btn-cart-icon i,
+.navbar-transparent .navbar-toggler {
+    color: #ffffff !important; text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+}
+.navbar-transparent .nav-link:hover,
+.navbar-transparent .nav-link.active { color: rgba(255,255,255,0.8) !important; }
+/* Style Search Bar saat Transparan */
+.navbar-transparent .nav-search-input {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #fff !important;
+}
+.navbar-transparent .nav-search-input::placeholder { color: rgba(255, 255, 255, 0.7); }
+.navbar-transparent .nav-search-btn { color: rgba(255, 255, 255, 0.8) !important; }
+/* Tombol Akun jadi Putih */
+.navbar-transparent .btn-account { background: #ffffff; color: #000000; border: none; }
+
+
+/* --- MODE 2: SOLID (Saat Scroll atau di halaman lain) --- */
+.navbar-solid {
+    background: #ffffff !important; /* Latar Putih */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    padding: 10px 0; /* Sedikit lebih tipis saat discroll */
+}
+/* Semua elemen jadi HITAM */
+.navbar-solid .navbar-brand,
+.navbar-solid .nav-link,
+.navbar-solid .btn-cart-icon i,
+.navbar-solid .navbar-toggler {
+    color: #222222 !important; text-shadow: none;
+}
+.navbar-solid .nav-link:hover,
+.navbar-solid .nav-link.active { color: #000000 !important; }
+/* Style Search Bar saat Solid */
+.navbar-solid .nav-search-input {
+    background: #f5f5f5 !important; border: 1px solid #eee !important; color: #333 !important;
+}
+.navbar-solid .nav-search-btn { color: #666 !important; }
+/* Tombol Akun jadi Hitam */
+.navbar-solid .btn-account { background: #000000; color: #ffffff; }
+
+
+/* --- Elemen Pendukung Navbar (Search & Icons) --- */
+.search-wrapper-nav { position: relative; }
+.nav-search-input { border-radius: 50px; padding: 8px 20px; padding-right: 40px; width: 220px; transition: 0.3s; outline: none; font-size: 13px;}
+.nav-search-input:focus { width: 280px; } /* Melebar saat diklik */
+.nav-search-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: none; font-size: 14px; }
+
+.btn-cart-icon { position: relative; transition: 0.3s; }
+.cart-badge { position: absolute; top: -5px; right: -8px; background: #dc3545; color: white; font-size: 9px; font-weight: bold; padding: 2px 5px; border-radius: 50%; }
+
+
+/* ==========================================================================
+   3. FOOTER STYLES (DESAIN GELAP & RAPI)
+   ========================================================================== */
+.main-footer { background: #111; color: #fff; padding: 50px 0 30px; margin-top: auto; }
+.footer-links a { color: #aaa; text-decoration: none; margin: 0 15px; font-size: 0.95rem; transition: color 0.3s ease; display: inline-block; }
+.footer-links a:hover { color: #ffc107; }
+.footer-copyright { margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; color: #777; }
+
+
+/* ==========================================================================
+   4. STYLE HALAMAN (HOME, ABOUT, FAQ, DLL)
+   ========================================================================== */
+/* Home Hero */
+.hero-section { height: 100vh; min-height: 600px; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1490481651871-732db6182260?q=80&w=1470'); background-size: cover; background-position: center; display: flex; align-items: center; color: white; }
+/* About */
+.about-hero { height: 70vh; min-height: 500px; background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1470'); background-size: cover; background-position: center; background-attachment: fixed; display: flex; align-items: center; justify-content: center; color: white; text-align: center; margin-top: -80px; padding-top: 80px; position: relative; }
+.about-title { font-size: 4rem; font-weight: 900; letter-spacing: -2px; text-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+.story-img-tall { height: 600px; object-fit: cover; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+/* Contact */
+.contact-hero { height: 50vh; min-height: 400px; background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1470'); background-size: cover; background-position: center; display: flex; align-items: center; color: white; margin-top: -80px; padding-top: 80px; }
+.contact-title { font-size: 3.5rem; font-weight: 900; letter-spacing: -1px; }
+.contact-info-box { padding: 30px; background: #fff; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; transition: 0.3s; display: flex; align-items: flex-start; }
+.contact-icon-wrap { flex-shrink: 0; width: 50px; height: 50px; background: #f8f9fa; color: #222; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 20px; }
+.form-wrapper { padding: 40px; background: #fff; border-radius: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+.custom-form-control { border: 2px solid #eee; border-radius: 8px; padding: 12px 20px; font-weight: 500; transition: 0.3s; }
+.custom-form-control:focus { border-color: #222; box-shadow: none; background: #fbfbfb; }
+/* FAQ */
+.faq-header { background-color: #f8f9fa; padding: 120px 0 60px; text-align: center; border-bottom: 1px solid #e9ecef; }
+.faq-title { font-weight: 900; color: #222; letter-spacing: -1px; }
+.faq-search-box { max-width: 600px; margin: 30px auto 0; position: relative; }
+.faq-input { border-radius: 50px; padding: 15px 30px; padding-right: 60px; border: 2px solid #eee; box-shadow: 0 5px 20px rgba(0,0,0,0.03); font-size: 1rem; transition: 0.3s; }
+.faq-cat-title { font-weight: 800; font-size: 1.3rem; margin-top: 50px; margin-bottom: 25px; display: flex; align-items: center; color: #333; }
+.faq-page .accordion-item { border: 1px solid #f0f0f0; margin-bottom: 15px; border-radius: 12px !important; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+.faq-page .accordion-button { font-weight: 700; font-size: 1.05rem; padding: 20px 25px; color: #444; background: #fff; box-shadow: none !important; }
+.faq-page .accordion-button:not(.collapsed) { color: #000; background-color: #fcfcfc; border-bottom: 2px solid #ffc107; }
+.faq-page .accordion-body { padding: 25px; line-height: 1.7; color: #666; background-color: #fff; }
+.faq-cta-box { background: #f8f9fa; border-radius: 20px; padding: 50px; text-align: center; border: 1px solid #eee; margin-top: 60px; }
+/* Privacy Policy */
+.legal-header { background-color: #f8f9fa; padding: 100px 0 40px; text-align: center; border-bottom: 1px solid #eee; }
+.legal-title { font-weight: 900; color: #222; letter-spacing: -0.5px; margin-bottom: 10px; }
+.legal-container { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
+.legal-text { color: #444; line-height: 1.8; font-size: 1rem; }
+.legal-text h2 { font-weight: 800; color: #222; margin-top: 40px; margin-bottom: 20px; font-size: 1.5rem; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; }
+
+/* ==========================================================================
+   TAMBAHAN: STANDARD PAGE HEADER
+   (Agar halaman selain Home terlihat menyatu dan profesional)
+   ========================================================================== */
+
+.page-header-section {
+    /* Latar belakang abu terang yang bersih.
+       Ganti jadi url('gambar.jpg') jika ingin pakai gambar background */
+    background-color: #f0f2f5;
+
+    /* Padding ATAS harus besar untuk kompensasi tinggi navbar yang fixed */
+    padding-top: 130px;
+    padding-bottom: 60px;
+    text-align: center;
+    border-bottom: 1px solid #e1e4e8;
+    position: relative;
+}
+
+/* Judul Halaman */
+.page-header-title {
+    font-weight: 900;
+    color: #222;
+    letter-spacing: -1px;
+    margin-bottom: 15px;
+}
+
+/* Breadcrumb (Navigasi kecil: Home > Kategori) */
+.breadcrumb-custom {
+    display: inline-flex;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.breadcrumb-custom .breadcrumb-item a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.breadcrumb-custom .breadcrumb-item a:hover {
+    color: #ffc107; /* Warna kuning saat dihover */
+}
+.breadcrumb-custom .breadcrumb-item.active {
+    color: #999;
+}
+/* Mengubah pemisah breadcrumb (/) jadi warna abu */
+.breadcrumb-custom .breadcrumb-item + .breadcrumb-item::before {
+    color: #ccc;
+}
+
+/* Hiasan garis kecil di bawah judul */
+.title-underline {
+    width: 60px;
+    height: 4px;
+    background: #ffc107;
+    margin: 20px auto 0;
+    border-radius: 2px;
+}
