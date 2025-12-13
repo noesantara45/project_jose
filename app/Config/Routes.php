@@ -18,4 +18,4 @@ $routes->get('register', 'Auth::register');
 $routes->get('about', 'Pages::about');
 $routes->get('contact', 'Pages::contact');
 $routes->get('faq', 'Pages::faq');
-$routes->get('privacy-policy', 'Pages::privacy');
+$routes->get('privacy', 'Pages::privacy');

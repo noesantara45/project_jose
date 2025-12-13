@@ -27,4 +27,11 @@ class Pages extends BaseController
         // Ini memerintahkan untuk membuka file di folder 'app/Views/pages/faq.php'
         return view('pages/faq', $data);
     }
+
+       public function privacy()
+    {
+        $data = ['title' => 'Privacy Policy | HLOutfit'];
+        // Ini memerintahkan untuk membuka file di folder 'app/Views/pages/faq.php'
+        return view('pages/privacy', $data);
+    }
 }

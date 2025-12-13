@@ -363,7 +363,7 @@ $produk = [
                         <button class="btn-qty" onclick="updateQty(1)">+</button>
                     </div>
                     <button class="btn-buy" style="height: 48px;">
-                        <i class="fas fa-shopping-bag me-2"></i> Tambah Keranjang
+                        <i class="fas fa-shopping-bag me-2"></i> Tambah Keranjang yaa
                     </button>
                     <button class="btn-wishlist-outline" style="height: 48px;">
                         <i class="far fa-heart"></i>
