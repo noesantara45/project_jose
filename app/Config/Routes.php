@@ -46,3 +46,12 @@ $routes->group('admin', ['filter' => 'adminauth'], function($routes) {
     $routes->post('admins/save', 'Admin\AdminController::save');
     $routes->get('admins/delete/(:num)', 'Admin\AdminController::delete/$1');
 });
+
+$routes->get('kategori', 'Kategori::kategori');
+$routes->get('detail', 'Detail::detail');
+$routes->get('cart', 'Cart::cart');
+
+$routes->get('about', 'Pages::about');
+$routes->get('contact', 'Pages::contact');
+$routes->get('faq', 'Pages::faq');
+$routes->get('privacy', 'Pages::privacy');
