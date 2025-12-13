@@ -1,38 +1,46 @@
 <?php
 $uri = service('uri');
 $current = $uri->getSegment(1);
-$isHome = ($current == ''); // Cek apakah ini halaman Home
+// Deteksi Home: Jika segment kosong ATAU 'home' ATAU 'index'
+$isHome = ($current == '' || $current == 'home' || $current == 'index');
 ?>
 
 <style>
-/* --- CSS DASAR NAVBAR --- */
+/* CSS TRANSISI NAVBAR */
 .navbar {
-    transition: all 0.4s ease;
     padding: 15px 0;
+    transition: all 0.4s ease;
+    z-index: 1050;
 }
 
-/* --- 1. STYLE KHUSUS HOME (AWAL) --- */
-/* Transparan & Teks Putih */
+/* --- 1. KHUSUS HALAMAN HOME (POSISI AWAL) --- */
 .navbar-home {
-    background-color: transparent;
+    background-color: transparent !important;
+    /* BENING TOTAL */
+    position: fixed;
+    /* Mengambang */
+    top: 0;
+    width: 100%;
+    border-bottom: none;
 }
 
-.navbar-home .navbar-brand,
+/* Teks Putih di Awal */
 .navbar-home .nav-link,
+.navbar-home .navbar-brand,
 .navbar-home .btn-cart-icon {
     color: #fff !important;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    /* Bayangan teks biar terbaca di foto terang */
 }
 
+/* Search Bar Transparan */
 .navbar-home .nav-search-input {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    color: #fff;
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    color: #fff !important;
 }
 
 .navbar-home .nav-search-input::placeholder {
-    color: #333;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .navbar-home .nav-search-btn {
@@ -46,20 +54,22 @@ $isHome = ($current == ''); // Cek apakah ini halaman Home
 }
 
 
-/* --- 2. STYLE SAAT SCROLL (ATAU HALAMAN LAIN) --- */
-/* Putih Solid & Teks Hitam */
+/* --- 2. SAAT SCROLL (ATAU HALAMAN LAIN) --- */
 .navbar-scrolled,
 .navbar-default {
     background-color: #ffffff !important;
+    /* Putih Solid */
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
     padding: 12px 0;
-    /* Sedikit lebih ramping */
+    position: sticky;
+    top: 0;
 }
 
-.navbar-scrolled .navbar-brand,
-.navbar-default .navbar-brand,
+/* Teks Hitam */
 .navbar-scrolled .nav-link,
 .navbar-default .nav-link,
+.navbar-scrolled .navbar-brand,
+.navbar-default .navbar-brand,
 .navbar-scrolled .btn-cart-icon,
 .navbar-default .btn-cart-icon {
     color: #333 !important;
@@ -69,18 +79,15 @@ $isHome = ($current == ''); // Cek apakah ini halaman Home
 .navbar-scrolled .nav-link.active,
 .navbar-default .nav-link.active {
     color: #000 !important;
+    font-weight: 800;
 }
 
+/* Search Bar Normal */
 .navbar-scrolled .nav-search-input,
 .navbar-default .nav-search-input {
-    background: #f1f1f1;
-    border: 1px solid #ddd;
-    color: #333;
-}
-
-.navbar-scrolled .nav-search-input::placeholder,
-.navbar-default .nav-search-input::placeholder {
-    color: #888;
+    background: #f1f1f1 !important;
+    border: 1px solid #ddd !important;
+    color: #333 !important;
 }
 
 .navbar-scrolled .nav-search-btn,
@@ -95,8 +102,7 @@ $isHome = ($current == ''); // Cek apakah ini halaman Home
 }
 
 
-/* --- 3. KOMPONEN LAIN --- */
-/* Search Bar */
+/* --- ELEMENT LAIN --- */
 .search-wrapper-nav {
     position: relative;
 }
@@ -105,16 +111,9 @@ $isHome = ($current == ''); // Cek apakah ini halaman Home
     border-radius: 50px;
     padding: 8px 20px;
     padding-right: 40px;
-    width: 250px;
+    width: 280px;
     transition: 0.3s;
     outline: none;
-}
-
-.nav-search-input:focus {
-    background: #fff !important;
-    border-color: #000 !important;
-    color: #000 !important;
-    width: 280px;
 }
 
 .nav-search-btn {
@@ -130,9 +129,8 @@ $isHome = ($current == ''); // Cek apakah ini halaman Home
 .search-popup {
     position: absolute;
     top: 120%;
-    left: 0;
-    width: 100%;
-    min-width: 320px;
+    right: 0;
+    width: 350px;
     background: #fff;
     border: 1px solid #eee;
     border-radius: 12px;
@@ -181,7 +179,7 @@ $isHome = ($current == ''); // Cek apakah ini halaman Home
 }
 </style>
 
-<nav class="navbar navbar-expand-lg <?= $isHome ? 'fixed-top navbar-home' : 'sticky-top navbar-default' ?>">
+<nav class="navbar navbar-expand-lg <?= $isHome ? 'navbar-home' : 'navbar-default' ?>">
     <div class="container">
 
         <a class="navbar-brand fw-bold fs-3" href="<?= base_url('/') ?>" style="letter-spacing: -1px;">
@@ -193,15 +191,16 @@ $isHome = ($current == ''); // Cek apakah ini halaman Home
         </button>
 
         <div class="collapse navbar-collapse" id="navContent">
-            <ul class="navbar-nav mx-auto align-items-center">
-                <li class="nav-item"><a class="nav-link fw-bold <?= ($current == '') ? 'active' : '' ?>"
-                        href="<?= base_url('/') ?>">Home</a></li>
-                <li class="nav-item"><a class="nav-link fw-bold <?= ($current == 'kategori') ? 'active' : '' ?>"
-                        href="<?= base_url('kategori') ?>">Kategori</a></li>
-                <li class="nav-item"><a class="nav-link fw-bold <?= ($current == 'produk') ? 'active' : '' ?>"
-                        href="<?= base_url('produk') ?>">Shop</a></li>
-                <li class="nav-item"><a class="nav-link fw-bold <?= ($current == 'about') ? 'active' : '' ?>"
-                        href="#">About</a></li>
+
+            <ul class="navbar-nav ms-auto align-items-center me-4">
+                <li class="nav-item">
+                    <a class="nav-link fw-bold <?= ($current == '') ? 'active' : '' ?>"
+                        href="<?= base_url('/') ?>">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-bold <?= ($current == 'kategori') ? 'active' : '' ?>"
+                        href="<?= base_url('kategori') ?>">Kategori</a>
+                </li>
             </ul>
 
             <div class="search-wrapper-nav d-none d-lg-block me-3">
@@ -248,35 +247,34 @@ $isHome = ($current == ''); // Cek apakah ini halaman Home
 </nav>
 
 <script>
-// HANYA JALANKAN EFEK SCROLL JIKA DI HALAMAN HOME
+// 1. LOGIKA SCROLL (KHUSUS HOME)
 <?php if($isHome): ?>
 window.addEventListener('scroll', function() {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 50) {
-        // Scroll ke bawah: Tambah class scrolled (jadi putih), hapus navbar-home
+        // Scroll Turun: Jadi Putih
         navbar.classList.add('navbar-scrolled');
         navbar.classList.remove('navbar-home');
     } else {
-        // Di atas: Balik ke navbar-home (transparan), hapus scrolled
+        // Posisi Atas: Jadi Transparan
         navbar.classList.add('navbar-home');
         navbar.classList.remove('navbar-scrolled');
     }
 });
 <?php endif; ?>
 
-// JS Search Popup (Global)
+// 2. SEARCH POPUP
 document.addEventListener("DOMContentLoaded", function() {
     const searchInput = document.getElementById('searchInput');
     const searchPopup = document.getElementById('searchPopup');
 
-    searchInput.addEventListener('focus', function() {
-        searchPopup.classList.add('active');
-    });
-
-    document.addEventListener('click', function(event) {
-        if (!searchInput.contains(event.target) && !searchPopup.contains(event.target)) {
-            searchPopup.classList.remove('active');
-        }
-    });
+    if (searchInput && searchPopup) {
+        searchInput.addEventListener('focus', () => searchPopup.classList.add('active'));
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !searchPopup.contains(e.target)) {
+                searchPopup.classList.remove('active');
+            }
+        });
+    }
 });
 </script>
