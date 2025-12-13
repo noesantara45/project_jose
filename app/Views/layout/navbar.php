@@ -245,7 +245,7 @@ $isHome = ($current == '' || $current == 'home' || $current == 'index');
     <div class="container">
 
         <a class="navbar-brand fw-bold fs-3" href="<?= base_url('/') ?>" style="letter-spacing: -1px;">
-            <i class="fas fa-bolt text-warning me-1"></i>HLOutfit.
+            <i class="fas fa-bolt text-warning me-1"></i>tara.
         </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
