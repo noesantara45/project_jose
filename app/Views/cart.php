@@ -12,6 +12,7 @@ body {
 
 .cart-header {
     margin-bottom: 20px;
+    padding-top: 50px;
 }
 
 /* Box Item Keranjang */
