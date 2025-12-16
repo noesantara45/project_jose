@@ -2,12 +2,11 @@
 
 <?= $this->section('content') ?>
 
-<!-- Stats Cards -->
 <div class="stats-grid">
     <div class="stat-card earning">
         <div class="stat-info">
             <h3>Total Pendapatan</h3>
-            <div class="stat-value">Rp <?= number_format($total_earning ?? 15000000, 0, ',', '.') ?></div>
+            <div class="stat-value">Rp <?= number_format($total_earning, 0, ',', '.') ?></div>
         </div>
         <div class="stat-icon">
             <i class="fas fa-dollar-sign"></i>
@@ -17,7 +16,7 @@
     <div class="stat-card orders">
         <div class="stat-info">
             <h3>Total Order</h3>
-            <div class="stat-value"><?= $total_orders ?? 128 ?></div>
+            <div class="stat-value"><?= number_format($total_orders) ?></div>
         </div>
         <div class="stat-icon">
             <i class="fas fa-shopping-cart"></i>
@@ -27,7 +26,7 @@
     <div class="stat-card products">
         <div class="stat-info">
             <h3>Total Produk</h3>
-            <div class="stat-value"><?= $total_products ?? 45 ?></div>
+            <div class="stat-value"><?= number_format($total_products) ?></div>
         </div>
         <div class="stat-icon">
             <i class="fas fa-box"></i>
@@ -37,7 +36,7 @@
     <div class="stat-card users">
         <div class="stat-info">
             <h3>Total User</h3>
-            <div class="stat-value"><?= $total_users ?? 234 ?></div>
+            <div class="stat-value"><?= number_format($total_users) ?></div>
         </div>
         <div class="stat-icon">
             <i class="fas fa-users"></i>
@@ -45,7 +44,6 @@
     </div>
 </div>
 
-<!-- Recent Orders -->
 <div class="table-container">
     <div class="table-header">
         <h2>Order Terbaru</h2>
@@ -66,43 +64,53 @@
             </tr>
         </thead>
         <tbody>
+            <?php if(!empty($recent_orders)): ?>
+            <?php foreach($recent_orders as $order): ?>
             <tr>
-                <td><strong>INV-2025001</strong></td>
-                <td>Budi Santoso</td>
-                <td>Rp 15.000.000</td>
-                <td><span class="badge badge-success">Paid</span></td>
-                <td><span class="badge badge-info">Processing</span></td>
-                <td>13 Des 2025</td>
+                <td><strong><?= esc($order['invoice_number']) ?></strong></td>
+                <td>
+                    <?= esc($order['recipient_name']) ?>
+                    <div style="font-size: 11px; color: #888;"><?= esc($order['recipient_phone']) ?></div>
+                </td>
+                <td>Rp <?= number_format($order['total_price'], 0, ',', '.') ?></td>
+
+                <td>
+                    <?php 
+                            $payBadge = 'secondary';
+                            if($order['payment_status'] == 'paid') $payBadge = 'success';
+                            elseif($order['payment_status'] == 'pending') $payBadge = 'warning';
+                            elseif($order['payment_status'] == 'failed') $payBadge = 'danger';
+                        ?>
+                    <span class="badge badge-<?= $payBadge ?>">
+                        <?= ucfirst($order['payment_status']) ?>
+                    </span>
+                </td>
+
+                <td>
+                    <?php 
+                            $ordBadge = 'secondary';
+                            if($order['order_status'] == 'completed') $ordBadge = 'success';
+                            elseif($order['order_status'] == 'processing') $ordBadge = 'info';
+                            elseif($order['order_status'] == 'shipped') $ordBadge = 'primary';
+                            elseif($order['order_status'] == 'cancelled') $ordBadge = 'danger';
+                        ?>
+                    <span class="badge badge-<?= $ordBadge ?>">
+                        <?= ucfirst($order['order_status']) ?>
+                    </span>
+                </td>
+
+                <td><?= date('d M Y', strtotime($order['created_at'])) ?></td>
             </tr>
+            <?php endforeach; ?>
+            <?php else: ?>
             <tr>
-                <td><strong>INV-2025002</strong></td>
-                <td>Siti Nurhaliza</td>
-                <td>Rp 150.000</td>
-                <td><span class="badge badge-warning">Pending</span></td>
-                <td><span class="badge badge-warning">Pending</span></td>
-                <td>13 Des 2025</td>
+                <td colspan="6" style="text-align: center; padding: 20px;">Belum ada transaksi terbaru.</td>
             </tr>
-            <tr>
-                <td><strong>INV-2025003</strong></td>
-                <td>Ahmad Dahlan</td>
-                <td>Rp 300.000</td>
-                <td><span class="badge badge-success">Paid</span></td>
-                <td><span class="badge badge-success">Completed</span></td>
-                <td>12 Des 2025</td>
-            </tr>
-            <tr>
-                <td><strong>INV-2025004</strong></td>
-                <td>Dewi Lestari</td>
-                <td>Rp 450.000</td>
-                <td><span class="badge badge-danger">Failed</span></td>
-                <td><span class="badge badge-danger">Cancelled</span></td>
-                <td>12 Des 2025</td>
-            </tr>
+            <?php endif; ?>
         </tbody>
     </table>
 </div>
 
-<!-- Top Products -->
 <div class="table-container">
     <div class="table-header">
         <h2>Produk Terlaris</h2>
@@ -122,27 +130,29 @@
             </tr>
         </thead>
         <tbody>
+            <?php if(!empty($top_products)): ?>
+            <?php foreach($top_products as $product): ?>
             <tr>
-                <td><strong>Laptop Gaming Asus</strong></td>
-                <td>Elektronik</td>
-                <td>Rp 15.000.000</td>
-                <td>5</td>
-                <td>23</td>
+                <td><strong><?= esc($product['product_name']) ?></strong></td>
+                <td>
+                    <span style="background: #f0f0f0; padding: 2px 8px; border-radius: 10px; font-size: 12px;">
+                        <?= esc($product['category_name'] ?? 'Uncategorized') ?>
+                    </span>
+                </td>
+                <td>Rp <?= number_format($product['price'], 0, ',', '.') ?></td>
+                <td><?= number_format($product['stock']) ?> unit</td>
+                <td>
+                    <strong style="color: var(--primary-color);">
+                        <?= number_format($product['total_sold']) ?> Sold
+                    </strong>
+                </td>
             </tr>
+            <?php endforeach; ?>
+            <?php else: ?>
             <tr>
-                <td><strong>Kemeja Flannel</strong></td>
-                <td>Fashion Pria</td>
-                <td>Rp 150.000</td>
-                <td>20</td>
-                <td>45</td>
+                <td colspan="5" style="text-align: center; padding: 20px;">Belum ada data penjualan.</td>
             </tr>
-            <tr>
-                <td><strong>Sepatu Sneakers</strong></td>
-                <td>Fashion Pria</td>
-                <td>Rp 350.000</td>
-                <td>15</td>
-                <td>38</td>
-            </tr>
+            <?php endif; ?>
         </tbody>
     </table>
 </div>

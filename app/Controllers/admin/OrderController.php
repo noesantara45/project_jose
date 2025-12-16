@@ -18,14 +18,49 @@ class OrderController extends BaseController
     }
 
     /**
-     * Display orders list
+     * Display orders list with Search & Filter
      */
     public function index()
     {
+        // 1. Ambil input dari pencarian dan filter
+        $keyword = $this->request->getGet('keyword');
+        $status = $this->request->getGet('status');
+
+        // 2. Mulai Query
+        $model = $this->orderModel;
+        
+        // Select data yang dibutuhkan, join ke users untuk ambil email (jika perlu)
+        // Kita gunakan 'orders.*' dan 'users.email' 
+        $model->select('orders.*, users.email as user_email, users.fullname as user_fullname')
+              ->join('users', 'users.id = orders.user_id', 'left');
+
+        // 3. Logic Pencarian (Invoice atau Nama Penerima)
+        if ($keyword) {
+            $model->groupStart()
+                  ->like('orders.invoice_number', $keyword)
+                  ->orLike('orders.recipient_name', $keyword)
+                  ->groupEnd();
+        }
+
+        // 4. Logic Filter Status Pembayaran
+        if ($status) {
+            $model->where('orders.payment_status', $status);
+        }
+
+        // 5. Urutkan dari yang terbaru
+        $model->orderBy('orders.created_at', 'DESC');
+
+        // 6. Siapkan data untuk View
         $data = [
-            'title' => 'Kelola Order',
-            'page_title' => 'Kelola Order',
+            'title'       => 'Kelola Order',
+            'page_title'  => 'Kelola Order',
             'active_menu' => 'orders',
+            // Paginate otomatis menghitung limit & offset
+            'orders'      => $model->paginate(10, 'orders'), 
+            'pager'       => $model->pager,
+            // Kirim balik inputan user supaya form tidak reset
+            'keyword'     => $keyword,
+            'filter_status' => $status
         ];
 
         return view('admin/orders/index', $data);
@@ -37,8 +72,8 @@ class OrderController extends BaseController
     public function detail($id)
     {
         $order = $this->orderModel
-            ->select('orders.*, users.fullname, users.email')
-            ->join('users', 'users.id = orders.user_id')
+            ->select('orders.*, users.fullname as user_fullname, users.email as user_email')
+            ->join('users', 'users.id = orders.user_id', 'left')
             ->find($id);
 
         if (!$order) {
@@ -51,10 +86,10 @@ class OrderController extends BaseController
             ->findAll();
 
         $data = [
-            'title' => 'Detail Order',
-            'page_title' => 'Detail Order #' . $order['invoice_number'],
+            'title'       => 'Detail Order',
+            'page_title'  => 'Detail Order #' . $order['invoice_number'],
             'active_menu' => 'orders',
-            'order' => $order,
+            'order'       => $order,
             'order_items' => $orderItems,
         ];
 
@@ -73,6 +108,7 @@ class OrderController extends BaseController
             'order_status' => $orderStatus
         ];
 
+        // Jika status SHIPPED, wajib update resi jika diisi
         if (!empty($trackingNumber)) {
             $updateData['tracking_number'] = $trackingNumber;
         }

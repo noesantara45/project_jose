@@ -23,6 +23,8 @@ class AdminController extends BaseController
             'title' => 'Kelola Admin',
             'page_title' => 'Kelola Admin',
             'active_menu' => 'admins',
+            // [JONO-FIX]: Ambil semua data admin, urutkan dari yang terbaru
+            'admins' => $this->adminModel->orderBy('created_at', 'DESC')->findAll()
         ];
 
         return view('admin/admins/index', $data);
