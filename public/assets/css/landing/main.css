@@ -46,9 +46,8 @@ main {
   top: 0;
   width: 100%;
   z-index: 1050;
-  padding: 15px 0;
+  padding: 10px 0;
   transition: all 0.4s ease-in-out;
-  outline: none !important;
 }
 
 /* Font Menu Link - BAGIAN INI YANG DIUBAH */
