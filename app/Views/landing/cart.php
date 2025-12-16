@@ -2,7 +2,6 @@
 
 <?= $this->section('content'); ?>
 
-
 <div class="container py-5">
 
     <div class="cart-header animate-up">
@@ -15,138 +14,123 @@
         <div class="col-lg-8 animate-up delay-1">
 
             <?php if (empty($cart_items)): ?>
-            <div class="cart-item-box empty-cart">
-                <div>
-                    <i class="fas fa-shopping-basket empty-icon"></i>
-                    <h4>Tas Belanja Kosong</h4>
-                    <p class="text-muted">Sepertinya kamu belum menambahkan apapun.</p>
-                    <a href="<?= base_url('produk') ?>" class="btn btn-dark rounded-pill px-4 mt-3">Mulai Belanja</a>
+                <div class="cart-item-box empty-cart text-center py-5 border rounded bg-light">
+                    <div>
+                        <i class="fas fa-shopping-basket fa-3x text-muted mb-3"></i>
+                        <h4>Tas Belanja Kosong</h4>
+                        <p class="text-muted">Sepertinya kamu belum menambahkan apapun.</p>
+                        <a href="<?= base_url('kategori') ?>" class="btn btn-dark rounded-pill px-4 mt-3">Mulai Belanja</a>
+                    </div>
                 </div>
-            </div>
             <?php else: ?>
 
-            <?php $total_belanja = 0; ?>
-            <?php foreach ($cart_items as $item):
+                <?php
+                $total_belanja = 0;
+                ?>
+
+                <?php foreach ($cart_items as $item):
                     $subtotal = $item['price'] * $item['qty'];
                     $total_belanja += $subtotal;
+
+                    // LOGIKA GAMBAR (Dipindahkan ke dalam loop utama)
+                    $imgSource = $item['img'];
+                    if (strpos($imgSource, 'http') === 0) {
+                        $finalImage = $imgSource;
+                    } else {
+                        $finalImage = base_url('uploads/products/' . $imgSource);
+                    }
                 ?>
-            <div class="cart-item-box" id="row-<?= $item['id'] ?>">
+                    <div class="cart-item-box border rounded p-3 mb-3 d-flex gap-3 align-items-center bg-white shadow-sm"
+                        id="row-<?= $item['cart_id'] ?>">
 
-                <div class="cart-img-wrap">
-                    <img src="<?= $item['img'] ?>" class="cart-img" alt="Produk">
-                </div>
+                        <div class="cart-img-wrap" style="width: 100px; height: 100px; flex-shrink: 0;">
+                            <img src="<?= $finalImage ?>" class="w-100 h-100 rounded" style="object-fit: cover;" alt="Produk"
+                                onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+                        </div>
 
-                <div class="cart-info">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <a href="#" class="cart-prod-name"><?= $item['name'] ?></a>
-                            <div class="cart-prod-variant">Warna: <?= $item['color'] ?>, Ukuran: <?= $item['size'] ?>
+                        <div class="cart-info flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h5 class="mb-1 text-dark fw-bold"><?= esc($item['name']) ?></h5>
+                                    <div class="text-muted small mb-2">
+                                        Warna: <?= esc($item['color'] ?? '-') ?>,
+                                        Ukuran: <?= esc($item['size'] ?? '-') ?>
+                                    </div>
+                                </div>
+                                <a href="<?= base_url('cart/delete/' . $item['cart_id']) ?>"
+                                    class="btn btn-sm btn-outline-danger border-0" onclick="return confirm('Hapus item ini?')">
+                                    <i class="far fa-trash-alt"></i>
+                                </a>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-end mt-2">
+                                <div class="fw-bold text-dark">
+                                    Rp <?= number_format($item['price'], 0, ',', '.') ?>
+                                </div>
+
+                                <div class="qty-control d-flex align-items-center border rounded">
+                                    <button class="btn btn-sm btn-link text-dark text-decoration-none px-2"
+                                        onclick="updateCart(<?= $item['cart_id'] ?>, -1)">-</button>
+
+                                    <input type="text" class="form-control border-0 text-center p-0 qty-input"
+                                        id="qty-<?= $item['cart_id'] ?>" value="<?= $item['qty'] ?>" style="width: 40px;"
+                                        readonly>
+
+                                    <button class="btn btn-sm btn-link text-dark text-decoration-none px-2"
+                                        onclick="updateCart(<?= $item['cart_id'] ?>, 1)">+</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="cart-prod-price" data-price="<?= $item['price'] ?>">
-                        Rp <?= number_format($item['price'], 0, ',', '.') ?>
                     </div>
-
-                    <div class="qty-control">
-                        <button class="qty-btn" onclick="updateCart(<?= $item['id'] ?>, -1)">-</button>
-                        <input type="text" class="qty-input" id="qty-<?= $item['id'] ?>" value="<?= $item['qty'] ?>"
-                            readonly>
-                        <button class="qty-btn" onclick="updateCart(<?= $item['id'] ?>, 1)">+</button>
-                    </div>
-                </div>
-
-                <button class="btn-remove" onclick="removeItem(<?= $item['id'] ?>)" title="Hapus Item">
-                    <i class="far fa-trash-alt fa-lg"></i>
-                </button>
-            </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
 
             <?php endif; ?>
 
         </div>
 
         <div class="col-lg-4 animate-up delay-2">
-            <div class="summary-card">
+            <div class="summary-card border rounded p-4 bg-white shadow-sm">
                 <h5 class="fw-bold mb-4">Ringkasan Pesanan</h5>
 
-                <div class="summary-row">
-                    <span>Subtotal Barang</span>
-                    <span id="subtotal-val">Rp <?= number_format($total_belanja, 0, ',', '.') ?></span>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Subtotal</span>
+                    <span class="fw-bold" id="subtotal-val">Rp <?= number_format($total_belanja, 0, ',', '.') ?></span>
                 </div>
-                <div class="summary-row">
-                    <span>Ongkos Kirim</span>
-                    <span class="text-success">Gratis</span>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Ongkos Kirim</span>
+                    <span class="text-success fw-bold">Gratis</span>
                 </div>
-                <div class="summary-row">
-                    <span>Pajak (11%)</span>
-                    <span>Termasuk</span>
-                </div>
-
-                <div class="summary-total">
-                    <span>Total Belanja</span>
-                    <span id="total-val" class="text-primary">Rp
+                <hr>
+                <div class="d-flex justify-content-between mb-4">
+                    <span class="fw-bold fs-5">Total</span>
+                    <span class="fw-bold fs-5 text-primary" id="total-val">Rp
                         <?= number_format($total_belanja, 0, ',', '.') ?></span>
                 </div>
 
-                <a href="co" class="btn-checkout d-block text-center text-decoration-none">
+                <a href="<?= base_url('co') ?>" class="btn btn-dark w-100 py-3 fw-bold rounded">
                     Lanjut ke Checkout
                 </a>
-
             </div>
         </div>
     </div>
 
 </div>
-</div>
 
 <script>
-function updateCart(id, change) {
-    let input = document.getElementById('qty-' + id);
-    let currentQty = parseInt(input.value);
-    let newQty = currentQty + change;
+    // FUNGSI UPDATE QUANTITY (Hanya tampilan visual dulu untuk sekarang)
+    // Nanti kita sambungkan ke AJAX Database di langkah selanjutnya
+    function updateCart(cartId, change) {
+        let input = document.getElementById('qty-' + cartId);
+        let currentQty = parseInt(input.value);
+        let newQty = currentQty + change;
 
-    if (newQty >= 1) {
-        input.value = newQty;
-        recalculateTotal();
+        if (newQty >= 1) {
+            input.value = newQty;
+            // Tips: Di sini nanti kita tambahkan coding AJAX agar update ke database
+            // Untuk sekarang hanya visual update total harga belum otomatis reload
+        }
     }
-}
-
-function removeItem(id) {
-    if (confirm('Yakin ingin menghapus item ini dari keranjang?')) {
-        document.getElementById('row-' + id).remove();
-        recalculateTotal();
-        // Di sistem asli, disini Anda akan memanggil AJAX ke Controller untuk hapus data di session/db
-    }
-}
-
-function recalculateTotal() {
-    let total = 0;
-    let items = document.querySelectorAll('.cart-item-box');
-
-    items.forEach(item => {
-        let priceText = item.querySelector('.cart-prod-price').dataset.price;
-        let qty = item.querySelector('.qty-input').value;
-        total += parseInt(priceText) * parseInt(qty);
-    });
-
-    // Format Rupiah JS
-    let formatted = new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        minimumFractionDigits: 0
-    }).format(total);
-
-    // Update Tampilan
-    document.getElementById('subtotal-val').innerText = formatted;
-    document.getElementById('total-val').innerText = formatted;
-
-    // Jika kosong
-    if (items.length === 0) {
-        location.reload(); // Refresh halaman agar masuk ke state "Kosong" (karena PHP handle view kosong)
-    }
-}
 </script>
 
 <?= $this->endSection(); ?>

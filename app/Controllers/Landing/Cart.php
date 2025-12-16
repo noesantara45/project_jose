@@ -3,73 +3,94 @@
 namespace App\Controllers\Landing;
 
 use App\Controllers\BaseController;
-
+use App\Models\CartModel;
+use App\Models\ProductModel; // Pastikan kamu punya ProductModel, atau gunakan db connect biasa
 
 class Cart extends BaseController
 {
-    public function cart()
+    protected $cartModel;
+    protected $db;
+
+    public function __construct()
     {
-        // Mockup Data Keranjang (Diperbanyak jadi 6 Item)
+        $this->cartModel = new CartModel();
+        $this->db = \Config\Database::connect();
+    }
+
+    // 1. Menampilkan Keranjang
+    public function index()
+    {
+        // PENTING: Ganti 'id' sesuai key session saat user login di sistemmu
+        $userId = session()->get('id');
+
+        if (!$userId) {
+            // Jika belum login, tendang ke halaman login
+            return redirect()->to('login')->with('error', 'Silakan login untuk melihat keranjang.');
+        }
+
+        // Query JOIN: Mengambil data keranjang + detail produknya (gambar, nama, harga)
+        // Kita gunakan Query Builder agar lebih fleksibel join-nya
+        $builder = $this->db->table('carts');
+        $builder->select('carts.id as cart_id, carts.qty, products.id as product_id, products.name, products.image as img, products.price, products.color, products.size, products.slug');
+        $builder->join('products', 'products.id = carts.product_id');
+        $builder->where('carts.user_id', $userId);
+        $query = $builder->get();
+
+        $cartItems = $query->getResultArray();
+
         $data = [
             'title' => 'Tas Belanja | HLOutfit',
-            'cart_items' => [
-                [
-                    'id' => 1,
-                    'name' => 'Oversized Heavyweight T-Shirt',
-                    'color' => 'Hitam',
-                    'size' => 'L',
-                    'price' => 149000,
-                    'qty' => 1,
-                    'img' => 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=200'
-                ],
-                [
-                    'id' => 2,
-                    'name' => 'Tactical Cargo Pants',
-                    'color' => 'Army Green',
-                    'size' => '32',
-                    'price' => 185000,
-                    'qty' => 2,
-                    'img' => 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=200'
-                ],
-                [
-                    'id' => 3,
-                    'name' => 'Converse Chuck 70s High Top',
-                    'color' => 'Black/White',
-                    'size' => '42',
-                    'price' => 699000,
-                    'qty' => 1,
-                    'img' => 'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=200'
-                ],
-                [
-                    'id' => 4,
-                    'name' => 'Premium Flannel Shirt',
-                    'color' => 'Red Plaid',
-                    'size' => 'XL',
-                    'price' => 249000,
-                    'qty' => 1,
-                    'img' => 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=200'
-                ],
-                [
-                    'id' => 5,
-                    'name' => 'Snapback Cap Originals',
-                    'color' => 'Navy',
-                    'size' => 'All Size',
-                    'price' => 89000,
-                    'qty' => 1,
-                    'img' => 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=200'
-                ],
-                [
-                    'id' => 6,
-                    'name' => 'Denim Trucker Jacket',
-                    'color' => 'Light Blue',
-                    'size' => 'L',
-                    'price' => 350000,
-                    'qty' => 1,
-                    'img' => 'https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=200'
-                ]
-            ]
+            'cart_items' => $cartItems // Data ini sekarang diambil dari Database
         ];
 
         return view('landing/cart', $data);
+    }
+
+    // 2. Logika Tambah ke Keranjang (Add to Cart)
+    public function add()
+    {
+        $userId = session()->get('id');
+
+        if (!$userId) {
+            return redirect()->to('login')->with('error', 'Silakan login untuk belanja.');
+        }
+
+        $productId = $this->request->getPost('product_id');
+        $qty       = $this->request->getPost('qty') ? (int)$this->request->getPost('qty') : 1;
+
+        // Cek apakah produk sudah ada di keranjang user ini?
+        $existingItem = $this->cartModel->where(['user_id' => $userId, 'product_id' => $productId])->first();
+
+        if ($existingItem) {
+            // SKENARIO: Produk sudah ada -> Update Quantity-nya saja
+            $newQty = $existingItem['qty'] + $qty;
+            $this->cartModel->save([
+                'id'  => $existingItem['id'],
+                'qty' => $newQty
+            ]);
+        } else {
+            // SKENARIO: Produk belum ada -> Buat baris baru
+            $this->cartModel->insert([
+                'user_id'    => $userId,
+                'product_id' => $productId,
+                'qty'        => $qty
+            ]);
+        }
+
+        return redirect()->to('cart')->with('success', 'Produk berhasil ditambahkan!');
+    }
+
+    // 3. Update Quantity (Untuk AJAX di masa depan)
+    public function update()
+    {
+        // Kita akan kerjakan ini setelah fungsi Add & Index lancar
+        // Logikanya nanti menerima request JSON dari Javascript di cart.php
+    }
+
+    // 4. Hapus Item
+    public function delete($id)
+    {
+        $this->cartModel->delete($id);
+        return redirect()->to('cart')->with('success', 'Item dihapus dari keranjang.');
     }
 }

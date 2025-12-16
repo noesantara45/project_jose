@@ -10,15 +10,26 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Landing\\Home::index');
 $routes->get('kategori', 'Landing\\Kategori::kategori');
 $routes->get('detail/(:segment)', 'Landing\Detail::detail/$1');
-$routes->get('cart', 'Landing\\Cart::cart');
 $routes->get('co', 'Landing\\Home::checkout');
 
 $routes->get('about', 'Landing\\Pages::about');
 $routes->get('contact', 'Landing\\Pages::contact');
 $routes->get('faq', 'Landing\\Pages::faq');
 $routes->get('privacy', 'Landing\\Pages::privacy');
-$routes->get('login', 'Landing\\Auth::Login');
 
+$routes->get('login', 'Landing\Auth::login');
+$routes->post('auth/login', 'Landing\Auth::processLogin');
+$routes->get('register', 'Landing\Auth::register');
+$routes->post('auth/register', 'Landing\Auth::processRegister');
+$routes->get('logout', 'Landing\Auth::logout');
+
+// Hapus atau timpa route 'cart' yang lama dengan grup ini:
+$routes->group('cart', ['filter' => 'authguard'], function ($routes) {
+    $routes->get('/', 'Landing\Cart::index');
+    $routes->post('add', 'Landing\Cart::add');
+    $routes->post('update', 'Landing\Cart::update');
+    $routes->get('delete/(:num)', 'Landing\Cart::delete/$1');
+});
 
 // ============================================
 // ADMIN ROUTES
