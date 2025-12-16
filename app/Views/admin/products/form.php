@@ -88,10 +88,100 @@
                     </div>
                 </div>
 
+                <!-- Color & Size Section -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Warna Produk</label>
+                        <select name="color" class="form-control" id="colorSelect">
+                            <option value="">Pilih Warna</option>
+                            <option value="Hitam"
+                                <?= (old('color', $product['color'] ?? '') == 'Hitam') ? 'selected' : '' ?>>⚫ Hitam
+                            </option>
+                            <option value="Putih"
+                                <?= (old('color', $product['color'] ?? '') == 'Putih') ? 'selected' : '' ?>>⚪ Putih
+                            </option>
+                            <option value="Merah"
+                                <?= (old('color', $product['color'] ?? '') == 'Merah') ? 'selected' : '' ?>>🔴 Merah
+                            </option>
+                            <option value="Biru"
+                                <?= (old('color', $product['color'] ?? '') == 'Biru') ? 'selected' : '' ?>>🔵 Biru
+                            </option>
+                            <option value="Navy"
+                                <?= (old('color', $product['color'] ?? '') == 'Navy') ? 'selected' : '' ?>>🔵 Navy
+                            </option>
+                            <option value="Hijau"
+                                <?= (old('color', $product['color'] ?? '') == 'Hijau') ? 'selected' : '' ?>>🟢 Hijau
+                            </option>
+                            <option value="Kuning"
+                                <?= (old('color', $product['color'] ?? '') == 'Kuning') ? 'selected' : '' ?>>🟡 Kuning
+                            </option>
+                            <option value="Abu-abu"
+                                <?= (old('color', $product['color'] ?? '') == 'Abu-abu') ? 'selected' : '' ?>>⚪ Abu-abu
+                            </option>
+                            <option value="Coklat"
+                                <?= (old('color', $product['color'] ?? '') == 'Coklat') ? 'selected' : '' ?>>🟤 Coklat
+                            </option>
+                            <option value="Pink"
+                                <?= (old('color', $product['color'] ?? '') == 'Pink') ? 'selected' : '' ?>>🩷 Pink
+                            </option>
+                        </select>
+                        <div id="colorPreview" style="margin-top: 10px; display: none;">
+                            <span style="font-size: 13px; color: var(--text-light);">Preview: </span>
+                            <span class="color-dot" id="colorDot" style="display: inline-block;"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ukuran Tersedia</label>
+                        <div style="display: flex; gap: 15px; margin-top: 10px;">
+                            <!-- Fashion Sizes -->
+                            <div style="flex: 1;">
+                                <small
+                                    style="color: var(--text-light); display: block; margin-bottom: 8px;">Fashion:</small>
+                                <div class="size-checkboxes">
+                                    <?php 
+                                    $fashionSizes = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+                                    $selectedSizes = old('size', $product['size'] ?? '');
+                                    $selectedArray = !empty($selectedSizes) ? explode(', ', $selectedSizes) : [];
+                                    ?>
+                                    <?php foreach($fashionSizes as $size): ?>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="sizes[]" value="<?= $size ?>"
+                                            <?= in_array($size, $selectedArray) ? 'checked' : '' ?>>
+                                        <span><?= $size ?></span>
+                                    </label>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+
+                            <!-- Shoe Sizes -->
+                            <div style="flex: 1;">
+                                <small
+                                    style="color: var(--text-light); display: block; margin-bottom: 8px;">Sepatu:</small>
+                                <div class="size-checkboxes">
+                                    <?php 
+                                    $shoeSizes = ['38', '39', '40', '41', '42', '43', '44'];
+                                    ?>
+                                    <?php foreach($shoeSizes as $size): ?>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="sizes[]" value="<?= $size ?>"
+                                            <?= in_array($size, $selectedArray) ? 'checked' : '' ?>>
+                                        <span><?= $size ?></span>
+                                    </label>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="size" id="sizeInput"
+                            value="<?= old('size', $product['size'] ?? '') ?>">
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label>Gambar Produk</label>
                     <div class="upload-area" id="uploadArea">
                         <input type="file" name="image" id="imageInput" accept="image/*" style="display: none;">
+
                         <div class="upload-content">
                             <i class="fas fa-cloud-upload-alt" style="font-size: 48px; color: var(--text-light);"></i>
                             <p>Klik untuk upload atau drag & drop</p>
@@ -102,10 +192,9 @@
                             style="<?= (isset($product) && $product['image'] != 'default.jpg') ? 'display: block;' : 'display: none;' ?>">
                             <img id="previewImg"
                                 src="<?= (isset($product) && $product['image'] != 'default.jpg') ? base_url('uploads/products/'.$product['image']) : '' ?>"
-                                alt="Preview" style="max-width: 200px; border-radius: 8px;">
-
-                            <button type="button" class="btn btn-sm btn-danger" id="removeImage"
-                                style="margin-top: 10px;">
+                                alt="Preview" style="max-width: 200px; border-radius: 8px; margin-bottom: 10px;">
+                            <br>
+                            <button type="button" class="btn btn-sm btn-danger" id="removeImage">
                                 <i class="fas fa-times"></i> Ganti Gambar
                             </button>
                         </div>
@@ -125,10 +214,7 @@
     </div>
 </div>
 
-<?= $this->endSection() ?>
-
 <style>
-/* ... copy style dari file asli Anda ... */
 .form-container {
     max-width: 900px;
 }
@@ -141,22 +227,23 @@
 }
 
 .upload-area {
-    border: 2px dashed var(--border-color);
+    border: 2px dashed #ccc;
     border-radius: 8px;
     padding: 30px;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .upload-area:hover {
-    border-color: var(--primary-color);
-    background-color: var(--bg-light);
+    border-color: #007bff;
+    background-color: #f8f9fa;
 }
 
 .upload-content p {
     margin: 10px 0 5px;
-    color: var(--text-dark);
+    color: #333;
     font-weight: 500;
 }
 
@@ -165,43 +252,179 @@
     gap: 10px;
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid #eee;
+}
+
+/* Color Preview Dot */
+.color-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    vertical-align: middle;
+}
+
+.color-hitam {
+    background-color: #000000;
+}
+
+.color-putih {
+    background-color: #FFFFFF;
+    border-color: #d1d5db;
+}
+
+.color-merah {
+    background-color: #EF4444;
+}
+
+.color-biru {
+    background-color: #3B82F6;
+}
+
+.color-navy {
+    background-color: #1E3A8A;
+}
+
+.color-hijau {
+    background-color: #10B981;
+}
+
+.color-kuning {
+    background-color: #F59E0B;
+}
+
+.color-abu-abu {
+    background-color: #6B7280;
+}
+
+.color-coklat {
+    background-color: #92400E;
+}
+
+.color-pink {
+    background-color: #EC4899;
+}
+
+/* Size Checkboxes */
+.size-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    background-color: var(--bg-white);
+}
+
+.checkbox-label:hover {
+    border-color: var(--primary-color);
+    background-color: var(--bg-light);
+}
+
+.checkbox-label input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"]:checked+span {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.checkbox-label:has(input[type="checkbox"]:checked) {
+    background-color: rgba(30, 58, 95, 0.1);
+    border-color: var(--primary-color);
 }
 </style>
 
 <script>
-const uploadArea = document.getElementById('uploadArea');
-const imageInput = document.getElementById('imageInput');
-const imagePreview = document.getElementById('imagePreview');
-const previewImg = document.getElementById('previewImg');
-const removeImage = document.getElementById('removeImage');
-const uploadContent = document.querySelector('.upload-content');
+// Image Upload Handler
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadArea = document.getElementById('uploadArea');
+    const imageInput = document.getElementById('imageInput');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImg = document.getElementById('previewImg');
+    const removeImage = document.getElementById('removeImage');
+    const uploadContent = document.querySelector('.upload-content');
 
-// Jika saat load halaman sudah ada gambar (mode edit), sembunyikan text upload
-if (previewImg.src && previewImg.src !== window.location.href) {
-    uploadContent.style.display = 'none';
-}
+    if (previewImg.getAttribute('src') && previewImg.getAttribute('src') !== '') {
+        uploadContent.style.display = 'none';
+        imagePreview.style.display = 'block';
+    }
 
-uploadArea.addEventListener('click', () => {
-    imageInput.click();
+    uploadArea.addEventListener('click', () => {
+        imageInput.click();
+    });
+
+    imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                uploadContent.style.display = 'none';
+                imagePreview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    removeImage.addEventListener('click', function(e) {
+        e.stopPropagation();
+        imageInput.value = '';
+        imageInput.click();
+    });
 });
 
-imageInput.addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            previewImg.src = e.target.result;
-            uploadContent.style.display = 'none';
-            imagePreview.style.display = 'block';
-        }
-        reader.readAsDataURL(file);
+// Color Preview
+const colorSelect = document.getElementById('colorSelect');
+const colorPreview = document.getElementById('colorPreview');
+const colorDot = document.getElementById('colorDot');
+
+colorSelect.addEventListener('change', function() {
+    const selectedColor = this.value;
+    if (selectedColor) {
+        colorPreview.style.display = 'block';
+        colorDot.className = 'color-dot color-' + selectedColor.toLowerCase();
+    } else {
+        colorPreview.style.display = 'none';
     }
 });
 
-removeImage.addEventListener('click', function(e) {
-    e.stopPropagation(); // Mencegah trigger click uploadArea
-    imageInput.value = ''; // Reset input file
-    imageInput.click(); // Langsung buka file explorer lagi
+// Trigger on page load if color already selected
+if (colorSelect.value) {
+    colorPreview.style.display = 'block';
+    colorDot.className = 'color-dot color-' + colorSelect.value.toLowerCase();
+}
+
+// Size Checkboxes Handler
+const sizeCheckboxes = document.querySelectorAll('input[name="sizes[]"]');
+const sizeInput = document.getElementById('sizeInput');
+
+function updateSizeInput() {
+    const checkedSizes = [];
+    sizeCheckboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            checkedSizes.push(checkbox.value);
+        }
+    });
+    sizeInput.value = checkedSizes.join(', ');
+}
+
+sizeCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', updateSizeInput);
 });
+
+// Initialize size input on page load
+updateSizeInput();
 </script>
+
+<?= $this->endSection() ?>

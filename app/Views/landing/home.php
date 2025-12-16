@@ -3,39 +3,29 @@
 <?= $this->section('content'); ?>
 
 <?php
-// Data Asli
+// [JONO NOTE]: Data Kategori tetap Hardcoded dulu karena database belum punya kolom 'icon'
 $kategoris = [
     ['nama' => 'Outerwear', 'icon' => 'fa-user-astronaut', 'count' => '12 Items'],
     ['nama' => 'Pants', 'icon' => 'fa-socks', 'count' => '8 Items'],
     ['nama' => 'Footwear', 'icon' => 'fa-shoe-prints', 'count' => '15 Items'],
     ['nama' => 'Accessories', 'icon' => 'fa-hat-cowboy', 'count' => '20 Items']
 ];
-$produks_terbaru = [
-    ['nama' => 'Cargo Pants Tactical', 'cat' => 'Pants', 'harga' => 185000, 'img' => 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=500'],
-    ['nama' => 'Converse 70s High', 'cat' => 'Shoes', 'harga' => 699000, 'img' => 'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=500'],
-    ['nama' => 'Oversize Hoodie Lilac', 'cat' => 'Jacket', 'harga' => 245000, 'img' => 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500'],
-    ['nama' => 'Flannel Shirt Grunge', 'cat' => 'Shirt', 'harga' => 145000, 'img' => 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500'],
-    ['nama' => 'Bomber Jacket Army', 'cat' => 'Jacket', 'harga' => 320000, 'img' => 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500'],
-    ['nama' => 'Denim Ripped Jeans', 'cat' => 'Pants', 'harga' => 210000, 'img' => 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500'],
-];
-$best_sellers = [
-    ['nama' => 'Varsity Jacket Univ', 'cat' => 'Jacket', 'harga' => 350000, 'img' => 'https://images.unsplash.com/photo-1682354163828-d1d56c380431?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'],
-    ['nama' => 'Chino Pants Slim', 'cat' => 'Pants', 'harga' => 175000, 'img' => 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=500'],
-    ['nama' => 'Basic Tee White', 'cat' => 'T-Shirt', 'harga' => 85000, 'img' => 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500'],
-    ['nama' => 'Wristwatch Classic', 'cat' => 'Acc', 'harga' => 175000, 'img' => 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500']
-];
 
-// Data Baru (Flash Sale)
-$flash_sale = [
-    ['nama' => 'Air Jordan 1 Low', 'harga' => 1250000, 'old' => 2500000, 'img' => 'https://images.unsplash.com/photo-1552346154-21d32810aba3?w=500'],
-    ['nama' => 'Urban Bomber Jacket', 'harga' => 350000, 'old' => 799000, 'img' => 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500'],
-    ['nama' => 'G-Shock Casio Black', 'harga' => 999000, 'old' => 1800000, 'img' => 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500'],
-    ['nama' => 'Rayban Wayfarer', 'harga' => 1500000, 'old' => 2200000, 'img' => 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500'],
+// [JONO NOTE]: Data $produks_terbaru dan $best_sellers SUDAH DIHAPUS dari sini.
+// Sekarang view akan otomatis menggunakan data asli dari Database yang dikirim Controller.
+
+// [JONO NOTE]: Data Flash Sale kita biarkan manual dulu (karena Controller belum kirim data ini)
+// Saya ubah nama variabelnya jadi $flash_sale_data agar loop di bawah tidak error
+$flash_sale_data = [
+    ['name' => 'Air Jordan 1 Low', 'price' => 1250000, 'old' => 2500000, 'image' => 'https://images.unsplash.com/photo-1552346154-21d32810aba3?w=500', 'slug' => '#'],
+    ['name' => 'Urban Bomber Jacket', 'price' => 350000, 'old' => 799000, 'image' => 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500', 'slug' => '#'],
+    ['name' => 'G-Shock Casio Black', 'price' => 999000, 'old' => 1800000, 'image' => 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500', 'slug' => '#'],
+    ['name' => 'Rayban Wayfarer', 'price' => 1500000, 'old' => 2200000, 'image' => 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500', 'slug' => '#'],
 ];
 ?>
 
 <style>
-
+/* Style tambahan jika diperlukan */
 </style>
 
 <section class="hero-section">
@@ -47,8 +37,10 @@ $flash_sale = [
             mahasiswa.
         </p>
         <div class="d-flex justify-content-center gap-3">
-            <a href="kategori" class="btn btn-light btn-lg rounded-pill px-5 py-3 fw-bold shadow">Shop Now</a>
-            <a href="about" class="btn btn-outline-light btn-lg rounded-pill px-5 py-3 fw-bold">Learn More</a>
+            <a href="<?= base_url('kategori') ?>"
+                class="btn btn-light btn-lg rounded-pill px-5 py-3 fw-bold shadow">Shop Now</a>
+            <a href="<?= base_url('about') ?>" class="btn btn-outline-light btn-lg rounded-pill px-5 py-3 fw-bold">Learn
+                More</a>
         </div>
     </div>
 </section>
@@ -74,35 +66,45 @@ $flash_sale = [
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
             <div class="d-flex align-items-center gap-3">
-                <h2 class="fw-bold mb-0 text-danger"><i class="fas fa-bolt"></i> FLASH SALE</h2>
-                <div id="countdown" class="d-flex">
-                    <div class="timer-box">02</div> : <div class="timer-box">45</div> : <div class="timer-box"
-                        id="seconds">00</div>
+                <h2 class="fw-bold mb-0 text-danger"><i class="fas fa-fire"></i> FLASH SALE</h2>
+                <div class="countdown-box bg-danger text-white px-3 py-1 rounded fw-bold" id="countdown">
+                    00 : 15 : <span id="seconds">00</span>
                 </div>
             </div>
-            <a href="#" class="text-danger fw-bold text-decoration-none">Lihat Semua <i
+            <a href="<?= base_url('kategori') ?>" class="text-danger fw-bold text-decoration-none">Lihat Semua <i
                     class="fas fa-arrow-right"></i></a>
         </div>
 
         <div class="row g-3">
-            <?php foreach ($flash_sale as $fs): ?>
+            <?php if(empty($flash_sale_data)): ?>
+            <div class="col-12 text-center text-muted py-5">Belum ada promo aktif.</div>
+            <?php else: ?>
+            <?php foreach ($flash_sale_data as $fs): ?>
             <div class="col-6 col-md-3">
                 <div class="flash-card h-100">
-                    <div class="flash-badge">HEMAT <?= round((($fs['old'] - $fs['harga']) / $fs['old']) * 100) ?>%</div>
-                    <img src="<?= $fs['img'] ?>" class="w-100" style="height: 250px; object-fit: cover;">
+                    <div class="flash-badge bg-warning text-dark">HOT</div>
+
+                    <img src="<?= $fs['image'] ?>" class="w-100" style="height: 250px; object-fit: cover;"
+                        alt="<?= esc($fs['name']) ?>"
+                        onerror="this.src='https://via.placeholder.com/250x250?text=No+Image'">
+
                     <div class="p-3">
-                        <h6 class="fw-bold text-truncate"><?= $fs['nama'] ?></h6>
-                        <div class="text-danger fw-bold fs-5">Rp <?= number_format($fs['harga'], 0, ',', '.') ?></div>
-                        <div class="text-muted text-decoration-line-through small">Rp
-                            <?= number_format($fs['old'], 0, ',', '.') ?></div>
+                        <h6 class="fw-bold text-truncate"><?= esc($fs['name']) ?></h6>
+                        <div class="text-danger fw-bold fs-5">Rp <?= number_format($fs['price'], 0, ',', '.') ?></div>
+                        <small class="text-muted text-decoration-line-through">Rp
+                            <?= number_format($fs['old'], 0, ',', '.') ?></small>
+
                         <div class="progress mt-2" style="height: 6px;">
                             <div class="progress-bar bg-danger" style="width: 85%"></div>
                         </div>
-                        <small class="text-danger" style="font-size: 10px;">Segera Habis!</small>
+                        <small class="text-danger" style="font-size: 10px;">Terjual Cepat!</small>
+
+                        <a href="<?= base_url('detail/' . $fs['slug']) ?>" class="stretched-link"></a>
                     </div>
                 </div>
             </div>
             <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>
@@ -157,7 +159,11 @@ $flash_sale = [
                     class="fas fa-chevron-left"></i></button>
             <button class="scroll-btn right d-none d-lg-flex" onclick="scrollProduk('right')"><i
                     class="fas fa-chevron-right"></i></button>
+
             <div class="horizontal-scroll" id="produkScroll">
+                <?php if(empty($produks_terbaru)): ?>
+                <div class="p-4 text-muted">Belum ada produk terbaru.</div>
+                <?php else: ?>
                 <?php foreach ($produks_terbaru as $p): ?>
                 <div class="product-card-item">
                     <div class="card-custom h-100">
@@ -165,15 +171,21 @@ $flash_sale = [
                             <span
                                 class="position-absolute top-0 start-0 bg-dark text-white px-3 py-1 m-3 rounded-pill small fw-bold"
                                 style="font-size: 12px;">New</span>
-                            <img src="<?= $p['img'] ?>" class="product-img" alt="Produk">
+
+                            <img src="<?= base_url('uploads/products/' . ($p['image'] ?? 'default.jpg')) ?>"
+                                class="product-img" alt="<?= esc($p['name']) ?>"
+                                onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
                         </div>
                         <div class="card-body-custom">
-                            <small class="text-muted text-uppercase fw-bold"
-                                style="font-size: 11px;"><?= $p['cat'] ?></small>
-                            <h5 class="card-title fw-bold text-truncate mt-2 mb-3"><?= $p['nama'] ?></h5>
+                            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Latest
+                                Drop</small>
+
+                            <h5 class="card-title fw-bold text-truncate mt-2 mb-3"><?= esc($p['name']) ?></h5>
+
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="fw-bold text-primary fs-5">Rp
-                                    <?= number_format($p['harga'], 0, ',', '.') ?></span>
+                                    <?= number_format($p['price'], 0, ',', '.') ?></span>
+
                                 <button class="btn btn-outline-dark rounded-circle btn-sm p-2"><i
                                         class="fas fa-plus"></i></button>
                             </div>
@@ -181,6 +193,7 @@ $flash_sale = [
                     </div>
                 </div>
                 <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -234,6 +247,9 @@ $flash_sale = [
                     class="fas fa-arrow-right ms-2"></i></a>
         </div>
         <div class="row g-4">
+            <?php if(empty($best_sellers)): ?>
+            <div class="col-12 text-center text-muted">Belum ada data Best Sellers.</div>
+            <?php else: ?>
             <?php foreach ($best_sellers as $b): ?>
             <div class="col-md-3 col-6 animate-up">
                 <div class="card-custom h-100">
@@ -241,14 +257,17 @@ $flash_sale = [
                         <span
                             class="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 m-3 rounded-pill small fw-bold"
                             style="font-size: 12px;">Hot</span>
-                        <img src="<?= $b['img'] ?>" class="product-img" alt="Produk">
+
+                        <img src="<?= base_url('uploads/products/' . ($b['image'] ?? 'default.jpg')) ?>"
+                            class="product-img" alt="<?= esc($b['name']) ?>"
+                            onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
                     </div>
                     <div class="card-body-custom">
-                        <small class="text-muted text-uppercase fw-bold"><?= $b['cat'] ?></small>
-                        <h5 class="card-title fw-bold text-truncate mt-2 mb-3"><?= $b['nama'] ?></h5>
+                        <small class="text-muted text-uppercase fw-bold">Premium</small>
+                        <h5 class="card-title fw-bold text-truncate mt-2 mb-3"><?= esc($b['name']) ?></h5>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="fw-bold text-dark fs-5">Rp
-                                <?= number_format($b['harga'], 0, ',', '.') ?></span>
+                                <?= number_format($b['price'], 0, ',', '.') ?></span>
                             <div class="text-warning small">
                                 <i class="fas fa-star"></i> 5.0
                             </div>
@@ -257,55 +276,48 @@ $flash_sale = [
                 </div>
             </div>
             <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>
 
 <script>
+// 1. LOGIKA COUNTDOWN FLASH SALE
 setInterval(function() {
     const d = new Date();
     const seconds = 60 - d.getSeconds();
     const displaySec = seconds < 10 ? '0' + seconds : seconds;
-    document.getElementById('seconds').innerText = displaySec;
+    const secElement = document.getElementById('seconds');
+    if (secElement) secElement.innerText = displaySec;
 }, 1000);
 
-// 1. LOGIKA COUNTDOWN FLASH SALE (Bawaan lama kamu)
-setInterval(function() {
-    const d = new Date();
-    const seconds = 60 - d.getSeconds();
-    const displaySec = seconds < 10 ? '0' + seconds : seconds;
-    document.getElementById('seconds').innerText = displaySec;
-}, 1000);
-
-// 2. LOGIKA AUTO SCROLL NEW ARRIVALS (Baru)
+// 2. LOGIKA AUTO SCROLL NEW ARRIVALS
 const container = document.getElementById('produkScroll');
 let scrollAmount = 0;
-const speed = 1; // Kecepatan scroll (makin besar makin ngebut)
+const speed = 1;
 
 function autoScroll() {
-    // Cek: Hanya scroll jika mouse TIDAK berada di atas produk
-    // (Supaya user bisa stop buat nge-klik produknya)
-    if (!container.matches(':hover')) {
+    if (container && !container.matches(':hover')) {
         container.scrollLeft += speed;
-
-        // Jika sudah mentok kanan, balik ke awal
-        // (Menggunakan toleransi 1px untuk akurasi)
         if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 1) {
             container.scrollLeft = 0;
         }
     }
 }
 
-// Jalankan fungsi scroll setiap 20 milidetik
-setInterval(autoScroll, 20);
+if (container) {
+    setInterval(autoScroll, 20);
+}
 
-// 3. FUNGSI TOMBOL MANUAL (Agar tombol panah kiri/kanan tetap jalan)
+// 3. FUNGSI TOMBOL MANUAL
 function scrollProduk(direction) {
-    const scrollValue = 300; // Jarak scroll sekali klik
-    if (direction === 'left') {
-        container.scrollLeft -= scrollValue;
-    } else {
-        container.scrollLeft += scrollValue;
+    if (container) {
+        const scrollValue = 300;
+        if (direction === 'left') {
+            container.scrollLeft -= scrollValue;
+        } else {
+            container.scrollLeft += scrollValue;
+        }
     }
 }
 </script>

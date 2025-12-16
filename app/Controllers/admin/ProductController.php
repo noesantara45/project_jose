@@ -111,8 +111,9 @@ class ProductController extends BaseController
             'category_id' => 'required',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
+            // [FIX JONO]: Tambahkan 'permit_empty' agar tidak error saat edit tanpa ganti gambar
             'image' => [
-                'rules' => 'max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]',
+                'rules' => 'permit_empty|max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]',
                 'errors' => [
                     'max_size' => 'Ukuran gambar terlalu besar (Maksimal 2MB)',
                     'is_image' => 'File yang Anda pilih bukan gambar',

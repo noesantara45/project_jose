@@ -14,70 +14,47 @@ class CategoryController extends BaseController
         $this->categoryModel = new CategoryModel();
     }
 
-    /**
-     * Display categories list
-     */
     public function index()
     {
-        $data = [
-            'title' => 'Kelola Kategori',
-            'page_title' => 'Kelola Kategori',
-            'active_menu' => 'categories',
-        ];
-
-        return view('admin/categories/index', $data);
+        // Jika ada yang akses langsung url ini, lempar ke halaman produk
+        return redirect()->to('admin/products?tab=categories');
     }
 
-    /**
-     * Save category (insert or update)
-     */
     public function save()
     {
+        // 1. Ambil Data
         $id = $this->request->getPost('id');
+        $name = $this->request->getPost('name');
         
-        // Validation rules
-        $rules = [
-            'name' => 'required|min_length[3]',
-        ];
+        // Buat slug otomatis
+        $slug = url_title($name, '-', true);
 
-        if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-
-        // Generate slug
-        $slug = url_title($this->request->getPost('name'), '-', true);
-
+        // 2. Siapkan Array Data
         $data = [
-            'name' => $this->request->getPost('name'),
-            'slug' => $slug,
+            'name' => $name,
+            'slug' => $slug
         ];
 
-        if ($id) {
-            // Update
-            $this->categoryModel->update($id, $data);
-            $message = 'Kategori berhasil diupdate!';
-        } else {
-            // Insert
-            $this->categoryModel->insert($data);
-            $message = 'Kategori berhasil ditambahkan!';
+        // Jika ID tidak kosong, berarti UPDATE. Masukkan ID ke array.
+        if (!empty($id)) {
+            $data['id'] = $id;
         }
 
-        return redirect()->to(base_url('admin/categories'))->with('success', $message);
+        // 3. Simpan ke Database
+        $this->categoryModel->save($data);
+
+        // 4. Redirect PINTAR (Kembali ke Tab Kategori)
+        return redirect()->to(base_url('admin/products?tab=categories'))
+                         ->with('success', 'Kategori berhasil disimpan.');
     }
 
-    /**
-     * Delete category
-     */
     public function delete($id)
     {
-        $category = $this->categoryModel->find($id);
-
-        if (!$category) {
-            return redirect()->to(base_url('admin/categories'))->with('error', 'Kategori tidak ditemukan!');
-        }
-
+        // Hapus Data
         $this->categoryModel->delete($id);
 
-        return redirect()->to(base_url('admin/categories'))->with('success', 'Kategori berhasil dihapus!');
+        // Redirect PINTAR (Kembali ke Tab Kategori)
+        return redirect()->to(base_url('admin/products?tab=categories'))
+                         ->with('success', 'Kategori berhasil dihapus.');
     }
 }
