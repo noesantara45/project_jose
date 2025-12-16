@@ -2,6 +2,188 @@
 
 <?= $this->section('content'); ?>
 
+<<<<<<< HEAD:app/Views/landing/cart.php
+=======
+<style>
+/* Styling Khusus Cart ala Zalora */
+body {
+    background-color: #f5f5f5;
+}
+
+/* Background abu muda agar konten pop-up */
+
+.cart-header {
+    margin-bottom: 20px;
+    padding-top: 50px;
+}
+
+/* Box Item Keranjang */
+.cart-item-box {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    position: relative;
+}
+
+/* Gambar Produk */
+.cart-img-wrap {
+    width: 100px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f9f9f9;
+    aspect-ratio: 3/4;
+}
+
+.cart-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Info Produk */
+.cart-info {
+    flex-grow: 1;
+}
+
+.cart-prod-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 15px;
+    margin-bottom: 5px;
+    text-decoration: none;
+    display: block;
+}
+
+.cart-prod-variant {
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.cart-prod-price {
+    font-weight: 700;
+    color: #000;
+    font-size: 16px;
+}
+
+/* Kontrol Kuantitas (+ -) */
+.qty-control {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: fit-content;
+    margin-top: 10px;
+}
+
+.qty-btn {
+    background: #fff;
+    border: none;
+    width: 30px;
+    height: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    color: #555;
+}
+
+.qty-btn:hover {
+    background: #f0f0f0;
+}
+
+.qty-input {
+    width: 40px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Tombol Hapus (Sampah) */
+.btn-remove {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #aaa;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-remove:hover {
+    color: #d32f2f;
+}
+
+/* Ringkasan Pesanan (Sticky Kanan) */
+.summary-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 100px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed #ddd;
+    font-weight: 700;
+    font-size: 18px;
+    color: #000;
+}
+
+.btn-checkout {
+    background: #000;
+    color: #fff;
+    width: 100%;
+    padding: 15px;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    margin-top: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.btn-checkout:hover {
+    background: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Empty Cart State */
+.empty-cart {
+    text-align: center;
+    padding: 60px 0;
+}
+
+.empty-icon {
+    font-size: 60px;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+</style>
+>>>>>>> refs/remotes/origin/taufik:app/Views/cart.php
 
 <div class="container py-5">
 
