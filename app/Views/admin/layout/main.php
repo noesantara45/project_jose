@@ -37,12 +37,6 @@
                 <span>Manajemen Produk</span>
             </a>
 
-            <a href="<?= base_url('admin/categories') ?>"
-                class="nav-item <?= $active_menu == 'categories' ? 'active' : '' ?>">
-                <i class="fas fa-tags"></i>
-                <span>Kelola Kategori</span>
-            </a>
-
             <a href="<?= base_url('admin/admins') ?>" class="nav-item <?= $active_menu == 'admins' ? 'active' : '' ?>">
                 <i class="fas fa-user-shield"></i>
                 <span>Kelola Admin</span>

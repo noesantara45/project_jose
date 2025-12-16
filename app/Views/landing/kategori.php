@@ -2,246 +2,301 @@
 
 <?= $this->section('content'); ?>
 
-<?php
-// 1. LOGIKA FILTER PHP (Sederhana)
-$request = \Config\Services::request();
-$filter = $request->getGet('filter') ?? 'pria'; // Default ke 'pria' biar langsung tampil banyak
-
-// 2. DATA PRODUK (DIPERBANYAK JADI 12 ITEM)
-$products = [
-    // --- PRIA ---
-    ['nama' => 'Relaxed Fit Cargo Pants', 'cat' => 'Pants', 'harga' => 299000, 'old' => 0, 'img' => 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=500', 'tag' => 'best', 'colors' => ['#000', '#556b2f'], 'gender' => 'pria'],
-    ['nama' => 'Oversized Cotton T-Shirt', 'cat' => 'Tops', 'harga' => 129000, 'old' => 199000, 'img' => 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500', 'tag' => 'sale', 'colors' => ['#000', '#fff', '#800020'], 'gender' => 'pria'],
-    ['nama' => 'Denim Trucker Jacket', 'cat' => 'Outerwear', 'harga' => 499000, 'old' => 0, 'img' => 'https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=500', 'tag' => 'new', 'colors' => ['#1e3799'], 'gender' => 'pria'],
-    ['nama' => 'Slim Fit Chino', 'cat' => 'Pants', 'harga' => 199000, 'old' => 250000, 'img' => 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=500', 'tag' => 'sale', 'colors' => ['#000080', '#8b4513'], 'gender' => 'pria'],
-    ['nama' => 'Chuck 70 High Top', 'cat' => 'Shoes', 'harga' => 999000, 'old' => 0, 'img' => 'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=500', 'tag' => '', 'colors' => ['#000', '#fff'], 'gender' => 'pria'],
-    ['nama' => 'Flannel Shirt Grunge', 'cat' => 'Tops', 'harga' => 249000, 'old' => 0, 'img' => 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500', 'tag' => 'best', 'colors' => ['#a52a2a'], 'gender' => 'pria'],
-
-    // --- WANITA ---
-    ['nama' => 'Floral Summer Dress', 'cat' => 'Dress', 'harga' => 350000, 'old' => 0, 'img' => 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=500', 'tag' => 'new', 'colors' => ['#ffb7b2'], 'gender' => 'wanita'],
-    ['nama' => 'Women Blouse Elegant', 'cat' => 'Tops', 'harga' => 150000, 'old' => 200000, 'img' => 'https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=500', 'tag' => 'sale', 'colors' => ['#fff'], 'gender' => 'wanita'],
-    ['nama' => 'High Waist Jeans', 'cat' => 'Pants', 'harga' => 299000, 'old' => 0, 'img' => 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500', 'tag' => 'best', 'colors' => ['#87ceeb'], 'gender' => 'wanita'],
-    ['nama' => 'Knitted Cardigan', 'cat' => 'Outerwear', 'harga' => 199000, 'old' => 0, 'img' => 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500', 'tag' => '', 'colors' => ['#f5f5dc'], 'gender' => 'wanita'],
-
-    // --- ANAK ---
-    ['nama' => 'Kids Dinosaur Tee', 'cat' => 'Tops', 'harga' => 85000, 'old' => 0, 'img' => 'https://images.unsplash.com/photo-1519238263496-6361937a27a7?w=500', 'tag' => '', 'colors' => ['#a8e6cf'], 'gender' => 'anak'],
-    ['nama' => 'Junior Denim Overall', 'cat' => 'Pants', 'harga' => 175000, 'old' => 250000, 'img' => 'https://images.unsplash.com/photo-1519457431-44ccd64a579b?w=500', 'tag' => 'sale', 'colors' => ['#000080'], 'gender' => 'anak'],
-];
-?>
-
-
 <div class="container pb-5">
-
-    <div class="gender-tabs">
-        <a href="<?= base_url('kategori') ?>"
-            class="gender-link <?= ($filter == 'all' || $filter == 'pria') ? 'active' : '' ?>">Pria</a>
-        <a href="<?= base_url('kategori?filter=wanita') ?>"
-            class="gender-link <?= ($filter == 'wanita') ? 'active' : '' ?>">Wanita</a>
-        <a href="<?= base_url('kategori?filter=anak') ?>"
-            class="gender-link <?= ($filter == 'anak') ? 'active' : '' ?>">Anak-anak</a>
-        <a href="<?= base_url('kategori?filter=sale') ?>"
-            class="gender-link text-danger <?= ($filter == 'sale') ? 'active' : '' ?>">Sale</a>
-    </div>
 
     <nav aria-label="breadcrumb" class="mb-4 mt-3">
         <ol class="breadcrumb small text-uppercase">
             <li class="breadcrumb-item"><a href="<?= base_url('/') ?>" class="text-decoration-none text-muted">Home</a>
             </li>
             <li class="breadcrumb-item active text-dark" aria-current="page">
-                Katalog <?= ucfirst($filter == 'all' ? 'Pria' : $filter) ?>
+                Katalog Produk
             </li>
         </ol>
     </nav>
 
     <div class="row">
 
-        <div class="col-lg-3 d-none d-lg-block filter-sidebar border-end">
+        <div class="col-lg-3 d-none d-lg-block filter-sidebar border-end pe-4">
 
-            <div class="filter-section">
-                <div class="filter-head">Kategori <i class="fas fa-minus small text-muted"></i></div>
-                <label class="custom-check"><span><input type="checkbox" checked> Atasan</span> <span
-                        class="count-badge">120</span></label>
-                <label class="custom-check"><span><input type="checkbox"> Bawahan</span> <span
-                        class="count-badge">85</span></label>
-                <label class="custom-check"><span><input type="checkbox"> Outerwear</span> <span
-                        class="count-badge">42</span></label>
-                <label class="custom-check"><span><input type="checkbox"> Sepatu</span> <span
-                        class="count-badge">30</span></label>
-                <label class="custom-check"><span><input type="checkbox"> Aksesoris</span> <span
-                        class="count-badge">55</span></label>
-            </div>
+            <form action="" method="get" id="filterForm">
 
-            <div class="filter-section">
-                <div class="filter-head">Harga <i class="fas fa-minus small text-muted"></i></div>
-                <div class="d-flex align-items-center gap-2 mb-2">
-                    <input type="text" class="form-control form-control-sm" placeholder="Min">
-                    <span>-</span>
-                    <input type="text" class="form-control form-control-sm" placeholder="Max">
+                <input type="hidden" name="keyword" value="<?= esc($filter_keyword ?? '') ?>">
+
+                <div class="filter-section mb-4">
+                    <div class="fw-bold mb-3 border-bottom pb-2">Kategori</div>
+                    <?php if(isset($categories)): ?>
+                    <?php foreach($categories as $cat): ?>
+                    <label class="custom-check d-block mb-2 pointer-cursor">
+                        <input type="checkbox" name="kategori[]" value="<?= $cat['id'] ?>" class="me-2"
+                            <?= (isset($filter_kategori) && is_array($filter_kategori) && in_array($cat['id'], $filter_kategori)) ? 'checked' : '' ?>>
+                        <?= esc($cat['name']) ?>
+                    </label>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
-            </div>
 
-            <div class="filter-section">
-                <div class="filter-head">Layanan & Promo <i class="fas fa-minus small text-muted"></i></div>
-                <label class="custom-check"><span><input type="checkbox"> <i class="fas fa-truck text-primary"></i>
-                        Gratis Ongkir</span></label>
-                <label class="custom-check"><span><input type="checkbox"> <i
-                            class="fas fa-hand-holding-usd text-success"></i> COD</span></label>
-                <label class="custom-check"><span><input type="checkbox"> <i class="fas fa-tags text-danger"></i> Diskon
-                        > 50%</span></label>
-            </div>
-
-            <div class="filter-section">
-                <div class="filter-head">Rating <i class="fas fa-minus small text-muted"></i></div>
-                <label class="custom-check"><span><input type="checkbox"> <i class="fas fa-star star-active"></i> 4
-                        Keatas</span></label>
-                <label class="custom-check"><span><input type="checkbox"> <i class="fas fa-star star-active"></i>
-                        Semua</span></label>
-            </div>
-
-            <div class="filter-section">
-                <div class="filter-head">Tipe Pas (Fit) <i class="fas fa-minus small text-muted"></i></div>
-                <label class="custom-check"><span><input type="checkbox"> Oversized</span> <span
-                        class="count-badge">10</span></label>
-                <label class="custom-check"><span><input type="checkbox"> Slim Fit</span> <span
-                        class="count-badge">8</span></label>
-                <label class="custom-check"><span><input type="checkbox"> Regular Fit</span> <span
-                        class="count-badge">20</span></label>
-            </div>
-
-            <div class="filter-section">
-                <div class="filter-head">Bahan <i class="fas fa-minus small text-muted"></i></div>
-                <label class="custom-check"><span><input type="checkbox"> Cotton</span></label>
-                <label class="custom-check"><span><input type="checkbox"> Denim</span></label>
-                <label class="custom-check"><span><input type="checkbox"> Linen</span></label>
-            </div>
-
-            <div class="filter-section">
-                <div class="filter-head">Warna <i class="fas fa-minus small text-muted"></i></div>
-                <div class="color-wrap">
-                    <span class="color-opt bg-dark" title="Hitam"></span>
-                    <span class="color-opt bg-white" title="Putih"></span>
-                    <span class="color-opt bg-primary" title="Biru"></span>
-                    <span class="color-opt bg-danger" title="Merah"></span>
-                    <span class="color-opt bg-warning" title="Kuning"></span>
-                    <span class="color-opt bg-success" title="Hijau"></span>
-                    <span class="color-opt" style="background-color: #800000;" title="Maroon"></span>
-                    <span class="color-opt" style="background-color: #f5f5dc;" title="Cream"></span>
+                <div class="filter-section mb-4">
+                    <div class="fw-bold mb-3 border-bottom pb-2">Harga (Rp)</div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <input type="number" name="min" class="form-control form-control-sm" placeholder="Min"
+                            value="<?= esc($filter_min ?? '') ?>">
+                        <span>-</span>
+                        <input type="number" name="max" class="form-control form-control-sm" placeholder="Max"
+                            value="<?= esc($filter_max ?? '') ?>">
+                    </div>
                 </div>
-            </div>
 
-            <div class="filter-section border-0">
-                <div class="filter-head">Ukuran <i class="fas fa-minus small text-muted"></i></div>
-                <div class="size-wrap">
-                    <span class="size-btn">S</span>
-                    <span class="size-btn">M</span>
-                    <span class="size-btn">L</span>
-                    <span class="size-btn">XL</span>
-                    <span class="size-btn">XXL</span>
-                    <span class="size-btn">All Size</span>
+                <div class="filter-section mb-4">
+                    <div class="fw-bold mb-3 border-bottom pb-2">Rating</div>
+                    <label class="custom-check d-block mb-2 pointer-cursor">
+                        <input type="radio" name="rating" value="4" class="me-2"
+                            <?= (isset($filter_rating) && $filter_rating == '4') ? 'checked' : '' ?>>
+                        <span class="text-warning"><i class="fas fa-star"></i></span> 4 Keatas
+                    </label>
+                    <label class="custom-check d-block mb-2 pointer-cursor">
+                        <input type="radio" name="rating" value="5" class="me-2"
+                            <?= (isset($filter_rating) && $filter_rating == '5') ? 'checked' : '' ?>>
+                        <span class="text-warning"><i class="fas fa-star"></i></span> 5 Sempurna
+                    </label>
                 </div>
-            </div>
 
-            <button class="btn btn-dark w-100 mt-3 rounded-0 fw-bold">TERAPKAN FILTER</button>
+                <div class="filter-section mb-4">
+                    <div class="fw-bold mb-3 border-bottom pb-2">Warna</div>
+                    <input type="hidden" name="color" id="inputColor" value="<?= esc($filter_color ?? '') ?>">
 
+                    <div class="d-flex flex-wrap gap-2">
+                        <?php 
+                        $colors = [
+                            'Hitam' => '#000000', 
+                            'Putih' => '#ffffff', 
+                            'Biru' => '#0d6efd', 
+                            'Merah' => '#dc3545', 
+                            'Kuning' => '#ffc107', 
+                            'Hijau' => '#198754',
+                            'Navy' => '#000080',
+                            'Abu-abu' => '#808080'
+                        ];
+                        ?>
+                        <?php foreach($colors as $name => $hex): ?>
+                        <div class="color-option <?= (isset($filter_color) && $filter_color == $name) ? 'active' : '' ?>"
+                            style="background-color: <?= $hex ?>;" title="<?= $name ?>"
+                            onclick="setFilter('color', '<?= $name ?>')">
+                            <?php if(isset($filter_color) && $filter_color == $name): ?>
+                            <i class="fas fa-check text-white"
+                                style="font-size: 12px; filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));"></i>
+                            <?php endif; ?>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <?php if(isset($filter_color) && $filter_color): ?>
+                    <div class="mt-2 text-danger small" style="cursor:pointer" onclick="setFilter('color', '')">
+                        <i class="fas fa-times"></i> Hapus Filter Warna
+                    </div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="filter-section mb-4">
+                    <div class="fw-bold mb-3 border-bottom pb-2">Ukuran</div>
+                    <input type="hidden" name="size" id="inputSize" value="<?= esc($filter_size ?? '') ?>">
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <?php $sizes = ['S','M','L','XL','XXL','All Size']; ?>
+                        <?php foreach($sizes as $s): ?>
+                        <div class="size-option <?= (isset($filter_size) && $filter_size == $s) ? 'active' : '' ?>"
+                            onclick="setFilter('size', '<?= $s ?>')">
+                            <?= $s ?>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <?php if(isset($filter_size) && $filter_size): ?>
+                    <div class="mt-2 text-danger small" style="cursor:pointer" onclick="setFilter('size', '')">
+                        <i class="fas fa-times"></i> Hapus Filter Ukuran
+                    </div>
+                    <?php endif; ?>
+                </div>
+
+                <button type="submit" class="btn btn-dark w-100 mt-4 py-2 fw-bold text-uppercase"
+                    style="letter-spacing: 1px;">
+                    Terapkan Filter
+                </button>
+                <a href="<?= base_url('kategori') ?>" class="btn btn-outline-secondary w-100 mt-2 btn-sm">Reset
+                    Semua</a>
+
+            </form>
         </div>
 
         <div class="col-lg-9">
 
-            <div class="cat-banner">
+            <div class="cat-banner mb-4 p-4 bg-dark text-white rounded">
                 <div class="cat-banner-content animate-up">
-                    <h2 style="color: white;" class="fw-bold mb-0 text-uppercase">
-                        <?= $filter == 'all' ? "MEN'S" : $filter ?> COLLECTION</h2>
-                    <p class="mb-0">Koleksi terbaru untuk gaya terbaikmu.</p>
+                    <h2 class="fw-bold mb-0 text-uppercase">ALL COLLECTION</h2>
+                    <p class="mb-0 text-white-50">Koleksi terbaru untuk gaya terbaikmu.</p>
                 </div>
             </div>
 
             <div class="row row-cols-2 row-cols-md-3 g-4">
 
-                <?php
-                $count = 0;
-                foreach ($products as $p):
-                    // FILTER LOGIC
-                    $show = false;
-                    if ($filter == 'sale') {
-                        if ($p['old'] > 0) $show = true;
-                    } elseif ($filter == 'all' || $filter == 'pria') {
-                        if ($p['gender'] == 'pria') $show = true;
-                    } else {
-                        if ($p['gender'] == $filter) $show = true;
-                    }
+                <?php if(empty($products)): ?>
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Produk tidak ditemukan.</h5>
+                    <p>Coba kurangi filter pencarian Anda.</p>
+                </div>
+                <?php else: ?>
 
-                    if ($show):
-                        $count++;
-                ?>
-                        <div class="col">
-                            <div class="product-card">
+                <?php foreach ($products as $p): ?>
+                <div class="col">
+                    <div class="product-card h-100 border-0 shadow-sm rounded overflow-hidden">
 
-                                <a href="<?= base_url('detail') ?>" class="product-link">
+                        <a href="<?= base_url('detail/' . $p['slug']) ?>"
+                            class="product-link text-decoration-none text-dark">
 
-                                    <div class="card-img-wrap">
-                                        <?php if ($p['tag'] == 'new'): ?>
-                                            <span class="tag-badge bg-new">NEW</span>
-                                        <?php elseif ($p['tag'] == 'sale'): ?>
-                                            <span class="tag-badge bg-sale">SALE</span>
-                                        <?php elseif ($p['tag'] == 'best'): ?>
-                                            <span class="tag-badge bg-best">HOT</span>
-                                        <?php endif; ?>
+                            <div class="card-img-wrap position-relative">
+                                <?php if(strtotime($p['created_at']) > strtotime('-7 days')): ?>
+                                <span class="position-absolute top-0 start-0 m-2 badge bg-success">NEW</span>
+                                <?php elseif($p['total_sold'] > 50): ?>
+                                <span class="position-absolute top-0 start-0 m-2 badge bg-warning text-dark">HOT</span>
+                                <?php endif; ?>
 
-                                        <img src="<?= $p['img'] ?>" class="card-img" alt="<?= $p['nama'] ?>">
-
-                                        <div class="overlay-actions">
-                                            <button class="btn-action" title="Wishlist"><i class="far fa-heart"></i></button>
-                                            <button class="btn-action" title="Lihat"><i class="far fa-eye"></i></button>
-                                            <button class="btn-action" title="Beli"><i class="fas fa-shopping-bag"></i></button>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-3 px-2 pb-3">
-                                        <small class="text-muted text-uppercase fw-bold"
-                                            style="font-size: 10px;"><?= $p['cat'] ?></small>
-                                        <h6 class="text-dark fw-bold mb-1 text-truncate" style="font-size: 14px;">
-                                            <?= $p['nama'] ?></h6>
-
-                                        <div class="d-flex align-items-center mb-2">
-                                            <span class="fw-bold text-dark" style="font-size: 14px;">Rp
-                                                <?= number_format($p['harga'], 0, ',', '.') ?></span>
-                                            <?php if ($p['old'] > 0): ?>
-                                                <small class="text-muted text-decoration-line-through ms-2"
-                                                    style="font-size: 11px;">
-                                                    Rp <?= number_format($p['old'], 0, ',', '.') ?>
-                                                </small>
-                                            <?php endif; ?>
-                                        </div>
-
-                                        <div class="color-dots">
-                                            <?php foreach ($p['colors'] as $c): ?>
-                                                <div class="dot" style="background-color: <?= $c ?>;"></div>
-                                            <?php endforeach; ?>
-                                        </div>
-                                    </div>
-
-                                </a>
-
+                                <img src="<?= base_url('uploads/products/' . ($p['image'] ? $p['image'] : 'default.jpg')) ?>"
+                                    class="w-100" style="height: 250px; object-fit: cover;" alt="<?= esc($p['name']) ?>"
+                                    onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
                             </div>
-                        </div>
-                <?php endif;
-                endforeach; ?>
+
+                            <div class="p-3">
+                                <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">
+                                    <?= esc($p['category_name'] ?? 'Outfit') ?>
+                                </small>
+                                <h6 class="fw-bold mb-1 text-truncate"><?= esc($p['name']) ?></h6>
+
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="fw-bold fs-6">Rp <?= number_format($p['price'], 0, ',', '.') ?></span>
+                                    <?php if(isset($p['rating']) && $p['rating'] > 0): ?>
+                                    <small class="text-warning"><i class="fas fa-star"></i> <?= $p['rating'] ?></small>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <?php if(!empty($p['color'])): ?>
+                                    <small class="text-muted" style="font-size: 11px;">
+                                        <i class="fas fa-palette"></i> <?= esc($p['color']) ?>
+                                    </small>
+                                    <?php endif; ?>
+                                    <?php if(!empty($p['size'])): ?>
+                                    <span class="badge bg-light text-dark border"><?= esc($p['size']) ?></span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+
+                        </a>
+
+                    </div>
+                </div>
+                <?php endforeach; ?>
+                <?php endif; ?>
 
             </div>
 
-            <?php if ($count == 0): ?>
-                <div class="text-center py-5">
-                    <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
-                    <h5 class="text-muted">Produk tidak ditemukan untuk kategori ini.</h5>
-                </div>
-            <?php endif; ?>
-
-            <div class="mt-5 text-center">
-                <button class="btn btn-outline-dark px-5 rounded-0">LOAD MORE</button>
+            <div class="mt-5 d-flex justify-content-center">
+                <?php if(isset($pager)): ?>
+                <?= $pager->links('katalog', 'default_full') ?>
+                <?php endif; ?>
             </div>
 
         </div>
     </div>
 </div>
+
+<script>
+function setFilter(type, value) {
+    if (type === 'color') {
+        // Jika klik warna yang sama, hapus filter (toggle)
+        const current = document.getElementById('inputColor').value;
+        document.getElementById('inputColor').value = (current === value) ? '' : value;
+    } else if (type === 'size') {
+        // Jika klik size yang sama, hapus filter (toggle)
+        const current = document.getElementById('inputSize').value;
+        document.getElementById('inputSize').value = (current === value) ? '' : value;
+    }
+    // Langsung submit form biar user nggak usah pencet tombol 'Terapkan' lagi (Optional)
+    // document.getElementById('filterForm').submit(); 
+
+    // ATAU: Update tampilan visual saja, user harus klik 'Terapkan Filter' (Sesuai request Tuan)
+    // Kita biarkan user klik tombol manual agar tidak loading terus.
+}
+</script>
+
+<style>
+/* Style Checkbox Label */
+.pointer-cursor {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pointer-cursor:hover {
+    color: #007bff;
+}
+
+/* Style Tombol Warna 'Gemoy' */
+.color-option {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #ddd;
+    /* Border default abu-abu */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Efek membal */
+}
+
+.color-option:hover {
+    transform: scale(1.15);
+    /* Membesar saat hover */
+    border-color: #999;
+}
+
+.color-option.active {
+    border: 2px solid #333;
+    /* Border gelap saat aktif */
+    box-shadow: 0 0 0 3px #fff, 0 0 0 5px #007bff;
+    /* Efek Ring Ganda Biru */
+    transform: scale(1.1);
+}
+
+/* Style Tombol Ukuran 'Gemoy' */
+.size-option {
+    min-width: 45px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0 8px;
+    transition: all 0.2s ease;
+}
+
+.size-option:hover {
+    border-color: #333;
+    background-color: #f8f9fa;
+}
+
+.size-option.active {
+    background-color: #212529;
+    /* Hitam Gelap */
+    color: #fff;
+    border-color: #212529;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+</style>
 
 <?= $this->endSection(); ?>

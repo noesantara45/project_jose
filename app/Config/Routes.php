@@ -9,7 +9,7 @@ use CodeIgniter\Router\RouteCollection;
 // Default route
 $routes->get('/', 'Landing\\Home::index');
 $routes->get('kategori', 'Landing\\Kategori::kategori');
-$routes->get('detail', 'Landing\\Detail::detail');
+$routes->get('detail/(:segment)', 'Landing\Detail::detail/$1');
 $routes->get('cart', 'Landing\\Cart::cart');
 
 $routes->get('about', 'Landing\\Pages::about');

@@ -2,25 +2,6 @@
 
 <?= $this->section('content'); ?>
 
-
-<?php
-$produk = [
-    'nama' => 'Oversized Heavyweight T-Shirt',
-    'harga' => 149000,
-    'old' => 199000,
-    'desc' => 'Kaos polos dengan potongan oversized yang trendy. Terbuat dari bahan Cotton Combed 20s (Heavyweight) yang tebal namun tetap adem dan menyerap keringat. Cocok untuk gaya streetwear sehari-hari.',
-    'stok' => 50,
-    'rating' => 4.8,
-    'terjual' => 240,
-    'img_main' => 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800',
-    'gallery' => [
-        'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=200',
-        'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=200', // Mockup belakang
-        'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200', // Detail kain
-    ]
-];
-?>
-
 <div class="container py-5">
 
     <nav aria-label="breadcrumb" class="mb-4 animate-up">
@@ -28,10 +9,8 @@ $produk = [
             <li class="breadcrumb-item"><a href="<?= base_url('/') ?>" class="text-muted text-decoration-none">Home</a>
             </li>
             <li class="breadcrumb-item"><a href="<?= base_url('kategori') ?>"
-                    class="text-muted text-decoration-none">Pria</a></li>
-            <li class="breadcrumb-item"><a href="<?= base_url('kategori') ?>"
-                    class="text-muted text-decoration-none">Atasan</a></li>
-            <li class="breadcrumb-item active text-dark" aria-current="page"><?= $produk['nama'] ?></li>
+                    class="text-muted text-decoration-none">Katalog</a></li>
+            <li class="breadcrumb-item active text-dark" aria-current="page"><?= esc($product['name']) ?></li>
         </ol>
     </nav>
 
@@ -39,16 +18,19 @@ $produk = [
 
         <div class="col-lg-6 animate-up">
             <div class="product-gallery">
-                <div class="main-image-wrap">
-                    <img src="<?= $produk['img_main'] ?>" id="mainImage" class="main-img-display" alt="Produk Utama">
+                <div class="main-image-wrap border rounded overflow-hidden mb-3">
+                    <img src="<?= base_url('uploads/products/' . ($product['image'] ? $product['image'] : 'default.jpg')) ?>"
+                        id="mainImage" class="w-100" style="height: 500px; object-fit: cover;"
+                        alt="<?= esc($product['name']) ?>"
+                        onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
                 </div>
-                <div class="thumbnail-list">
-                    <?php foreach ($produk['gallery'] as $idx => $img): ?>
-                        <div class="thumb-btn <?= $idx == 0 ? 'active' : '' ?>"
-                            onclick="changeImage(this, '<?= str_replace('w=200', 'w=800', $img) ?>')">
-                            <img src="<?= $img ?>" class="thumb-img">
-                        </div>
-                    <?php endforeach; ?>
+
+                <div class="thumbnail-list d-flex gap-2">
+                    <div class="thumb-btn active border rounded p-1"
+                        style="cursor: pointer; width: 80px; height: 80px;">
+                        <img src="<?= base_url('uploads/products/' . ($product['image'] ? $product['image'] : 'default.jpg')) ?>"
+                            class="w-100 h-100" style="object-fit: cover;">
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,73 +38,91 @@ $produk = [
         <div class="col-lg-6">
             <div class="product-info-sticky animate-up delay-1">
 
-                <div class="p-brand">HLOUTFIT ORIGINALS</div>
-                <h1 class="p-title"><?= $produk['nama'] ?></h1>
+                <div class="p-brand text-uppercase text-muted small fw-bold mb-1">HLOutfit Originals</div>
+                <h1 class="p-title fw-bold display-6 mb-2"><?= esc($product['name']) ?></h1>
 
                 <div class="d-flex align-items-center gap-2 mt-2 mb-3">
                     <div class="text-warning small">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                            class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        <?php 
+                        $rating = $product['rating'] ?? 5.0;
+                        for($i=1; $i<=5; $i++) {
+                            if($i <= $rating) echo '<i class="fas fa-star"></i>';
+                            elseif($i - 0.5 <= $rating) echo '<i class="fas fa-star-half-alt"></i>';
+                            else echo '<i class="far fa-star"></i>';
+                        }
+                        ?>
                     </div>
-                    <span class="text-muted small border-start ps-2"><?= $produk['rating'] ?> (50 Ulasan)</span>
-                    <span class="text-muted small border-start ps-2"><?= $produk['terjual'] ?> Terjual</span>
+                    <span class="text-muted small border-start ps-2"><?= $rating ?> (Ulasan)</span>
+                    <span class="text-muted small border-start ps-2"><?= $product['total_sold'] ?> Terjual</span>
+                    <span class="badge bg-success ms-2"><?= esc($product['category_name']) ?></span>
                 </div>
 
-                <div class="price-wrap">
-                    <span class="final-price">Rp <?= number_format($produk['harga'], 0, ',', '.') ?></span>
-                    <?php if ($produk['old'] > 0): ?>
-                        <span class="origin-price">Rp <?= number_format($produk['old'], 0, ',', '.') ?></span>
-                        <span
-                            class="disc-label">-<?= round((($produk['old'] - $produk['harga']) / $produk['old']) * 100) ?>%</span>
+                <div class="price-wrap mb-4">
+                    <span class="final-price fw-bold text-dark fs-2">Rp
+                        <?= number_format($product['price'], 0, ',', '.') ?></span>
+                    <?php if($product['stock'] < 5): ?>
+                    <span class="badge bg-danger ms-2">Stok Menipis: Sisa <?= $product['stock'] ?>!</span>
                     <?php endif; ?>
                 </div>
 
                 <hr class="my-4 text-muted opacity-25">
 
+                <?php if(!empty($product['color'])): ?>
                 <div class="mb-4">
-                    <span class="variant-label">Warna: <span id="colorName" class="fw-normal">Hitam</span></span>
-                    <div class="color-selector">
-                        <label>
-                            <input type="radio" name="warna" value="Hitam" checked onchange="updateColor('Hitam')">
-                            <span class="color-circle bg-dark" title="Hitam"></span>
-                        </label>
-                        <label>
-                            <input type="radio" name="warna" value="Putih" onchange="updateColor('Putih')">
-                            <span class="color-circle bg-white border" title="Putih"></span>
-                        </label>
-                        <label>
-                            <input type="radio" name="warna" value="Navy" onchange="updateColor('Navy')">
-                            <span class="color-circle" style="background: #000080;" title="Navy"></span>
+                    <span class="variant-label fw-bold d-block mb-2">Warna: <span id="colorName"
+                            class="fw-normal"><?= esc($product['color']) ?></span></span>
+                    <div class="color-selector d-flex gap-2">
+                        <?php 
+                            $colorName = $product['color'];
+                            $colorMap = ['Hitam'=>'#000', 'Putih'=>'#fff', 'Merah'=>'#dc3545', 'Biru'=>'#0d6efd', 'Navy'=>'#000080', 'Hijau'=>'#198754', 'Kuning'=>'#ffc107', 'Abu-abu'=>'#808080', 'Coklat'=>'#8b4513'];
+                            $hex = $colorMap[$colorName] ?? '#ccc';
+                        ?>
+                        <label style="cursor: pointer;">
+                            <input type="radio" name="warna" value="<?= $colorName ?>" checked class="d-none">
+                            <span class="color-circle border d-block rounded-circle"
+                                style="width: 30px; height: 30px; background: <?= $hex ?>; box-shadow: 0 0 0 2px #ddd;"
+                                title="<?= $colorName ?>"></span>
                         </label>
                     </div>
                 </div>
+                <?php endif; ?>
 
+                <?php if(!empty($product['size'])): ?>
                 <div class="mb-4">
-                    <div class="d-flex justify-content-between">
-                        <span class="variant-label">Ukuran</span>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="variant-label fw-bold">Ukuran</span>
                         <a href="#" class="text-decoration-none small text-muted text-decoration-underline"
-                            data-bs-toggle="modal" data-bs-target="#sizeChartModal">Lihat Panduan Ukuran</a>
+                            data-bs-toggle="modal" data-bs-target="#sizeChartModal">Lihat Panduan</a>
                     </div>
-                    <div class="size-selector">
-                        <label><input type="radio" name="size" value="S"><span class="size-btn">S</span></label>
-                        <label><input type="radio" name="size" value="M" checked><span class="size-btn">M</span></label>
-                        <label><input type="radio" name="size" value="L"><span class="size-btn">L</span></label>
-                        <label><input type="radio" name="size" value="XL"><span class="size-btn">XL</span></label>
-                        <label><input type="radio" name="size" value="XXL" disabled><span class="size-btn"
-                                title="Stok Habis">XXL</span></label>
+                    <div class="size-selector d-flex flex-wrap gap-2">
+                        <?php 
+                        $sizes = explode(',', $product['size']); // Pisahkan string "S, M, L" jadi array
+                        foreach($sizes as $idx => $size): 
+                            $size = trim($size); // Hapus spasi
+                        ?>
+                        <label>
+                            <input type="radio" name="size" value="<?= $size ?>" <?= $idx==0 ? 'checked' : '' ?>
+                                class="btn-check">
+                            <span class="btn btn-outline-dark btn-sm rounded-0 px-3"><?= $size ?></span>
+                        </label>
+                        <?php endforeach; ?>
                     </div>
                 </div>
+                <?php endif; ?>
 
                 <div class="d-flex align-items-center gap-3 mb-4">
                     <div class="d-flex align-items-center border rounded px-2" style="height: 48px;">
-                        <button class="btn-qty" onclick="updateQty(-1)">-</button>
-                        <input type="text" id="qtyVal" value="1" class="qty-input" readonly>
-                        <button class="btn-qty" onclick="updateQty(1)">+</button>
+                        <button class="btn btn-link text-dark text-decoration-none" onclick="updateQty(-1)">-</button>
+                        <input type="text" id="qtyVal" value="1" class="form-control border-0 text-center p-0"
+                            style="width: 40px;" readonly>
+                        <button class="btn btn-link text-dark text-decoration-none" onclick="updateQty(1)">+</button>
                     </div>
-                    <button class="btn-buy" style="height: 48px;">
-                        <i class="fas fa-shopping-bag me-2"></i> Tambah Keranjang yaa
+
+                    <button class="btn btn-dark flex-grow-1" style="height: 48px;">
+                        <i class="fas fa-shopping-bag me-2"></i> Tambah Keranjang
                     </button>
-                    <button class="btn-wishlist-outline" style="height: 48px;">
+
+                    <button class="btn btn-outline-secondary" style="height: 48px; width: 48px;">
                         <i class="far fa-heart"></i>
                     </button>
                 </div>
@@ -138,30 +138,7 @@ $produk = [
                         <div id="descCollapse" class="accordion-collapse collapse show"
                             data-bs-parent="#productAccordion">
                             <div class="accordion-body text-muted small">
-                                <p><?= $produk['desc'] ?></p>
-                                <ul class="feature-list ps-3">
-                                    <li>Bahan: Heavyweight Cotton 20s</li>
-                                    <li>Fitting: Oversized Boxy Cut</li>
-                                    <li>Kerah: Ribbed Crewneck tahan melar</li>
-                                    <li>Model pakai size L (Tinggi 178cm, Berat 70kg)</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#shipCollapse">
-                                Pengiriman & Retur
-                            </button>
-                        </h2>
-                        <div id="shipCollapse" class="accordion-collapse collapse" data-bs-parent="#productAccordion">
-                            <div class="accordion-body text-muted small">
-                                <p class="mb-1"><i class="fas fa-truck me-2"></i> Dikirim dari Denpasar, Bali.</p>
-                                <p class="mb-1"><i class="fas fa-clock me-2"></i> Pesanan sebelum 15:00 dikirim hari
-                                    yang sama.</p>
-                                <p class="mb-0"><i class="fas fa-undo me-2"></i> Garansi retur 7 hari jika salah ukuran
-                                    (S&K Berlaku).</p>
+                                <p><?= nl2br(esc($product['description'])) ?></p>
                             </div>
                         </div>
                     </div>
@@ -175,18 +152,21 @@ $produk = [
     <div class="mt-5 pt-5 border-top">
         <h4 class="fw-bold mb-4">Mungkin Kamu Suka</h4>
         <div class="row row-cols-2 row-cols-md-4 g-4">
-            <?php for ($i = 1; $i <= 4; $i++): ?>
-                <div class="col">
-                    <div class="card border-0 shadow-sm h-100">
-                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400" class="card-img-top"
-                            style="height: 250px; object-fit: cover;">
+            <?php foreach ($related as $rel): ?>
+            <div class="col">
+                <div class="card border-0 shadow-sm h-100 product-card">
+                    <a href="<?= base_url('detail/' . $rel['slug']) ?>" class="text-decoration-none text-dark">
+                        <img src="<?= base_url('uploads/products/' . ($rel['image'] ? $rel['image'] : 'default.jpg')) ?>"
+                            class="card-img-top" style="height: 250px; object-fit: cover;"
+                            alt="<?= esc($rel['name']) ?>">
                         <div class="card-body p-3">
-                            <h6 class="card-title text-truncate fw-bold mb-1">Basic Oversize Tee White</h6>
-                            <span class="fw-bold text-dark">Rp 149.000</span>
+                            <h6 class="card-title text-truncate fw-bold mb-1"><?= esc($rel['name']) ?></h6>
+                            <span class="fw-bold text-dark">Rp <?= number_format($rel['price'], 0, ',', '.') ?></span>
                         </div>
-                    </div>
+                    </a>
                 </div>
-            <?php endfor; ?>
+            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>
@@ -208,28 +188,17 @@ $produk = [
 </div>
 
 <script>
-    // Ganti Gambar Utama saat Thumbnail diklik
-    function changeImage(element, src) {
-        document.getElementById('mainImage').src = src;
-        // Reset active class
-        document.querySelectorAll('.thumb-btn').forEach(el => el.classList.remove('active'));
-        element.classList.add('active');
-    }
+// Fungsi Plus Minus Quantity
+function updateQty(change) {
+    let input = document.getElementById('qtyVal');
+    let current = parseInt(input.value);
+    let maxStock = <?= $product['stock'] ?>;
+    let newVal = current + change;
 
-    // Update Nama Warna saat diklik
-    function updateColor(colorName) {
-        document.getElementById('colorName').innerText = colorName;
+    if (newVal >= 1 && newVal <= maxStock) {
+        input.value = newVal;
     }
-
-    // Fungsi Plus Minus Quantity
-    function updateQty(change) {
-        let input = document.getElementById('qtyVal');
-        let current = parseInt(input.value);
-        let newVal = current + change;
-        if (newVal >= 1 && newVal <= <?= $produk['stok'] ?>) {
-            input.value = newVal;
-        }
-    }
+}
 </script>
 
 <?= $this->endSection(); ?>
