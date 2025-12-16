@@ -62,44 +62,39 @@ $flash_sale_data = [
     </div>
 </div>
 
-<div class="flash-section">
+<div class="section-gap" id="produk">
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-            <div class="d-flex align-items-center gap-3">
-                <h2 class="fw-bold mb-0 text-danger"><i class="fas fa-fire"></i> FLASH SALE</h2>
-                <div class="countdown-box bg-danger text-white px-3 py-1 rounded fw-bold" id="countdown">
-                    00 : 15 : <span id="seconds">00</span>
-                </div>
-            </div>
-            <a href="<?= base_url('kategori') ?>" class="text-danger fw-bold text-decoration-none">Lihat Semua <i
-                    class="fas fa-arrow-right"></i></a>
+        <div class="d-flex justify-content-between align-items-center mb-5 animate-up">
+            <h3 class="fw-bold display-6">Best Sellers 🔥</h3>
+            <a href="#" class="text-decoration-none text-dark fw-bold">Lihat Semua <i
+                    class="fas fa-arrow-right ms-2"></i></a>
         </div>
-
-        <div class="row g-3">
-            <?php if(empty($flash_sale_data)): ?>
-            <div class="col-12 text-center text-muted py-5">Belum ada promo aktif.</div>
+        <div class="row g-4">
+            <?php if(empty($best_sellers)): ?>
+            <div class="col-12 text-center text-muted">Belum ada data Best Sellers.</div>
             <?php else: ?>
-            <?php foreach ($flash_sale_data as $fs): ?>
-            <div class="col-6 col-md-3">
-                <div class="flash-card h-100">
-                    <div class="flash-badge bg-warning text-dark">HOT</div>
+            <?php foreach ($best_sellers as $b): ?>
+            <div class="col-md-3 col-6 animate-up">
+                <div class="card-custom h-100">
+                    <div class="position-relative">
+                        <span
+                            class="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 m-3 rounded-pill small fw-bold"
+                            style="font-size: 12px;">Hot</span>
 
-                    <img src="<?= $fs['image'] ?>" class="w-100" style="height: 250px; object-fit: cover;"
-                        alt="<?= esc($fs['name']) ?>"
-                        onerror="this.src='https://via.placeholder.com/250x250?text=No+Image'">
-
-                    <div class="p-3">
-                        <h6 class="fw-bold text-truncate"><?= esc($fs['name']) ?></h6>
-                        <div class="text-danger fw-bold fs-5">Rp <?= number_format($fs['price'], 0, ',', '.') ?></div>
-                        <small class="text-muted text-decoration-line-through">Rp
-                            <?= number_format($fs['old'], 0, ',', '.') ?></small>
-
-                        <div class="progress mt-2" style="height: 6px;">
-                            <div class="progress-bar bg-danger" style="width: 85%"></div>
+                        <img src="<?= base_url('uploads/products/' . ($b['image'] ?? 'default.jpg')) ?>"
+                            class="product-img" alt="<?= esc($b['name']) ?>"
+                            onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
+                    </div>
+                    <div class="card-body-custom">
+                        <small class="text-muted text-uppercase fw-bold">Premium</small>
+                        <h5 class="card-title fw-bold text-truncate mt-2 mb-3"><?= esc($b['name']) ?></h5>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-dark fs-5">Rp
+                                <?= number_format($b['price'], 0, ',', '.') ?></span>
+                            <div class="text-warning small">
+                                <i class="fas fa-star"></i> 5.0
+                            </div>
                         </div>
-                        <small class="text-danger" style="font-size: 10px;">Terjual Cepat!</small>
-
-                        <a href="<?= base_url('detail/' . $fs['slug']) ?>" class="stretched-link"></a>
                     </div>
                 </div>
             </div>
@@ -239,39 +234,41 @@ $flash_sale_data = [
     </div>
 </div>
 
-<div class="section-gap" id="produk">
+<div class="flash-section">
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-5 animate-up">
-            <h3 class="fw-bold display-6">Best Sellers 🔥</h3>
-            <a href="#" class="text-decoration-none text-dark fw-bold">Lihat Semua <i
-                    class="fas fa-arrow-right ms-2"></i></a>
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <h2 class="fw-bold mb-0 text-danger"><i class="fas fa-fire"></i> KATALOG</h2>
+            </div>
+            <a href="<?= base_url('kategori') ?>" class="text-danger fw-bold text-decoration-none">Lihat Semua <i
+                    class="fas fa-arrow-right"></i></a>
         </div>
-        <div class="row g-4">
-            <?php if(empty($best_sellers)): ?>
-            <div class="col-12 text-center text-muted">Belum ada data Best Sellers.</div>
-            <?php else: ?>
-            <?php foreach ($best_sellers as $b): ?>
-            <div class="col-md-3 col-6 animate-up">
-                <div class="card-custom h-100">
-                    <div class="position-relative">
-                        <span
-                            class="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 m-3 rounded-pill small fw-bold"
-                            style="font-size: 12px;">Hot</span>
 
-                        <img src="<?= base_url('uploads/products/' . ($b['image'] ?? 'default.jpg')) ?>"
-                            class="product-img" alt="<?= esc($b['name']) ?>"
-                            onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
-                    </div>
-                    <div class="card-body-custom">
-                        <small class="text-muted text-uppercase fw-bold">Premium</small>
-                        <h5 class="card-title fw-bold text-truncate mt-2 mb-3"><?= esc($b['name']) ?></h5>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="fw-bold text-dark fs-5">Rp
-                                <?= number_format($b['price'], 0, ',', '.') ?></span>
-                            <div class="text-warning small">
-                                <i class="fas fa-star"></i> 5.0
-                            </div>
+        <div class="row g-3">
+            <?php if(empty($flash_sale_data)): ?>
+            <div class="col-12 text-center text-muted py-5">Belum ada promo aktif.</div>
+            <?php else: ?>
+            <?php foreach ($flash_sale_data as $fs): ?>
+            <div class="col-6 col-md-3">
+                <div class="flash-card h-100">
+                    <div class="flash-badge bg-warning text-dark">HOT</div>
+
+                    <img src="<?= $fs['image'] ?>" class="w-100" style="height: 250px; object-fit: cover;"
+                        alt="<?= esc($fs['name']) ?>"
+                        onerror="this.src='https://via.placeholder.com/250x250?text=No+Image'">
+
+                    <div class="p-3">
+                        <h6 class="fw-bold text-truncate"><?= esc($fs['name']) ?></h6>
+                        <div class="text-danger fw-bold fs-5">Rp <?= number_format($fs['price'], 0, ',', '.') ?></div>
+                        <small class="text-muted text-decoration-line-through">Rp
+                            <?= number_format($fs['old'], 0, ',', '.') ?></small>
+
+                        <div class="progress mt-2" style="height: 6px;">
+                            <div class="progress-bar bg-danger" style="width: 85%"></div>
                         </div>
+                        <small class="text-danger" style="font-size: 10px;">Terjual Cepat!</small>
+
+                        <a href="<?= base_url('detail/' . $fs['slug']) ?>" class="stretched-link"></a>
                     </div>
                 </div>
             </div>
@@ -282,15 +279,6 @@ $flash_sale_data = [
 </div>
 
 <script>
-// 1. LOGIKA COUNTDOWN FLASH SALE
-setInterval(function() {
-    const d = new Date();
-    const seconds = 60 - d.getSeconds();
-    const displaySec = seconds < 10 ? '0' + seconds : seconds;
-    const secElement = document.getElementById('seconds');
-    if (secElement) secElement.innerText = displaySec;
-}, 1000);
-
 // 2. LOGIKA AUTO SCROLL NEW ARRIVALS
 const container = document.getElementById('produkScroll');
 let scrollAmount = 0;

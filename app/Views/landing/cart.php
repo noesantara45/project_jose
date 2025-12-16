@@ -84,33 +84,21 @@
                     <span>Termasuk</span>
                 </div>
 
-                <div class="input-group mt-4 mb-3">
-                    <input type="text" class="form-control form-control-sm" placeholder="Kode Voucher">
-                    <button class="btn btn-outline-dark btn-sm">Gunakan</button>
-                </div>
-
                 <div class="summary-total">
                     <span>Total Belanja</span>
                     <span id="total-val" class="text-primary">Rp
                         <?= number_format($total_belanja, 0, ',', '.') ?></span>
                 </div>
 
-                <a href="login" class="btn-checkout d-block text-center text-decoration-none">
+                <a href="co" class="btn-checkout d-block text-center text-decoration-none">
                     Lanjut ke Checkout
                 </a>
 
-                <div class="text-center mt-3">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
-                        height="20" class="mx-1 opacity-50">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/1200px-MasterCard_Logo.svg.png"
-                        height="20" class="mx-1 opacity-50">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" height="20"
-                        class="mx-1 opacity-50">
-                </div>
             </div>
         </div>
-
     </div>
+
+</div>
 </div>
 
 <script>

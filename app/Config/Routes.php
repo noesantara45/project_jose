@@ -11,6 +11,7 @@ $routes->get('/', 'Landing\\Home::index');
 $routes->get('kategori', 'Landing\\Kategori::kategori');
 $routes->get('detail/(:segment)', 'Landing\Detail::detail/$1');
 $routes->get('cart', 'Landing\\Cart::cart');
+$routes->get('co', 'Landing\\Home::checkout');
 
 $routes->get('about', 'Landing\\Pages::about');
 $routes->get('contact', 'Landing\\Pages::contact');

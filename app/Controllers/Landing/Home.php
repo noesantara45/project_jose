@@ -26,7 +26,7 @@ class Home extends BaseController
         // 2. LOGIKA BEST SELLER (Otomatis)
         // Aturan: Urutkan berdasarkan 'total_sold' terbanyak, ambil 4 produk.
         $best_sellers = $this->productModel
-            ->select('*') 
+            ->select('*')
             ->where('is_active', 1)
             ->orderBy('total_sold', 'DESC') // <--- Kunci Logika Best Seller
             ->findAll(4); // <--- Batas 4 Produk
@@ -38,7 +38,7 @@ class Home extends BaseController
             ->where('is_active', 1)
             ->orderBy('created_at', 'DESC') // <--- Kunci Logika New Arrival
             ->findAll(6); // <--- Batas 6 Produk (Sesuai Request Tuan)
-       
+
         $data = [
             'title' => 'Home - HLOutfit',
             'kategoris' => $kategoris,
@@ -47,5 +47,12 @@ class Home extends BaseController
         ];
 
         return view('landing/home', $data);
+    }
+    public function checkout()
+    {
+        $data = [
+            'title' => 'Checkout - HLOutfit'
+        ];
+        return view('landing/co', $data);
     }
 }

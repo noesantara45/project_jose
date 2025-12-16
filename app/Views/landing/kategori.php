@@ -2,7 +2,7 @@
 
 <?= $this->section('content'); ?>
 
-<div class="container pb-5">
+<div class="container pb-5" style="margin-top: 100px;">
 
     <nav aria-label="breadcrumb" class="mb-4 mt-3">
         <ol class="breadcrumb small text-uppercase">
@@ -212,19 +212,14 @@
 <script>
 function setFilter(type, value) {
     if (type === 'color') {
-        // Jika klik warna yang sama, hapus filter (toggle)
         const current = document.getElementById('inputColor').value;
         document.getElementById('inputColor').value = (current === value) ? '' : value;
     } else if (type === 'size') {
-        // Jika klik size yang sama, hapus filter (toggle)
         const current = document.getElementById('inputSize').value;
         document.getElementById('inputSize').value = (current === value) ? '' : value;
     }
-    // Langsung submit form biar user nggak usah pencet tombol 'Terapkan' lagi (Optional)
-    // document.getElementById('filterForm').submit(); 
-
-    // ATAU: Update tampilan visual saja, user harus klik 'Terapkan Filter' (Sesuai request Tuan)
-    // Kita biarkan user klik tombol manual agar tidak loading terus.
+    // Langsung submit form biar user nggak usah pencet tombol 'Terapkan' lagi
+    document.getElementById('filterForm').submit();
 }
 </script>
 
