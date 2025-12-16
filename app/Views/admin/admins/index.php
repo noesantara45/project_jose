@@ -5,15 +5,40 @@
 <div class="table-container">
     <div class="table-header">
         <h2>Kelola Admin</h2>
-        <button class="btn btn-success" onclick="openModal()">
+        <button class="btn btn-success" onclick="openModal('add')">
             <i class="fas fa-plus"></i> Tambah Admin
         </button>
     </div>
 
+    <?php if (session()->getFlashdata('success')) : ?>
+    <div class="alert alert-success"
+        style="padding: 10px; background: #d4edda; color: #155724; margin-bottom: 15px; border-radius: 5px;">
+        <?= session()->getFlashdata('success') ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if (session()->getFlashdata('error')) : ?>
+    <div class="alert alert-danger"
+        style="padding: 10px; background: #f8d7da; color: #721c24; margin-bottom: 15px; border-radius: 5px;">
+        <?= session()->getFlashdata('error') ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if (session()->getFlashdata('errors')) : ?>
+    <div class="alert alert-danger"
+        style="padding: 10px; background: #f8d7da; color: #721c24; margin-bottom: 15px; border-radius: 5px;">
+        <ul>
+            <?php foreach (session()->getFlashdata('errors') as $error) : ?>
+            <li><?= esc($error) ?></li>
+            <?php endforeach ?>
+        </ul>
+    </div>
+    <?php endif; ?>
+
     <table class="data-table">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Username</th>
                 <th>Nama Lengkap</th>
                 <th>Tanggal Dibuat</th>
@@ -21,54 +46,43 @@
             </tr>
         </thead>
         <tbody>
+            <?php if(!empty($admins)): ?>
+            <?php foreach($admins as $i => $admin): ?>
             <tr>
-                <td><strong>1</strong></td>
-                <td>admin</td>
-                <td>Super Admin</td>
-                <td>13 Des 2025, 16:36</td>
+                <td><strong><?= $i + 1 ?></strong></td>
+                <td><?= esc($admin['username']) ?></td>
+                <td><?= esc($admin['name']) ?></td>
+                <td><?= date('d M Y, H:i', strtotime($admin['created_at'])) ?></td>
                 <td>
-                    <button class="btn btn-warning btn-sm" onclick="editAdmin(1, 'admin', 'Super Admin')">
+                    <button class="btn btn-warning btn-sm" onclick="editAdmin(
+                                '<?= $admin['id'] ?>', 
+                                '<?= esc($admin['username']) ?>', 
+                                '<?= esc($admin['name']) ?>'
+                            )">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteAdmin(1)" disabled
-                        title="Tidak bisa hapus super admin">
+
+                    <?php if($admin['id'] != 1): ?>
+                    <button class="btn btn-danger btn-sm" onclick="deleteAdmin(<?= $admin['id'] ?>)">
                         <i class="fas fa-trash"></i>
                     </button>
+                    <?php else: ?>
+                    <button class="btn btn-secondary btn-sm" disabled title="Super Admin tidak bisa dihapus">
+                        <i class="fas fa-lock"></i>
+                    </button>
+                    <?php endif; ?>
                 </td>
             </tr>
+            <?php endforeach; ?>
+            <?php else: ?>
             <tr>
-                <td><strong>2</strong></td>
-                <td>manager</td>
-                <td>Manager Toko</td>
-                <td>13 Des 2025, 17:00</td>
-                <td>
-                    <button class="btn btn-warning btn-sm" onclick="editAdmin(2, 'manager', 'Manager Toko')">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteAdmin(2)">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
+                <td colspan="5" style="text-align:center;">Belum ada data admin.</td>
             </tr>
-            <tr>
-                <td><strong>3</strong></td>
-                <td>staff</td>
-                <td>Staff Admin</td>
-                <td>13 Des 2025, 18:15</td>
-                <td>
-                    <button class="btn btn-warning btn-sm" onclick="editAdmin(3, 'staff', 'Staff Admin')">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteAdmin(3)">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
+            <?php endif; ?>
         </tbody>
     </table>
 </div>
 
-<!-- Modal Form -->
 <div class="modal" id="adminModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -78,7 +92,8 @@
             </button>
         </div>
         <div class="modal-body">
-            <form id="adminForm">
+            <form id="adminForm" action="<?= base_url('admin/admins/save') ?>" method="post">
+                <?= csrf_field() ?>
                 <input type="hidden" id="admin_id" name="id">
 
                 <div class="form-group">
@@ -94,16 +109,17 @@
                 </div>
 
                 <div class="form-group" id="passwordGroup">
-                    <label>Password <span style="color: red;">*</span></label>
+                    <label>Password <span id="starPassword" style="color: red;">*</span></label>
                     <input type="password" id="admin_password" name="password" class="form-control"
-                        placeholder="Minimal 6 karakter" required>
-                    <small style="color: var(--text-light);">Kosongkan jika tidak ingin mengubah password</small>
+                        placeholder="Minimal 6 karakter">
+                    <small id="passHelp" style="color: var(--text-light); display:none;">Kosongkan jika tidak ingin
+                        mengubah password</small>
                 </div>
 
                 <div class="form-group">
-                    <label>Konfirmasi Password <span style="color: red;">*</span></label>
+                    <label>Konfirmasi Password <span id="starConfirm" style="color: red;">*</span></label>
                     <input type="password" id="admin_confirm_password" name="confirm_password" class="form-control"
-                        placeholder="Ulangi password" required>
+                        placeholder="Ulangi password">
                 </div>
 
                 <div class="form-actions">
@@ -118,8 +134,6 @@
         </div>
     </div>
 </div>
-
-<?= $this->endSection() ?>
 
 <style>
 .modal {
@@ -140,7 +154,7 @@
 }
 
 .modal-content {
-    background: var(--bg-white);
+    background: #fff;
     border-radius: 12px;
     width: 90%;
     max-width: 500px;
@@ -162,7 +176,7 @@
 
 .modal-header {
     padding: 20px 25px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid #eee;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -171,109 +185,142 @@
 .modal-header h3 {
     font-size: 18px;
     font-weight: 600;
-    color: var(--text-dark);
+    color: #333;
+    margin: 0;
 }
 
 .modal-close {
     background: none;
     border: none;
     font-size: 20px;
-    color: var(--text-light);
+    color: #999;
     cursor: pointer;
-    padding: 5px;
-}
-
-.modal-close:hover {
-    color: var(--danger-color);
 }
 
 .modal-body {
     padding: 25px;
 }
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
 </style>
 
 <script>
-const modal = document.getElementById('adminModal');
-const modalTitle = document.getElementById('modalTitle');
-const adminForm = document.getElementById('adminForm');
-const passwordGroup = document.getElementById('passwordGroup');
-const btnSubmit = document.getElementById('btnSubmit');
+// Pastikan script jalan setelah DOM loaded
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('adminModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const adminForm = document.getElementById('adminForm');
+    const passHelp = document.getElementById('passHelp');
+    const btnSubmit = document.getElementById('btnSubmit');
 
-// Open modal
-function openModal() {
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
+    // Inputs
+    const inputId = document.getElementById('admin_id');
+    const inputUser = document.getElementById('admin_username');
+    const inputName = document.getElementById('admin_name');
+    const inputPass = document.getElementById('admin_password');
+    const inputConfirm = document.getElementById('admin_confirm_password');
+    const starPass = document.getElementById('starPassword');
+    const starConfirm = document.getElementById('starConfirm');
 
-// Close modal
-function closeModal() {
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-    resetForm();
-}
+    // Kita attach function ke window supaya bisa dipanggil onclick dari HTML
+    window.openModal = function(mode) {
+        resetForm();
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
 
-// Reset form
-function resetForm() {
-    adminForm.reset();
-    document.getElementById('admin_id').value = '';
-    modalTitle.textContent = 'Tambah Admin Baru';
-    btnSubmit.textContent = 'Simpan Admin';
-    document.getElementById('admin_password').required = true;
-    document.getElementById('admin_confirm_password').required = true;
-    passwordGroup.querySelector('small').style.display = 'none';
-}
+        if (mode === 'add') {
+            modalTitle.textContent = 'Tambah Admin Baru';
+            btnSubmit.textContent = 'Simpan Admin';
 
-// Edit admin
-function editAdmin(id, username, name) {
-    document.getElementById('admin_id').value = id;
-    document.getElementById('admin_username').value = username;
-    document.getElementById('admin_name').value = name;
-    document.getElementById('admin_password').value = '';
-    document.getElementById('admin_confirm_password').value = '';
+            // Password Wajib saat Add
+            inputPass.required = true;
+            inputConfirm.required = true;
+            starPass.style.display = 'inline';
+            starConfirm.style.display = 'inline';
+            passHelp.style.display = 'none';
+        }
+    };
 
-    modalTitle.textContent = 'Edit Admin';
-    btnSubmit.textContent = 'Update Admin';
-    document.getElementById('admin_password').required = false;
-    document.getElementById('admin_confirm_password').required = false;
-    passwordGroup.querySelector('small').style.display = 'block';
+    window.closeModal = function() {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    };
 
-    openModal();
-}
+    window.resetForm = function() {
+        adminForm.reset();
+        inputId.value = '';
+    };
 
-// Delete admin
-function deleteAdmin(id) {
-    if (confirm('Apakah Anda yakin ingin menghapus admin ini?')) {
-        // Ajax delete atau redirect
-        window.location.href = '<?= base_url('admin/admins/delete/') ?>' + id;
-    }
-}
+    window.editAdmin = function(id, username, name) {
+        resetForm(); // Bersihkan dulu
 
-// Form validation
-adminForm.addEventListener('submit', function(e) {
-    e.preventDefault();
+        // Isi data ke form
+        inputId.value = id;
+        inputUser.value = username;
+        inputName.value = name;
 
-    const password = document.getElementById('admin_password').value;
-    const confirmPassword = document.getElementById('admin_confirm_password').value;
+        // UI Adjustments
+        modalTitle.textContent = 'Edit Admin';
+        btnSubmit.textContent = 'Update Admin';
 
-    if (password && password !== confirmPassword) {
-        alert('Password dan konfirmasi password tidak cocok!');
-        return false;
-    }
+        // Password Opsional saat Edit
+        inputPass.required = false;
+        inputConfirm.required = false;
+        starPass.style.display = 'none';
+        starConfirm.style.display = 'none';
+        passHelp.style.display = 'block';
 
-    if (password && password.length < 6) {
-        alert('Password minimal 6 karakter!');
-        return false;
-    }
+        modal.classList.add('active');
+    };
 
-    // Ajax submit atau normal submit
-    alert('Admin berhasil disimpan!');
-    closeModal();
-});
+    window.deleteAdmin = function(id) {
+        if (confirm('Apakah Anda yakin ingin menghapus admin ini? Data tidak bisa dikembalikan.')) {
+            window.location.href = '<?= base_url('admin/admins/delete/') ?>' + id;
+        }
+    };
 
-// Close modal on outside click
-modal.addEventListener('click', function(e) {
-    if (e.target === modal) {
-        closeModal();
-    }
+    // Form Validation
+    adminForm.addEventListener('submit', function(e) {
+        const password = inputPass.value;
+        const confirmPassword = inputConfirm.value;
+
+        if (password && password !== confirmPassword) {
+            e.preventDefault();
+            alert('Password dan konfirmasi password tidak cocok!');
+            return false;
+        }
+    });
+
+    // Close modal on outside click
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
 });
 </script>
+
+<?= $this->endSection() ?>

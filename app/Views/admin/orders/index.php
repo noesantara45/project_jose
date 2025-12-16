@@ -5,17 +5,36 @@
 <div class="table-container">
     <div class="table-header">
         <h2>Kelola Order</h2>
-        <div class="table-actions">
-            <input type="text" class="form-control search-input" placeholder="Cari invoice atau customer..."
-                style="width: 300px;">
-            <select class="form-control" style="width: 150px;">
+        <form action="" method="get" class="table-actions">
+            <input type="text" name="keyword" class="form-control search-input" placeholder="Cari invoice atau nama..."
+                value="<?= esc($keyword) ?>" style="width: 250px;">
+
+            <select name="status" class="form-control" style="width: 150px;" onchange="this.form.submit()">
                 <option value="">Semua Status</option>
-                <option value="pending">Pending</option>
-                <option value="paid">Paid</option>
-                <option value="failed">Failed</option>
+                <option value="pending" <?= $filter_status == 'pending' ? 'selected' : '' ?>>Pending</option>
+                <option value="paid" <?= $filter_status == 'paid' ? 'selected' : '' ?>>Paid</option>
+                <option value="failed" <?= $filter_status == 'failed' ? 'selected' : '' ?>>Failed</option>
+                <option value="expired" <?= $filter_status == 'expired' ? 'selected' : '' ?>>Expired</option>
             </select>
-        </div>
+
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="fas fa-search"></i> Cari
+            </button>
+        </form>
     </div>
+
+    <?php if (session()->getFlashdata('success')) : ?>
+    <div class="alert alert-success"
+        style="padding: 10px; background: #d4edda; color: #155724; margin-bottom: 15px; border-radius: 5px;">
+        <?= session()->getFlashdata('success') ?>
+    </div>
+    <?php endif; ?>
+    <?php if (session()->getFlashdata('error')) : ?>
+    <div class="alert alert-danger"
+        style="padding: 10px; background: #f8d7da; color: #721c24; margin-bottom: 15px; border-radius: 5px;">
+        <?= session()->getFlashdata('error') ?>
+    </div>
+    <?php endif; ?>
 
     <table class="data-table">
         <thead>
@@ -30,126 +49,81 @@
             </tr>
         </thead>
         <tbody>
+            <?php if(!empty($orders)): ?>
+            <?php foreach($orders as $order): ?>
             <tr>
-                <td><strong>INV-2025001</strong></td>
+                <td><strong><?= esc($order['invoice_number']) ?></strong></td>
                 <td>
-                    <div>Budi Santoso</div>
-                    <small style="color: #6b7280;">budi@gmail.com</small>
+                    <div><?= esc($order['recipient_name'] ?: $order['user_fullname']) ?></div>
+                    <small style="color: #6b7280;"><?= esc($order['user_email']) ?></small>
                 </td>
-                <td><strong>Rp 15.000.000</strong></td>
-                <td><span class="badge badge-success">Paid</span></td>
-                <td><span class="badge badge-info">Processing</span></td>
-                <td>13 Des 2025, 14:30</td>
+                <td><strong>Rp <?= number_format($order['total_price'], 0, ',', '.') ?></strong></td>
+
                 <td>
-                    <a href="<?= base_url('admin/orders/detail/1') ?>" class="btn btn-primary btn-sm">
+                    <?php 
+                            $payStatus = $order['payment_status'];
+                            $payBadge = 'secondary';
+                            if($payStatus == 'paid') $payBadge = 'success';
+                            elseif($payStatus == 'pending') $payBadge = 'warning';
+                            elseif($payStatus == 'failed' || $payStatus == 'expired') $payBadge = 'danger';
+                        ?>
+                    <span class="badge badge-<?= $payBadge ?>">
+                        <?= ucfirst($payStatus) ?>
+                    </span>
+                </td>
+
+                <td>
+                    <?php 
+                            $ordStatus = $order['order_status'];
+                            $ordBadge = 'secondary';
+                            if($ordStatus == 'completed') $ordBadge = 'success';
+                            elseif($ordStatus == 'processing') $ordBadge = 'info';
+                            elseif($ordStatus == 'shipped') $ordBadge = 'primary'; // Biru tua/ungu
+                            elseif($ordStatus == 'cancelled') $ordBadge = 'danger';
+                        ?>
+                    <span class="badge badge-<?= $ordBadge ?>">
+                        <?= ucfirst($ordStatus) ?>
+                    </span>
+                </td>
+
+                <td><?= date('d M Y, H:i', strtotime($order['created_at'])) ?></td>
+                <td>
+                    <a href="<?= base_url('admin/orders/detail/' . $order['id']) ?>" class="btn btn-primary btn-sm"
+                        title="Lihat Detail">
                         <i class="fas fa-eye"></i>
                     </a>
-                    <button class="btn btn-success btn-sm" title="Update Status">
-                        <i class="fas fa-edit"></i>
-                    </button>
                 </td>
             </tr>
+            <?php endforeach; ?>
+            <?php else: ?>
             <tr>
-                <td><strong>INV-2025002</strong></td>
-                <td>
-                    <div>Siti Nurhaliza</div>
-                    <small style="color: #6b7280;">siti@gmail.com</small>
-                </td>
-                <td><strong>Rp 150.000</strong></td>
-                <td><span class="badge badge-warning">Pending</span></td>
-                <td><span class="badge badge-warning">Pending</span></td>
-                <td>13 Des 2025, 13:15</td>
-                <td>
-                    <a href="<?= base_url('admin/orders/detail/2') ?>" class="btn btn-primary btn-sm">
-                        <i class="fas fa-eye"></i>
-                    </a>
-                    <button class="btn btn-success btn-sm" title="Update Status">
-                        <i class="fas fa-edit"></i>
-                    </button>
+                <td colspan="7" style="text-align: center; padding: 20px;">
+                    Data order tidak ditemukan.
                 </td>
             </tr>
-            <tr>
-                <td><strong>INV-2025003</strong></td>
-                <td>
-                    <div>Ahmad Dahlan</div>
-                    <small style="color: #6b7280;">ahmad@gmail.com</small>
-                </td>
-                <td><strong>Rp 300.000</strong></td>
-                <td><span class="badge badge-success">Paid</span></td>
-                <td><span class="badge badge-success">Completed</span></td>
-                <td>12 Des 2025, 10:20</td>
-                <td>
-                    <a href="<?= base_url('admin/orders/detail/3') ?>" class="btn btn-primary btn-sm">
-                        <i class="fas fa-eye"></i>
-                    </a>
-                    <button class="btn btn-success btn-sm" title="Update Status">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>INV-2025004</strong></td>
-                <td>
-                    <div>Dewi Lestari</div>
-                    <small style="color: #6b7280;">dewi@gmail.com</small>
-                </td>
-                <td><strong>Rp 450.000</strong></td>
-                <td><span class="badge badge-danger">Failed</span></td>
-                <td><span class="badge badge-danger">Cancelled</span></td>
-                <td>12 Des 2025, 09:45</td>
-                <td>
-                    <a href="<?= base_url('admin/orders/detail/4') ?>" class="btn btn-primary btn-sm">
-                        <i class="fas fa-eye"></i>
-                    </a>
-                    <button class="btn btn-success btn-sm" title="Update Status">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>INV-2025005</strong></td>
-                <td>
-                    <div>Rina Wati</div>
-                    <small style="color: #6b7280;">rina@gmail.com</small>
-                </td>
-                <td><strong>Rp 750.000</strong></td>
-                <td><span class="badge badge-success">Paid</span></td>
-                <td><span class="badge badge-info">Shipped</span></td>
-                <td>11 Des 2025, 16:00</td>
-                <td>
-                    <a href="<?= base_url('admin/orders/detail/5') ?>" class="btn btn-primary btn-sm">
-                        <i class="fas fa-eye"></i>
-                    </a>
-                    <button class="btn btn-success btn-sm" title="Update Status">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                </td>
-            </tr>
+            <?php endif; ?>
         </tbody>
     </table>
 
-    <!-- Pagination -->
     <div class="pagination-container">
         <div class="pagination-info">
-            Menampilkan 1 - 5 dari 50 order
+            Menampilkan halaman <?= $pager->getCurrentPage('orders') ?> dari <?= $pager->getPageCount('orders') ?>
         </div>
-        <div class="pagination">
-            <button class="btn btn-sm" disabled>
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="btn btn-sm btn-primary">1</button>
-            <button class="btn btn-sm">2</button>
-            <button class="btn btn-sm">3</button>
-            <button class="btn btn-sm">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+        <div class="pagination-links">
+            <?= $pager->links('orders', 'default_full') ?>
         </div>
     </div>
 </div>
 
-<?= $this->endSection() ?>
+
 
 <style>
+.table-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
 .search-input {
     display: inline-block;
 }
@@ -168,8 +142,30 @@
     font-size: 14px;
 }
 
-.pagination {
+/* Styling Pagination Bawaan CodeIgniter agar sesuai tema */
+.pagination-links ul {
     display: flex;
+    list-style: none;
+    padding: 0;
     gap: 5px;
 }
+
+.pagination-links li a,
+.pagination-links li span {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.pagination-links li.active a,
+.pagination-links li.active span {
+    background-color: var(--primary-color);
+    /* Sesuaikan warna primary boss */
+    color: white;
+    border-color: var(--primary-color);
+}
 </style>
+<?= $this->endSection() ?>
