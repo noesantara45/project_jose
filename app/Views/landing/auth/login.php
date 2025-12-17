@@ -1,43 +1,103 @@
-<?= $this->extend('landing/layout/template'); ?>
+<!DOCTYPE html>
+<html lang="en">
 
-<?= $this->section('content'); ?>
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                    <h3 class="fw-bold text-center mb-4">Login User</h3>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - HLOutfit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="<?= base_url('assets/css/landing/main.css') ?>">
+</head>
+
+<body>
+
+    <div class="container-fluid p-0 overflow-hidden">
+        <div class="row g-0 min-vh-100">
+
+            <div class="col-md-6 col-lg-7 d-none d-md-block position-relative">
+                <div class="bg-login-image"></div>
+
+                <div class="login-img-overlay">
+                    <h2 class="text-white fw-900 display-4">STREET<br>AESTHETIC.</h2>
+                    <p class="text-white-50 ls-1">Elevate your daily style with HLOutfit.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-5 d-flex align-items-center justify-content-center bg-white">
+                <div class="login-form-wrapper">
+
+                    <div class="mb-5">
+                        <h1 class="fw-900 mb-1" style="font-size: 2.5rem;">Hello.</h1>
+                        <p class="text-muted">Welcome back to HLOutfit.</p>
+                    </div>
 
                     <?php if (session()->getFlashdata('error')) : ?>
-                        <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+                        <div class="alert alert-danger py-2 border-0 rounded-3 small mb-4">
+                            <?= session()->getFlashdata('error') ?>
+                        </div>
                     <?php endif; ?>
+
                     <?php if (session()->getFlashdata('success')) : ?>
-                        <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
+                        <div class="alert alert-success py-2 border-0 rounded-3 small mb-4">
+                            <?= session()->getFlashdata('success') ?>
+                        </div>
                     <?php endif; ?>
 
                     <form action="<?= base_url('auth/login') ?>" method="post">
                         <?= csrf_field() ?>
 
-                        <div class="mb-3">
-                            <label class="form-label">Email Address</label>
-                            <input type="email" name="email" class="form-control" value="<?= old('email') ?>" required>
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold text-uppercase text-muted ls-1">Email</label>
+                            <input type="email" name="email" class="form-control modern-input"
+                                placeholder="name@example.com" required>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" required>
+                            <div class="d-flex justify-content-between mb-1">
+                                <label class="form-label small fw-bold text-uppercase text-muted ls-1">Password</label>
+                                <a href="#" class="small text-dark fw-bold text-decoration-none">Lupa?</a>
+                            </div>
+                            <div class="position-relative">
+                                <input type="password" name="password" id="passwordInput"
+                                    class="form-control modern-input pe-5" placeholder="Enter password" required>
+                                <i class="far fa-eye text-muted position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer"
+                                    id="toggleIcon" onclick="togglePassword()" style="cursor: pointer;"></i>
+                            </div>
                         </div>
 
-                        <button type="submit" class="btn btn-dark w-100 py-2">Masuk</button>
+                        <div class="d-grid gap-2 mt-5">
+                            <button type="submit" class="btn-login">MASUK SEKARANG</button>
+                        </div>
                     </form>
 
-                    <div class="text-center mt-3">
-                        <small>Belum punya akun? <a href="<?= base_url('register') ?>"
-                                class="text-decoration-none fw-bold">Daftar disini</a></small>
+                    <div class="text-center mt-5 pt-3 border-top">
+                        <small class="text-muted">Belum punya akun?
+                            <a href="<?= base_url('register') ?>"
+                                class="text-dark fw-bold text-decoration-underline">Daftar disini</a>
+                        </small>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
-<?= $this->endSection(); ?>
+
+    <script>
+        function togglePassword() {
+            var x = document.getElementById("passwordInput");
+            var icon = document.getElementById("toggleIcon");
+            if (x.type === "password") {
+                x.type = "text";
+                icon.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                x.type = "password";
+                icon.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        }
+    </script>
+</body>
+
+</html>
