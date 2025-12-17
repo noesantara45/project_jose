@@ -72,8 +72,8 @@
                     }
                     ?>
 
-                    <a href="<?= base_url('cart') ?>" class="btn position-relative p-0 me-2 btn-cart-icon">
-                        <i class="fas fa-shopping-bag fa-lg"></i>
+                    <a href="<?= base_url('cart') ?>" class="btn-cart-nav me-3">
+                        <i class="fas fa-shopping-bag"></i>
 
                         <?php if ($total_cart_items > 0) : ?>
                             <span class="cart-badge">

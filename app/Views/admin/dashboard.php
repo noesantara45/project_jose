@@ -64,48 +64,48 @@
             </tr>
         </thead>
         <tbody>
-            <?php if(!empty($recent_orders)): ?>
-            <?php foreach($recent_orders as $order): ?>
-            <tr>
-                <td><strong><?= esc($order['invoice_number']) ?></strong></td>
-                <td>
-                    <?= esc($order['recipient_name']) ?>
-                    <div style="font-size: 11px; color: #888;"><?= esc($order['recipient_phone']) ?></div>
-                </td>
-                <td>Rp <?= number_format($order['total_price'], 0, ',', '.') ?></td>
+            <?php if (!empty($recent_orders)): ?>
+                <?php foreach ($recent_orders as $order): ?>
+                    <tr>
+                        <td><strong><?= esc($order['invoice_number']) ?></strong></td>
+                        <td>
+                            <?= esc($order['recipient_name']) ?>
+                            <div style="font-size: 11px; color: #888;"><?= esc($order['recipient_phone']) ?></div>
+                        </td>
+                        <td>Rp <?= number_format($order['total_price'], 0, ',', '.') ?></td>
 
-                <td>
-                    <?php 
+                        <td>
+                            <?php
                             $payBadge = 'secondary';
-                            if($order['payment_status'] == 'paid') $payBadge = 'success';
-                            elseif($order['payment_status'] == 'pending') $payBadge = 'warning';
-                            elseif($order['payment_status'] == 'failed') $payBadge = 'danger';
-                        ?>
-                    <span class="badge badge-<?= $payBadge ?>">
-                        <?= ucfirst($order['payment_status']) ?>
-                    </span>
-                </td>
+                            if ($order['payment_status'] == 'paid') $payBadge = 'success';
+                            elseif ($order['payment_status'] == 'pending') $payBadge = 'warning';
+                            elseif ($order['payment_status'] == 'failed') $payBadge = 'danger';
+                            ?>
+                            <span class="badge badge-<?= $payBadge ?>">
+                                <?= ucfirst($order['payment_status']) ?>
+                            </span>
+                        </td>
 
-                <td>
-                    <?php 
+                        <td>
+                            <?php
                             $ordBadge = 'secondary';
-                            if($order['order_status'] == 'completed') $ordBadge = 'success';
-                            elseif($order['order_status'] == 'processing') $ordBadge = 'info';
-                            elseif($order['order_status'] == 'shipped') $ordBadge = 'primary';
-                            elseif($order['order_status'] == 'cancelled') $ordBadge = 'danger';
-                        ?>
-                    <span class="badge badge-<?= $ordBadge ?>">
-                        <?= ucfirst($order['order_status']) ?>
-                    </span>
-                </td>
+                            if ($order['order_status'] == 'completed') $ordBadge = 'success';
+                            elseif ($order['order_status'] == 'processing') $ordBadge = 'info';
+                            elseif ($order['order_status'] == 'shipped') $ordBadge = 'primary';
+                            elseif ($order['order_status'] == 'cancelled') $ordBadge = 'danger';
+                            ?>
+                            <span class="badge badge-<?= $ordBadge ?>">
+                                <?= ucfirst($order['order_status']) ?>
+                            </span>
+                        </td>
 
-                <td><?= date('d M Y', strtotime($order['created_at'])) ?></td>
-            </tr>
-            <?php endforeach; ?>
+                        <td><?= date('d M Y', strtotime($order['created_at'])) ?></td>
+                    </tr>
+                <?php endforeach; ?>
             <?php else: ?>
-            <tr>
-                <td colspan="6" style="text-align: center; padding: 20px;">Belum ada transaksi terbaru.</td>
-            </tr>
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 20px;">Belum ada transaksi terbaru.</td>
+                </tr>
             <?php endif; ?>
         </tbody>
     </table>
@@ -130,28 +130,28 @@
             </tr>
         </thead>
         <tbody>
-            <?php if(!empty($top_products)): ?>
-            <?php foreach($top_products as $product): ?>
-            <tr>
-                <td><strong><?= esc($product['product_name']) ?></strong></td>
-                <td>
-                    <span style="background: #f0f0f0; padding: 2px 8px; border-radius: 10px; font-size: 12px;">
-                        <?= esc($product['category_name'] ?? 'Uncategorized') ?>
-                    </span>
-                </td>
-                <td>Rp <?= number_format($product['price'], 0, ',', '.') ?></td>
-                <td><?= number_format($product['stock']) ?> unit</td>
-                <td>
-                    <strong style="color: var(--primary-color);">
-                        <?= number_format($product['total_sold']) ?> Sold
-                    </strong>
-                </td>
-            </tr>
-            <?php endforeach; ?>
+            <?php if (!empty($top_products)): ?>
+                <?php foreach ($top_products as $product): ?>
+                    <tr>
+                        <td><strong><?= esc($product['product_name']) ?></strong></td>
+                        <td>
+                            <span style="background: #f0f0f0; padding: 2px 8px; border-radius: 10px; font-size: 12px;">
+                                <?= esc($product['category_name'] ?? 'Uncategorized') ?>
+                            </span>
+                        </td>
+                        <td>Rp <?= number_format($product['price'], 0, ',', '.') ?></td>
+                        <td><?= number_format($product['stock']) ?> unit</td>
+                        <td>
+                            <strong style="color: var(--primary-color);">
+                                <?= number_format($product['total_sold']) ?> Sold
+                            </strong>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             <?php else: ?>
-            <tr>
-                <td colspan="5" style="text-align: center; padding: 20px;">Belum ada data penjualan.</td>
-            </tr>
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 20px;">Belum ada data penjualan.</td>
+                </tr>
             <?php endif; ?>
         </tbody>
     </table>

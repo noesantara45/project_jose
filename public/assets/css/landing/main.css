@@ -189,6 +189,56 @@ main {
   border-radius: 50%;
 }
 
+/* =========================================
+   FIXED CART ICON STYLES
+   ========================================= */
+.btn-cart-nav {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* Membuat bulat */
+    background-color: #fff;
+    border: 1px solid #e5e7eb; /* Border abu halus */
+    color: #111;
+    text-decoration: none !important; /* Hapus garis bawah/coret */
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.btn-cart-nav:hover {
+    background-color: #111;
+    border-color: #111;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.btn-cart-nav i {
+    font-size: 18px; /* Ukuran ikon pas */
+}
+
+/* Badge Merah */
+.cart-badge {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    background: #dc3545; /* Merah */
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #fff; /* Ring putih pemisah */
+}
+
 /* ==========================================================================
    3. FOOTER STYLES (MINIMALIST VERSION)
    ========================================================================== */
@@ -944,248 +994,295 @@ body {
   margin-bottom: 20px;
 }
 
-/* detail */
-/* 1. Gallery Layout */
-.product-gallery {
-  position: relative;
+/* =========================================
+   PAGE: DETAIL PRODUK (PREMIUM STYLE)
+   ========================================= */
+
+/* 1. Layout & Breadcrumb */
+.breadcrumb-custom .breadcrumb-item a {
+    color: #888;
+    text-decoration: none;
+    font-size: 13px;
+}
+.breadcrumb-custom .breadcrumb-item.active {
+    color: #111;
+    font-weight: 600;
+    font-size: 13px;
 }
 
-.main-image-wrap {
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 15px;
-  cursor: zoom-in;
-  /* Indikasi bisa di-zoom */
-  background: #f9f9f9;
-  aspect-ratio: 3/4;
-  /* Portrait Fashion */
+/* 2. Galeri Foto */
+.gallery-wrapper {
+    position: relative;
 }
 
-.main-img-display {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: 0.3s;
+.main-img-box {
+    width: 52%;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    background: #f8f9fa;
+    aspect-ratio: 4/5; /* Rasio Portrait Fashion */
+    cursor: zoom-in;
+    border: 1px solid #eee;
 }
 
-.thumbnail-list {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
+.main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
 }
 
-.thumb-btn {
-  width: 70px;
-  height: 90px;
-  border: 2px solid transparent;
-  border-radius: 8px;
-  cursor: pointer;
-  overflow: hidden;
-  opacity: 0.7;
-  transition: 0.2s;
+.main-img:hover {
+    transform: scale(1.08);
 }
 
-.thumb-btn.active,
-.thumb-btn:hover {
-  border-color: #000;
-  opacity: 1;
+.stock-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #d32f2f;
+    color: white;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 2;
+}
+
+.thumb-list {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.thumb-item {
+    width: 70px;
+    height: 90px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.2s;
+    border: 2px solid transparent;
+}
+
+.thumb-item.active, .thumb-item:hover {
+    opacity: 1;
+    border-color: #111;
 }
 
 .thumb-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* 2. Product Info (Sticky di Kanan) */
+/* 3. Info Produk Sticky */
 .product-info-sticky {
-  position: sticky;
-  top: 100px;
-  /* Jarak dari navbar */
+    position: sticky;
+    top: 100px;
 }
 
-.p-brand {
-  font-weight: 700;
-  color: #999;
-  text-transform: uppercase;
-  font-size: 13px;
-  letter-spacing: 1px;
+.brand-tag {
+    font-size: 12px;
+    font-weight: 800;
+    color: #999;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
 }
 
-.p-title {
-  font-size: 24px;
-  font-weight: 600;
-  color: #222;
-  margin-top: 5px;
-  line-height: 1.3;
+.product-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #111;
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 10px;
 }
 
-.price-wrap {
-  margin: 15px 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.rating-stars {
+    color: #ffc107;
+    font-size: 14px;
 }
 
-.final-price {
-  font-size: 24px;
-  font-weight: 700;
-  color: #111;
+.price-final {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #111;
 }
 
-.origin-price {
-  font-size: 16px;
-  color: #aaa;
-  text-decoration: line-through;
+.divider-soft {
+    border-top: 1px solid #eee;
+    margin: 25px 0;
+    opacity: 1;
 }
 
-.disc-label {
-  background: #ffebeb;
-  color: #d32f2f;
-  font-weight: 700;
-  font-size: 12px;
-  padding: 3px 8px;
-  border-radius: 4px;
+/* 4. Options (Warna & Size) */
+.option-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* 3. Variants (Color & Size) */
-.variant-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: #444;
-  margin-bottom: 8px;
-  display: block;
+/* Color Radio */
+.color-radio input { display: none; }
+.swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: block;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #ddd;
+    transition: 0.2s;
+}
+.color-radio input:checked + .swatch {
+    box-shadow: 0 0 0 2px #111;
+    transform: scale(1.1);
 }
 
-/* Radio Button Gaya Button */
-.size-selector input {
-  display: none;
+/* Size Radio */
+.size-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.size-input { display: none; }
+.size-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 45px;
+    height: 40px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    transition: 0.2s;
+    background: #fff;
+    padding: 0 10px;
+}
+.size-input:checked + .size-box {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+}
+.size-box:hover {
+    border-color: #555;
 }
 
-.size-btn {
-  display: inline-block;
-  min-width: 45px;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  text-align: center;
-  font-size: 14px;
-  cursor: pointer;
-  margin-right: 5px;
-  transition: 0.2s;
-  background: #fff;
+/* guide link */
+.guide-link {
+    font-size: 12px;
+    color: #888;
+    text-decoration: underline;
 }
 
-.size-selector input:checked + .size-btn {
-  border-color: #000;
-  background: #000;
-  color: #fff;
+/* 5. Buttons & Qty */
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
 }
 
-.size-selector input:disabled + .size-btn {
-  background: #f5f5f5;
-  color: #ccc;
-  cursor: not-allowed;
-  border-color: #eee;
-  text-decoration: line-through;
+.qty-control {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100px;
+    flex-shrink: 0;
 }
-
-/* Color Selector */
-.color-selector input {
-  display: none;
+.qty-control button {
+    width: 30px;
+    background: #fff;
+    border: none;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
 }
-
-.color-circle {
-  display: inline-block;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 0 0 1px #ddd;
-  /* Border luar halus */
-  margin-right: 8px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.color-selector input:checked + .color-circle {
-  box-shadow: 0 0 0 2px #000;
-  transform: scale(1.1);
-}
-
-/* 4. Action Buttons */
-.qty-input {
-  width: 50px;
-  text-align: center;
-  border: none;
-  font-weight: 600;
-}
-
-.btn-qty {
-  width: 35px;
-  height: 35px;
-  background: #f5f5f5;
-  border: none;
-  border-radius: 4px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.btn-qty:hover {
-  background: #e0e0e0;
+.qty-control button:hover { background: #f5f5f5; }
+.qty-control input {
+    width: 100%;
+    border: none;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: #111;
+    outline: none;
 }
 
 .btn-buy {
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 12px;
-  font-weight: 600;
-  width: 100%;
-  border-radius: 8px;
-  transition: 0.3s;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    transition: 0.3s;
 }
-
 .btn-buy:hover {
-  background: #333;
-  transform: translateY(-2px);
+    background: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
 }
 
-.btn-wishlist-outline {
-  border: 1px solid #ddd;
-  background: #fff;
-  width: 50px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  transition: 0.2s;
-  cursor: pointer;
+.btn-cart-icon {
+    width: 50px;
+    border: 1px solid #111;
+    background: #fff;
+    color: #111;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s;
+    flex-shrink: 0;
+}
+.btn-cart-icon:hover {
+    background: #111;
+    color: #fff;
 }
 
-.btn-wishlist-outline:hover {
-  border-color: #000;
-  color: #d32f2f;
+/* 6. Related Products Card */
+.card-related {
+    display: block;
+    text-decoration: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.3s;
+    background: #fff;
+    border: 1px solid transparent;
+}
+.card-related:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: #eee;
+}
+.card-related .img-wrap {
+    height: 280px;
+    background: #f8f9fa;
+    overflow: hidden;
+}
+.card-related img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* 5. Accordion Details */
-.accordion-button:not(.collapsed) {
-  color: #000;
-  background-color: #f9f9f9;
-  box-shadow: none;
-}
 
-.accordion-button:focus {
-  box-shadow: none;
-  border-color: rgba(0, 0, 0, 0.1);
-}
-
-.feature-list li {
-  margin-bottom: 5px;
-  font-size: 14px;
-  color: #555;
-}
 
 /* home */
 /* HERO SECTION (LURUS/KOTAK) */
