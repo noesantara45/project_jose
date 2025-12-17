@@ -23,6 +23,9 @@ $routes->get('register', 'Landing\Auth::register');
 $routes->post('auth/register', 'Landing\Auth::processRegister');
 $routes->get('logout', 'Landing\Auth::logout');
 
+// Tambahkan Route Search ini
+$routes->get('search', 'Landing\Home::search');
+
 // Hapus atau timpa route 'cart' yang lama dengan grup ini:
 $routes->group('cart', ['filter' => 'authguard'], function ($routes) {
     $routes->get('/', 'Landing\Cart::index');

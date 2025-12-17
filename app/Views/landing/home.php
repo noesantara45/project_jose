@@ -10,22 +10,32 @@ $kategoris = [
     ['nama' => 'Footwear', 'icon' => 'fa-shoe-prints', 'count' => '15 Items'],
     ['nama' => 'Accessories', 'icon' => 'fa-hat-cowboy', 'count' => '20 Items']
 ];
-
-// [JONO NOTE]: Data $produks_terbaru dan $best_sellers SUDAH DIHAPUS dari sini.
-// Sekarang view akan otomatis menggunakan data asli dari Database yang dikirim Controller.
-
-// [JONO NOTE]: Data Flash Sale kita biarkan manual dulu (karena Controller belum kirim data ini)
-// Saya ubah nama variabelnya jadi $flash_sale_data agar loop di bawah tidak error
-$flash_sale_data = [
-    ['name' => 'Air Jordan 1 Low', 'price' => 1250000, 'old' => 2500000, 'image' => 'https://images.unsplash.com/photo-1552346154-21d32810aba3?w=500', 'slug' => '#'],
-    ['name' => 'Urban Bomber Jacket', 'price' => 350000, 'old' => 799000, 'image' => 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500', 'slug' => '#'],
-    ['name' => 'G-Shock Casio Black', 'price' => 999000, 'old' => 1800000, 'image' => 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500', 'slug' => '#'],
-    ['name' => 'Rayban Wayfarer', 'price' => 1500000, 'old' => 2200000, 'image' => 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500', 'slug' => '#'],
-];
 ?>
 
 <style>
-/* Style tambahan jika diperlukan */
+/* Style tambahan agar scroll mulus */
+.horizontal-scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
+}
+
+.product-card-item {
+    flex: 0 0 auto;
+    width: 260px;
+    /* Lebar tetap agar tidak penyok */
+}
 </style>
 
 <section class="hero-section">
@@ -66,7 +76,7 @@ $flash_sale_data = [
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-5 animate-up">
             <h3 class="fw-bold display-6">Best Sellers 🔥</h3>
-            <a href="#" class="text-decoration-none text-dark fw-bold">Lihat Semua <i
+            <a href="<?= base_url('kategori') ?>" class="text-decoration-none text-dark fw-bold">Lihat Semua <i
                     class="fas fa-arrow-right ms-2"></i></a>
         </div>
         <div class="row g-4">
@@ -81,13 +91,19 @@ $flash_sale_data = [
                             class="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 m-3 rounded-pill small fw-bold"
                             style="font-size: 12px;">Hot</span>
 
-                        <img src="<?= base_url('uploads/products/' . ($b['image'] ?? 'default.jpg')) ?>"
-                            class="product-img" alt="<?= esc($b['name']) ?>"
-                            onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
+                        <a href="<?= base_url('detail/' . $b['slug']) ?>">
+                            <img src="<?= base_url('uploads/products/' . ($b['image'] ?? 'default.jpg')) ?>"
+                                class="product-img" alt="<?= esc($b['name']) ?>"
+                                onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
+                        </a>
                     </div>
                     <div class="card-body-custom">
                         <small class="text-muted text-uppercase fw-bold">Premium</small>
-                        <h5 class="card-title fw-bold text-truncate mt-2 mb-3"><?= esc($b['name']) ?></h5>
+                        <h5 class="card-title fw-bold text-truncate mt-2 mb-3">
+                            <a href="<?= base_url('detail/' . $b['slug']) ?>" class="text-dark text-decoration-none">
+                                <?= esc($b['name']) ?>
+                            </a>
+                        </h5>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="fw-bold text-dark fs-5">Rp
                                 <?= number_format($b['price'], 0, ',', '.') ?></span>
@@ -167,22 +183,31 @@ $flash_sale_data = [
                                 class="position-absolute top-0 start-0 bg-dark text-white px-3 py-1 m-3 rounded-pill small fw-bold"
                                 style="font-size: 12px;">New</span>
 
-                            <img src="<?= base_url('uploads/products/' . ($p['image'] ?? 'default.jpg')) ?>"
-                                class="product-img" alt="<?= esc($p['name']) ?>"
-                                onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
+                            <a href="<?= base_url('detail/' . $p['slug']) ?>">
+                                <img src="<?= base_url('uploads/products/' . ($p['image'] ?? 'default.jpg')) ?>"
+                                    class="product-img" alt="<?= esc($p['name']) ?>"
+                                    onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
+                            </a>
                         </div>
                         <div class="card-body-custom">
                             <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Latest
                                 Drop</small>
 
-                            <h5 class="card-title fw-bold text-truncate mt-2 mb-3"><?= esc($p['name']) ?></h5>
+                            <h5 class="card-title fw-bold text-truncate mt-2 mb-3">
+                                <a href="<?= base_url('detail/' . $p['slug']) ?>"
+                                    class="text-dark text-decoration-none">
+                                    <?= esc($p['name']) ?>
+                                </a>
+                            </h5>
 
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="fw-bold text-primary fs-5">Rp
                                     <?= number_format($p['price'], 0, ',', '.') ?></span>
 
-                                <button class="btn btn-outline-dark rounded-circle btn-sm p-2"><i
-                                        class="fas fa-plus"></i></button>
+                                <a href="<?= base_url('detail/' . $p['slug']) ?>"
+                                    class="btn btn-outline-dark rounded-circle btn-sm p-2">
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -234,54 +259,85 @@ $flash_sale_data = [
     </div>
 </div>
 
-<div class="flash-section">
+<div class="flash-section pb-5">
     <div class="container">
+
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
             <div class="d-flex align-items-center gap-3">
-                <h2 class="fw-bold mb-0 text-danger"><i class="fas fa-fire"></i> KATALOG</h2>
+                <h2 class="fw-bold mb-0 text-danger"><i class="fas fa-fire"></i> KATALOG HOT</h2>
             </div>
-            <a href="<?= base_url('kategori') ?>" class="text-danger fw-bold text-decoration-none">Lihat Semua <i
-                    class="fas fa-arrow-right"></i></a>
+
+            <div class="d-flex align-items-center gap-3">
+                <div class="d-none d-md-flex gap-2">
+                    <button class="btn btn-sm btn-outline-danger rounded-circle" onclick="scrollKatalog('left')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger rounded-circle" onclick="scrollKatalog('right')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <a href="<?= base_url('kategori') ?>" class="text-danger fw-bold text-decoration-none">Lihat Semua <i
+                        class="fas fa-arrow-right"></i></a>
+            </div>
         </div>
 
-        <div class="row g-3">
-            <?php if(empty($flash_sale_data)): ?>
-            <div class="col-12 text-center text-muted py-5">Belum ada promo aktif.</div>
-            <?php else: ?>
-            <?php foreach ($flash_sale_data as $fs): ?>
-            <div class="col-6 col-md-3">
-                <div class="flash-card h-100">
-                    <div class="flash-badge bg-warning text-dark">HOT</div>
+        <div class="scroll-container-wrapper">
+            <div class="horizontal-scroll" id="katalogScroll">
 
-                    <img src="<?= $fs['image'] ?>" class="w-100" style="height: 250px; object-fit: cover;"
-                        alt="<?= esc($fs['name']) ?>"
-                        onerror="this.src='https://via.placeholder.com/250x250?text=No+Image'">
+                <?php if(empty($katalog_random)): ?>
+                <div class="p-4 text-muted text-center w-100">Belum ada data promo aktif.</div>
+                <?php else: ?>
+                <?php foreach ($katalog_random as $fs): ?>
 
-                    <div class="p-3">
-                        <h6 class="fw-bold text-truncate"><?= esc($fs['name']) ?></h6>
-                        <div class="text-danger fw-bold fs-5">Rp <?= number_format($fs['price'], 0, ',', '.') ?></div>
-                        <small class="text-muted text-decoration-line-through">Rp
-                            <?= number_format($fs['old'], 0, ',', '.') ?></small>
+                <div class="product-card-item">
+                    <div class="flash-card h-100 border shadow-sm">
 
-                        <div class="progress mt-2" style="height: 6px;">
-                            <div class="progress-bar bg-danger" style="width: 85%"></div>
+                        <div class="flash-badge bg-warning text-dark fw-bold">POPULER</div>
+
+                        <a href="<?= base_url('detail/' . $fs['slug']) ?>">
+                            <img src="<?= base_url('uploads/products/' . ($fs['image'] ?? 'default.jpg')) ?>"
+                                class="w-100" style="height: 250px; object-fit: cover;" alt="<?= esc($fs['name']) ?>"
+                                onerror="this.src='https://via.placeholder.com/250x250?text=No+Image'">
+                        </a>
+
+                        <div class="p-3">
+                            <h6 class="fw-bold text-truncate mb-1">
+                                <a href="<?= base_url('detail/' . $fs['slug']) ?>"
+                                    class="text-dark text-decoration-none">
+                                    <?= esc($fs['name']) ?>
+                                </a>
+                            </h6>
+
+                            <div class="text-danger fw-bold fs-5">
+                                Rp <?= number_format($fs['price'], 0, ',', '.') ?>
+                            </div>
+
+                            <small class="text-muted text-decoration-line-through">
+                                Rp <?= number_format($fs['price'] * 1.2, 0, ',', '.') ?>
+                            </small>
+
+                            <div class="progress mt-2" style="height: 6px;">
+                                <div class="progress-bar bg-danger" style="width: <?= rand(50, 95) ?>%"></div>
+                            </div>
+                            <small class="text-danger fw-bold" style="font-size: 10px;">Segera Habis!</small>
+
+                            <a href="<?= base_url('detail/' . $fs['slug']) ?>" class="stretched-link"></a>
                         </div>
-                        <small class="text-danger" style="font-size: 10px;">Terjual Cepat!</small>
-
-                        <a href="<?= base_url('detail/' . $fs['slug']) ?>" class="stretched-link"></a>
                     </div>
                 </div>
+
+                <?php endforeach; ?>
+                <?php endif; ?>
+
             </div>
-            <?php endforeach; ?>
-            <?php endif; ?>
         </div>
+
     </div>
 </div>
 
 <script>
-// 2. LOGIKA AUTO SCROLL NEW ARRIVALS
+// --- 1. SCRIPT UNTUK NEW ARRIVAL (Produk Terbaru) ---
 const container = document.getElementById('produkScroll');
-let scrollAmount = 0;
 const speed = 1;
 
 function autoScroll() {
@@ -292,20 +348,31 @@ function autoScroll() {
         }
     }
 }
+if (container) setInterval(autoScroll, 20);
 
-if (container) {
-    setInterval(autoScroll, 20);
-}
-
-// 3. FUNGSI TOMBOL MANUAL
 function scrollProduk(direction) {
     if (container) {
-        const scrollValue = 300;
-        if (direction === 'left') {
-            container.scrollLeft -= scrollValue;
-        } else {
-            container.scrollLeft += scrollValue;
+        container.scrollLeft += (direction === 'left' ? -300 : 300);
+    }
+}
+
+// --- 2. SCRIPT UNTUK KATALOG / FLASH SALE (Yang Baru) ---
+const katalogContainer = document.getElementById('katalogScroll');
+
+function autoScrollKatalog() {
+    if (katalogContainer && !katalogContainer.matches(':hover')) {
+        katalogContainer.scrollLeft += speed;
+        if (katalogContainer.scrollLeft + katalogContainer.clientWidth >= katalogContainer.scrollWidth - 1) {
+            katalogContainer.scrollLeft = 0;
         }
+    }
+}
+// Jalankan interval terpisah
+if (katalogContainer) setInterval(autoScrollKatalog, 25);
+
+function scrollKatalog(direction) {
+    if (katalogContainer) {
+        katalogContainer.scrollLeft += (direction === 'left' ? -300 : 300);
     }
 }
 </script>

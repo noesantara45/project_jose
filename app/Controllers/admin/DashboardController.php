@@ -42,16 +42,16 @@ class DashboardController extends BaseController
             ->limit(5)
             ->findAll();
 
-        // 3. DATA PRODUK TERLARIS (Top Selling)
-        // Kita perlu join tabel order_items, products, dan categories
-        $builder = $this->db->table('order_items');
-        $builder->select('products.name as product_name, products.price, products.stock, categories.name as category_name, SUM(order_items.qty) as total_sold');
-        $builder->join('products', 'products.id = order_items.product_id');
-        $builder->join('categories', 'categories.id = products.category_id', 'left');
-        $builder->groupBy('order_items.product_id');
-        $builder->orderBy('total_sold', 'DESC');
-        $builder->limit(5); // Ambil top 5
-        $topProducts = $builder->get()->getResultArray();
+        // 3. DATA PRODUK TERLARIS (PERBAIKAN DI SINI)
+        // Dulu: Menghitung dari tabel order_items (Cuma menghitung order baru)
+        // Sekarang: Mengambil langsung dari kolom 'total_sold' di tabel products (Data Akumulasi)
+        
+        $topProducts = $this->productModel
+            ->select('products.name as product_name, products.price, products.stock, products.total_sold, categories.name as category_name')
+            ->join('categories', 'categories.id = products.category_id', 'left')
+            ->orderBy('products.total_sold', 'DESC') // Urutkan berdasarkan total_sold tertinggi
+            ->limit(5) // Ambil top 5
+            ->findAll();
 
         $data = [
             'title'          => 'Dashboard',

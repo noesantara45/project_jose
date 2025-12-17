@@ -51,33 +51,52 @@ class Cart extends BaseController
     {
         $userId = session()->get('id');
 
+        // Cek Login
         if (!$userId) {
-            return redirect()->to('login')->with('error', 'Silakan login untuk belanja.');
+            return redirect()->to('login')->with('error', 'Silakan login dulu bos untuk belanja.');
         }
 
+        // 1. Ambil Data Inputan
         $productId = $this->request->getPost('product_id');
         $qty       = $this->request->getPost('qty') ? (int)$this->request->getPost('qty') : 1;
+        $color     = $this->request->getPost('warna'); // Pastikan name di view adalah 'warna'
+        $size      = $this->request->getPost('size');  // Pastikan name di view adalah 'size'
+        $action    = $this->request->getPost('btn_action'); // Tombol yang ditekan
 
-        // Cek apakah produk sudah ada di keranjang user ini?
-        $existingItem = $this->cartModel->where(['user_id' => $userId, 'product_id' => $productId])->first();
+        // 2. Cek apakah produk dengan VARIAN SAMA (Warna & Size) sudah ada?
+        $existingItem = $this->cartModel->where([
+            'user_id' => $userId, 
+            'product_id' => $productId,
+            'selected_color' => $color,
+            'selected_size' => $size
+        ])->first();
 
         if ($existingItem) {
-            // SKENARIO: Produk sudah ada -> Update Quantity-nya saja
+            // Kalau ada, update Qty
             $newQty = $existingItem['qty'] + $qty;
             $this->cartModel->save([
                 'id'  => $existingItem['id'],
                 'qty' => $newQty
             ]);
         } else {
-            // SKENARIO: Produk belum ada -> Buat baris baru
+            // Kalau belum, Insert Baru
             $this->cartModel->insert([
-                'user_id'    => $userId,
-                'product_id' => $productId,
-                'qty'        => $qty
+                'user_id'        => $userId,
+                'product_id'     => $productId,
+                'qty'            => $qty,
+                'selected_color' => $color,
+                'selected_size'  => $size
             ]);
         }
 
-        return redirect()->to('cart')->with('success', 'Produk berhasil ditambahkan!');
+        // 3. LOGIKA REDIRECT (Sesuai Permintaan Bos)
+        if ($action === 'checkout') {
+            // Jika tekan CHECKOUT -> ke halaman CO
+            return redirect()->to('co');
+        } else {
+            // Jika tekan ICON KERANJANG -> ke halaman Kategori
+            return redirect()->to('kategori')->with('success', 'Produk berhasil masuk keranjang!');
+        }
     }
 
     // 3. Update Quantity (Untuk AJAX di masa depan)

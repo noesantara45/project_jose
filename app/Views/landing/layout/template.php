@@ -51,20 +51,40 @@
                 </ul>
 
                 <div class="search-wrapper-nav d-none d-lg-block me-3">
-                    <form action="" class="nav-search-form position-relative">
-                        <input type="text" class="nav-search-input" placeholder="Cari produk..." autocomplete="off">
-                        <button class="nav-search-btn"><i class="fas fa-search"></i></button>
+                    <form action="<?= base_url('search') ?>" method="get" class="nav-search-form position-relative">
+                        <input type="text" name="keyword" class="nav-search-input" placeholder="Cari produk..."
+                            autocomplete="off" value="<?= esc($keyword ?? '') ?>"> <button type="submit"
+                            class="nav-search-btn"><i class="fas fa-search"></i></button>
                     </form>
                 </div>
 
                 <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+
+                    <?php 
+                        // 1. LOGIKA HITUNG ISI KERANJANG
+                        $total_cart_items = 0; // Default 0
+                        
+                        if (session()->get('isLoggedIn')) {
+                            $db = \Config\Database::connect();
+                            $userId = session()->get('id');
+                            // Hitung jumlah baris di tabel carts berdasarkan user_id
+                            $total_cart_items = $db->table('carts')->where('user_id', $userId)->countAllResults();
+                        }
+                    ?>
+
                     <a href="<?= base_url('cart') ?>" class="btn position-relative p-0 me-2 btn-cart-icon">
                         <i class="fas fa-shopping-bag fa-lg"></i>
-                        <span class="cart-badge">2</span>
+
+                        <?php if ($total_cart_items > 0) : ?>
+                        <span class="cart-badge">
+                            <?= $total_cart_items > 99 ? '99+' : $total_cart_items ?>
+                        </span>
+                        <?php endif; ?>
                     </a>
+
                     <a href="<?= base_url('login') ?>" class="btn btn-account rounded-pill px-4 py-2 shadow-sm fw-bold"
                         style="font-size: 13px; letter-spacing: 0.5px;">
-                        AKUN
+                        <?= session()->get('isLoggedIn') ? 'AKUN SAYA' : 'MASUK' ?>
                     </a>
                 </div>
             </div>
