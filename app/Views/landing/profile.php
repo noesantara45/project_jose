@@ -6,7 +6,7 @@
 
     <div class="mb-5 animate-up">
         <h2 class="fw-bold display-6">Akun Saya</h2>
-        <p class="text-muted">Kelola informasi profil dan alamat pengiriman Anda.</p>
+        <p class="text-muted">Kelola profil dan alamat pengiriman Anda.</p>
     </div>
 
     <div class="row g-5">
