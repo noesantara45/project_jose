@@ -21,7 +21,7 @@
                         onerror="this.src='https://via.placeholder.com/600x800?text=No+Image'">
 
                     <?php if ($product['stock'] < 5): ?>
-                    <div class="stock-badge">Sisa <?= $product['stock'] ?>!</div>
+                        <div class="stock-badge">Sisa <?= $product['stock'] ?>!</div>
                     <?php endif; ?>
                 </div>
 
@@ -72,44 +72,44 @@
                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
 
                     <?php if (!empty($product['color'])): ?>
-                    <div class="mb-4">
-                        <label class="option-label">Warna: <span
-                                class="fw-normal"><?= esc($product['color']) ?></span></label>
-                        <div class="d-flex gap-2">
-                            <?php
+                        <div class="mb-4">
+                            <label class="option-label">Warna: <span
+                                    class="fw-normal"><?= esc($product['color']) ?></span></label>
+                            <div class="d-flex gap-2">
+                                <?php
                                 $colorName = $product['color'];
                                 $colorMap = ['Hitam' => '#000', 'Putih' => '#fff', 'Merah' => '#dc3545', 'Biru' => '#0d6efd', 'Navy' => '#000080', 'Hijau' => '#198754', 'Kuning' => '#ffc107', 'Abu-abu' => '#808080', 'Coklat' => '#8b4513'];
                                 $hex = $colorMap[$colorName] ?? '#ccc';
-                            ?>
-                            <label class="color-radio">
-                                <input type="radio" name="warna" value="<?= $colorName ?>" checked>
-                                <span class="swatch" style="background-color: <?= $hex ?>;"></span>
-                            </label>
+                                ?>
+                                <label class="color-radio">
+                                    <input type="radio" name="warna" value="<?= $colorName ?>" checked>
+                                    <span class="swatch" style="background-color: <?= $hex ?>;"></span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                     <?php if (!empty($product['size'])): ?>
-                    <div class="mb-4">
-                        <div class="d-flex justify-content-between mb-2">
-                            <label class="option-label">Ukuran</label>
-                            <a href="#" class="guide-link" data-bs-toggle="modal"
-                                data-bs-target="#sizeChartModal">Panduan Ukuran</a>
-                        </div>
-                        <div class="size-options">
-                            <?php
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <label class="option-label">Ukuran</label>
+                                <a href="#" class="guide-link" data-bs-toggle="modal"
+                                    data-bs-target="#sizeChartModal">Panduan Ukuran</a>
+                            </div>
+                            <div class="size-options">
+                                <?php
                                 $sizes = explode(',', $product['size']);
                                 foreach ($sizes as $idx => $size):
                                     $size = trim($size);
-                            ?>
-                            <label>
-                                <input type="radio" name="size" value="<?= $size ?>" <?= $idx == 0 ? 'checked' : '' ?>
-                                    class="size-input">
-                                <span class="size-box"><?= $size ?></span>
-                            </label>
-                            <?php endforeach; ?>
+                                ?>
+                                    <label>
+                                        <input type="radio" name="size" value="<?= $size ?>" <?= $idx == 0 ? 'checked' : '' ?>
+                                            class="size-input">
+                                        <span class="size-box"><?= $size ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                     <div class="action-buttons mt-5">
@@ -153,18 +153,18 @@
         <h3 class="fw-bold mb-4">Lengkapi Gaya Kamu</h3>
         <div class="row row-cols-2 row-cols-md-4 g-4">
             <?php foreach ($related as $rel): ?>
-            <div class="col">
-                <a href="<?= base_url('detail/' . $rel['slug']) ?>" class="card-related h-100">
-                    <div class="img-wrap">
-                        <img src="<?= base_url('uploads/products/' . ($rel['image'] ? $rel['image'] : 'default.jpg')) ?>"
-                            alt="<?= esc($rel['name']) ?>">
-                    </div>
-                    <div class="p-3 text-center">
-                        <h6 class="fw-bold text-dark text-truncate mb-1"><?= esc($rel['name']) ?></h6>
-                        <span class="text-muted small">Rp <?= number_format($rel['price'], 0, ',', '.') ?></span>
-                    </div>
-                </a>
-            </div>
+                <div class="col">
+                    <a href="<?= base_url('detail/' . $rel['slug']) ?>" class="card-related h-100">
+                        <div class="img-wrap">
+                            <img src="<?= base_url('uploads/products/' . ($rel['image'] ? $rel['image'] : 'default.jpg')) ?>"
+                                alt="<?= esc($rel['name']) ?>">
+                        </div>
+                        <div class="p-3 text-center">
+                            <h6 class="fw-bold text-dark text-truncate mb-1"><?= esc($rel['name']) ?></h6>
+                            <span class="text-muted small">Rp <?= number_format($rel['price'], 0, ',', '.') ?></span>
+                        </div>
+                    </a>
+                </div>
             <?php endforeach; ?>
         </div>
     </div>
@@ -187,13 +187,13 @@
 </div>
 
 <script>
-function updateQty(change) {
-    let input = document.getElementById('qtyVal');
-    let current = parseInt(input.value);
-    let max = <?= $product['stock'] ?>;
-    let next = current + change;
-    if (next >= 1 && next <= max) input.value = next;
-}
+    function updateQty(change) {
+        let input = document.getElementById('qtyVal');
+        let current = parseInt(input.value);
+        let max = <?= $product['stock'] ?>;
+        let next = current + change;
+        if (next >= 1 && next <= max) input.value = next;
+    }
 </script>
 
 <?= $this->endSection(); ?>
