@@ -190,31 +190,37 @@ main {
 }
 
 /* ==========================================================================
-   3. FOOTER STYLES (DESAIN GELAP & RAPI)
+   3. FOOTER STYLES (MINIMALIST VERSION)
    ========================================================================== */
 .main-footer {
-  background: #111;
+  background: #111; /* Warna hitam pekat */
   color: #fff;
-  padding: 50px 0 30px;
+  padding: 15px 0; /* Padding sangat kecil/tipis */
   margin-top: auto;
+  border-top: 1px solid #222; /* Garis pemisah halus */
+  font-size: 13px; /* Font diperkecil agar elegan */
 }
-.footer-links a {
-  color: #aaa;
+
+.footer-mini-links a {
+  color: #888;
   text-decoration: none;
-  margin: 0 15px;
-  font-size: 0.95rem;
-  transition: color 0.3s ease;
-  display: inline-block;
+  margin-left: 20px;
+  transition: color 0.2s ease;
+  font-weight: 500;
 }
-.footer-links a:hover {
-  color: #ffc107;
+
+.footer-mini-links a:hover {
+  color: #ffc107; /* Warna kuning saat hover */
 }
-.footer-copyright {
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 0.85rem;
-  color: #777;
+
+/* Responsif untuk HP (agar link tidak terlalu mepet) */
+@media (max-width: 768px) {
+    .footer-mini-links {
+        margin-top: 5px;
+    }
+    .footer-mini-links a {
+        margin: 0 10px;
+    }
 }
 
 /* ==========================================================================
@@ -1932,4 +1938,110 @@ a {
     border-color: #000;
     color: #000;
     background: #fcfcfc;
+}
+
+/* public/assets/css/landing/profile.css */
+
+:root {
+    --primary-black: #111;
+    --soft-gray: #f8f9fa;
+    --border-color: #e9ecef;
+}
+
+body {
+    background-color: #fcfcfc;
+}
+
+/* Profile Cover & Avatar */
+.profile-cover {
+    height: 150px;
+    background: linear-gradient(135deg, #111 0%, #333 100%);
+    border-radius: 20px 20px 0 0;
+    position: relative;
+}
+
+.profile-avatar-wrapper {
+    margin-top: -75px;
+    position: relative;
+    display: inline-block;
+}
+
+.profile-avatar {
+    width: 140px;
+    height: 140px;
+    border: 5px solid #fff;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    background: #fff;
+    object-fit: cover;
+}
+
+/* Custom Cards */
+.card-profile {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+    overflow: hidden;
+    background: #fff;
+}
+
+/* Inputs */
+.form-label-custom {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #666;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.input-group-text {
+    background: #fff;
+    border-right: none;
+    border-radius: 12px 0 0 12px;
+    border-color: var(--border-color);
+    color: #999;
+}
+
+.form-control-custom {
+    background: #fff;
+    border-left: none;
+    border-radius: 0 12px 12px 0;
+    border-color: var(--border-color);
+    padding: 12px 15px;
+    font-weight: 500;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.form-control-custom:focus {
+    box-shadow: none;
+    border-color: var(--primary-black);
+}
+
+.input-group:focus-within .input-group-text {
+    border-color: var(--primary-black);
+    color: var(--primary-black);
+}
+
+.form-textarea {
+    border-radius: 12px !important;
+    border-left: 1px solid var(--border-color);
+}
+
+.form-textarea:focus {
+    border-color: var(--primary-black);
+}
+
+/* Badge */
+.badge-member {
+    background: rgba(0,0,0,0.05);
+    color: #333;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }

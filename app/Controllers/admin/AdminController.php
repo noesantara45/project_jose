@@ -4,14 +4,17 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\AdminModel;
+use App\Models\OrderModel; // <--- 1. TAMBAHKAN INI
 
 class AdminController extends BaseController
 {
     protected $adminModel;
+    protected $orderModel; // <--- 2. Siapkan properti
 
     public function __construct()
     {
         $this->adminModel = new AdminModel();
+        $this->orderModel = new OrderModel(); // <--- 3. Load OrderModel
     }
 
     /**
@@ -20,11 +23,15 @@ class AdminController extends BaseController
     public function index()
     {
         $data = [
-            'title' => 'Kelola Admin',
-            'page_title' => 'Kelola Admin',
+            'title'       => 'Kelola Admin',
+            'page_title'  => 'Kelola Admin',
             'active_menu' => 'admins',
-            // [JONO-FIX]: Ambil semua data admin, urutkan dari yang terbaru
-            'admins' => $this->adminModel->orderBy('created_at', 'DESC')->findAll()
+
+            // Ambil data admin
+            'admins'      => $this->adminModel->orderBy('created_at', 'DESC')->findAll(),
+
+            // [FIX] Tambahkan baris ini agar error hilang:
+            'total_orders' => $this->orderModel->countAllResults()
         ];
 
         return view('admin/admins/index', $data);
@@ -36,16 +43,16 @@ class AdminController extends BaseController
     public function save()
     {
         $id = $this->request->getPost('id');
-        
+
         // Validation rules
         $rules = [
             'username' => 'required|min_length[4]',
-            'name' => 'required|min_length[3]',
+            'name'     => 'required|min_length[3]',
         ];
 
         // Password validation only for new admin or if password is provided
         if (!$id || !empty($this->request->getPost('password'))) {
-            $rules['password'] = 'required|min_length[6]';
+            $rules['password']         = 'required|min_length[6]';
             $rules['confirm_password'] = 'required|matches[password]';
         }
 
@@ -55,7 +62,7 @@ class AdminController extends BaseController
 
         $data = [
             'username' => $this->request->getPost('username'),
-            'name' => $this->request->getPost('name'),
+            'name'     => $this->request->getPost('name'),
         ];
 
         // Hash password if provided

@@ -23,22 +23,18 @@ $routes->get('register', 'Landing\Auth::register');
 $routes->post('auth/register', 'Landing\Auth::processRegister');
 $routes->get('logout', 'Landing\Auth::logout');
 
-// Tambahkan Route Search ini
-$routes->get('search', 'Landing\Home::search');
-
-$routes->group('profile', ['filter' => 'authguard'], function ($routes) {
-    $routes->get('/', 'Landing\Profile::index');        // Halaman Profil
-    $routes->post('update', 'Landing\Profile::update'); // Proses Update Data
-});
-
-
 // Hapus atau timpa route 'cart' yang lama dengan grup ini:
 $routes->group('cart', ['filter' => 'authguard'], function ($routes) {
     $routes->get('/', 'Landing\Cart::index');
     $routes->post('add', 'Landing\Cart::add');
     $routes->post('update', 'Landing\Cart::update');
     $routes->get('delete/(:num)', 'Landing\Cart::delete/$1');
-    $routes->get('product/(:segment)', 'Landing\Home::detail/$1');
+});
+
+// Route untuk Profile User (Wajib Login)
+$routes->group('profile', ['filter' => 'authguard'], function ($routes) {
+    $routes->get('/', 'Landing\Profile::index');
+    $routes->post('update', 'Landing\Profile::update');
 });
 
 // ============================================

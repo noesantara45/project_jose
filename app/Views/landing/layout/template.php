@@ -60,25 +60,25 @@
 
                 <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
 
-                    <?php 
-                        // 1. LOGIKA HITUNG ISI KERANJANG
-                        $total_cart_items = 0; // Default 0
-                        
-                        if (session()->get('isLoggedIn')) {
-                            $db = \Config\Database::connect();
-                            $userId = session()->get('id');
-                            // Hitung jumlah baris di tabel carts berdasarkan user_id
-                            $total_cart_items = $db->table('carts')->where('user_id', $userId)->countAllResults();
-                        }
+                    <?php
+                    // 1. LOGIKA HITUNG ISI KERANJANG
+                    $total_cart_items = 0; // Default 0
+
+                    if (session()->get('isLoggedIn')) {
+                        $db = \Config\Database::connect();
+                        $userId = session()->get('id');
+                        // Hitung jumlah baris di tabel carts berdasarkan user_id
+                        $total_cart_items = $db->table('carts')->where('user_id', $userId)->countAllResults();
+                    }
                     ?>
 
                     <a href="<?= base_url('cart') ?>" class="btn position-relative p-0 me-2 btn-cart-icon">
                         <i class="fas fa-shopping-bag fa-lg"></i>
 
                         <?php if ($total_cart_items > 0) : ?>
-                        <span class="cart-badge">
-                            <?= $total_cart_items > 99 ? '99+' : $total_cart_items ?>
-                        </span>
+                            <span class="cart-badge">
+                                <?= $total_cart_items > 99 ? '99+' : $total_cart_items ?>
+                            </span>
                         <?php endif; ?>
                     </a>
 
@@ -98,25 +98,22 @@
     </main>
 
 
-    <footer class="main-footer text-center">
+    <footer class="main-footer">
         <div class="container">
-            <div class="row justify-content-center mb-4">
-                <div class="col-md-8">
-                    <h4 class="fw-bold text-warning mb-3"><i class="fas fa-bolt me-1"></i>HLOutfit.</h4>
-                    <p class="text-white-50 mb-4 px-md-5">Your daily dose of urban streetwear style. Definisi baru dari
-                        gaya yang berani, otentik, dan terjangkau untuk semua.</p>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center py-2">
+
+                <div class="text-center text-md-start mb-2 mb-md-0">
+                    <span class="fw-bold text-warning me-2"><i class="fas fa-bolt"></i> HLOutfit.</span>
+                    <span class="text-secondary small">&copy; <?= date('Y'); ?>. All rights reserved.</span>
                 </div>
-            </div>
-            <div class="footer-links mb-4 d-flex justify-content-center flex-wrap gap-3">
-                <a href="<?= base_url('/') ?>">Home</a>
-                <a href="<?= base_url('about') ?>">About Us</a>
-                <a href="<?= base_url('contact') ?>">Contact</a>
-                <a href="<?= base_url('faq') ?>">FAQ</a>
-                <a href="<?= base_url('privacy') ?>">Privacy Policy</a>
-            </div>
-            <div class="footer-copyright">
-                &copy; <?= date('Y'); ?> HLOutfit. Dibuat dengan <i class="fas fa-heart text-danger mx-1"></i> di
-                Jakarta.
+
+                <div class="footer-mini-links">
+                    <a href="<?= base_url('about') ?>">About</a>
+                    <a href="<?= base_url('contact') ?>">Contact</a>
+                    <a href="<?= base_url('faq') ?>">Help</a>
+                    <a href="<?= base_url('privacy') ?>">Privacy</a>
+                </div>
+
             </div>
         </div>
     </footer>
@@ -125,22 +122,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-    // --- SCRIPT NAVBAR SCROLL EFFECT ---
-    // Script ini hanya berjalan di halaman Home ($isHome)
-    <?php if ($isHome): ?>
-    window.addEventListener('scroll', function() {
-        const navbar = document.querySelector('.navbar');
-        // Jika scroll lebih dari 50px, ubah jadi solid
-        if (window.scrollY > 50) {
-            navbar.classList.add('navbar-solid');
-            navbar.classList.remove('navbar-transparent');
-        } else {
-            // Jika di paling atas, kembalikan jadi transparan
-            navbar.classList.add('navbar-transparent');
-            navbar.classList.remove('navbar-solid');
-        }
-    });
-    <?php endif; ?>
+        // --- SCRIPT NAVBAR SCROLL EFFECT ---
+        // Script ini hanya berjalan di halaman Home ($isHome)
+        <?php if ($isHome): ?>
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                // Jika scroll lebih dari 50px, ubah jadi solid
+                if (window.scrollY > 50) {
+                    navbar.classList.add('navbar-solid');
+                    navbar.classList.remove('navbar-transparent');
+                } else {
+                    // Jika di paling atas, kembalikan jadi transparan
+                    navbar.classList.add('navbar-transparent');
+                    navbar.classList.remove('navbar-solid');
+                }
+            });
+        <?php endif; ?>
     </script>
 
     <?= $this->renderSection('scripts'); ?>
