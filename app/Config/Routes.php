@@ -29,6 +29,7 @@ $routes->group('cart', ['filter' => 'authguard'], function ($routes) {
     $routes->post('add', 'Landing\Cart::add');
     $routes->post('update', 'Landing\Cart::update');
     $routes->get('delete/(:num)', 'Landing\Cart::delete/$1');
+    $routes->get('product/(:segment)', 'Landing\Home::detail/$1');
 });
 
 // ============================================
