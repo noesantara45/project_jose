@@ -82,7 +82,8 @@
                         <?php endif; ?>
                     </a>
 
-                    <a href="<?= base_url('login') ?>" class="btn btn-account rounded-pill px-4 py-2 shadow-sm fw-bold"
+                    <a href="<?= session()->get('isLoggedIn') ? base_url('profile') : base_url('login') ?>"
+                        class="btn btn-account rounded-pill px-4 py-2 shadow-sm fw-bold"
                         style="font-size: 13px; letter-spacing: 0.5px;">
                         <?= session()->get('isLoggedIn') ? 'AKUN SAYA' : 'MASUK' ?>
                     </a>

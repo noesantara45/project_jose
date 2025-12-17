@@ -26,6 +26,12 @@ $routes->get('logout', 'Landing\Auth::logout');
 // Tambahkan Route Search ini
 $routes->get('search', 'Landing\Home::search');
 
+$routes->group('profile', ['filter' => 'authguard'], function ($routes) {
+    $routes->get('/', 'Landing\Profile::index');        // Halaman Profil
+    $routes->post('update', 'Landing\Profile::update'); // Proses Update Data
+});
+
+
 // Hapus atau timpa route 'cart' yang lama dengan grup ini:
 $routes->group('cart', ['filter' => 'authguard'], function ($routes) {
     $routes->get('/', 'Landing\Cart::index');
