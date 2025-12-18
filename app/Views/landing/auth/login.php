@@ -58,7 +58,6 @@
                         <div class="mb-4">
                             <div class="d-flex justify-content-between mb-1">
                                 <label class="form-label small fw-bold text-uppercase text-muted ls-1">Password</label>
-                                <a href="#" class="small text-dark fw-bold text-decoration-none">Lupa?</a>
                             </div>
                             <div class="position-relative">
                                 <input type="password" name="password" id="passwordInput"

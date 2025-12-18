@@ -87,13 +87,13 @@
     </div>
 
     <script>
-    // Simple toggle sidebar for mobile
-    const menuToggle = document.getElementById('menuToggle');
-    const sidebar = document.querySelector('.sidebar');
+        // Simple toggle sidebar for mobile
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
 
-    menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-    });
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
     </script>
 </body>
 

@@ -64,8 +64,8 @@
             </tr>
         </thead>
         <tbody>
-            <?php if(!empty($recent_orders)): ?>
-            <?php foreach($recent_orders as $order): ?>
+            <?php if (!empty($recent_orders)): ?>
+            <?php foreach ($recent_orders as $order): ?>
             <tr>
                 <td><strong><?= esc($order['invoice_number']) ?></strong></td>
                 <td>
@@ -75,25 +75,25 @@
                 <td>Rp <?= number_format($order['total_price'], 0, ',', '.') ?></td>
 
                 <td>
-                    <?php 
+                    <?php
                             $payBadge = 'secondary';
-                            if($order['payment_status'] == 'paid') $payBadge = 'success';
-                            elseif($order['payment_status'] == 'pending') $payBadge = 'warning';
-                            elseif($order['payment_status'] == 'failed') $payBadge = 'danger';
-                        ?>
+                            if ($order['payment_status'] == 'paid') $payBadge = 'success';
+                            elseif ($order['payment_status'] == 'pending') $payBadge = 'warning';
+                            elseif ($order['payment_status'] == 'failed') $payBadge = 'danger';
+                            ?>
                     <span class="badge badge-<?= $payBadge ?>">
                         <?= ucfirst($order['payment_status']) ?>
                     </span>
                 </td>
 
                 <td>
-                    <?php 
+                    <?php
                             $ordBadge = 'secondary';
-                            if($order['order_status'] == 'completed') $ordBadge = 'success';
-                            elseif($order['order_status'] == 'processing') $ordBadge = 'info';
-                            elseif($order['order_status'] == 'shipped') $ordBadge = 'primary';
-                            elseif($order['order_status'] == 'cancelled') $ordBadge = 'danger';
-                        ?>
+                            if ($order['order_status'] == 'completed') $ordBadge = 'success';
+                            elseif ($order['order_status'] == 'processing') $ordBadge = 'info';
+                            elseif ($order['order_status'] == 'shipped') $ordBadge = 'primary';
+                            elseif ($order['order_status'] == 'cancelled') $ordBadge = 'danger';
+                            ?>
                     <span class="badge badge-<?= $ordBadge ?>">
                         <?= ucfirst($order['order_status']) ?>
                     </span>
@@ -130,8 +130,8 @@
             </tr>
         </thead>
         <tbody>
-            <?php if(!empty($top_products)): ?>
-            <?php foreach($top_products as $product): ?>
+            <?php if (!empty($top_products)): ?>
+            <?php foreach ($top_products as $product): ?>
             <tr>
                 <td><strong><?= esc($product['product_name']) ?></strong></td>
                 <td>

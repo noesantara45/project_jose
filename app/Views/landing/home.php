@@ -80,7 +80,7 @@ $kategoris = [
                     class="fas fa-arrow-right ms-2"></i></a>
         </div>
         <div class="row g-4">
-            <?php if(empty($best_sellers)): ?>
+            <?php if (empty($best_sellers)): ?>
             <div class="col-12 text-center text-muted">Belum ada data Best Sellers.</div>
             <?php else: ?>
             <?php foreach ($best_sellers as $b): ?>
@@ -172,7 +172,7 @@ $kategoris = [
                     class="fas fa-chevron-right"></i></button>
 
             <div class="horizontal-scroll" id="produkScroll">
-                <?php if(empty($produks_terbaru)): ?>
+                <?php if (empty($produks_terbaru)): ?>
                 <div class="p-4 text-muted">Belum ada produk terbaru.</div>
                 <?php else: ?>
                 <?php foreach ($produks_terbaru as $p): ?>
@@ -245,15 +245,14 @@ $kategoris = [
     <div class="container">
         <div class="row g-0 align-items-center">
             <div class="col-lg-6 order-lg-2">
-                <img src="https://images.unsplash.com/photo-1542272454315-4c01d7abdf4a?q=80&w=1470"
-                    class="w-100 exclusive-img" alt="Promo">
+                <img src="images/photo-1542272454315-4c01d7abdf4a.jpeg" class="w-100 exclusive-img" alt="Promo">
             </div>
             <div class="col-lg-6 exclusive-content order-lg-1">
                 <span class="text-warning fw-bold text-uppercase ls-2">Limited Time Offer</span>
                 <h2 style="color: white;" class="display-4 fw-bold mt-3 mb-4">Couple Edition <br>Street Style</h2>
                 <p class="text-white-50 mb-5 fs-5">Dapatkan diskon spesial 30% untuk pembelian paket couple edisi
                     Valentine. Stok terbatas!</p>
-                <a href="#" class="btn btn-warning btn-lg rounded-pill px-5 py-3 fw-bold text-dark">Beli Paket Hemat</a>
+                <a href="#" class="btn btn-warning btn-lg rounded-pill px-5 py-3 fw-bold text-dark">Beli Sekarang</a>
             </div>
         </div>
     </div>
@@ -284,7 +283,7 @@ $kategoris = [
         <div class="scroll-container-wrapper">
             <div class="horizontal-scroll" id="katalogScroll">
 
-                <?php if(empty($katalog_random)): ?>
+                <?php if (empty($katalog_random)): ?>
                 <div class="p-4 text-muted text-center w-100">Belum ada data promo aktif.</div>
                 <?php else: ?>
                 <?php foreach ($katalog_random as $fs): ?>
