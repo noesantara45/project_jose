@@ -48,6 +48,13 @@
                         <a class="nav-link px-3 <?= ($current == 'kategori') ? 'active' : '' ?>"
                             href="<?= base_url('kategori') ?>">Kategori</a>
                     </li>
+
+                    <?php if (session()->get('isLoggedIn')) : ?>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 <?= ($current == 'orders') ? 'active' : '' ?>"
+                            href="<?= base_url('orders') ?>">Pesanan Saya</a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
 
                 <div class="search-wrapper-nav d-none d-lg-block me-3">
@@ -76,9 +83,9 @@
                         <i class="fas fa-shopping-bag"></i>
 
                         <?php if ($total_cart_items > 0) : ?>
-                            <span class="cart-badge">
-                                <?= $total_cart_items > 99 ? '99+' : $total_cart_items ?>
-                            </span>
+                        <span class="cart-badge">
+                            <?= $total_cart_items > 99 ? '99+' : $total_cart_items ?>
+                        </span>
                         <?php endif; ?>
                     </a>
 
@@ -122,22 +129,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // --- SCRIPT NAVBAR SCROLL EFFECT ---
-        // Script ini hanya berjalan di halaman Home ($isHome)
-        <?php if ($isHome): ?>
-            window.addEventListener('scroll', function() {
-                const navbar = document.querySelector('.navbar');
-                // Jika scroll lebih dari 50px, ubah jadi solid
-                if (window.scrollY > 50) {
-                    navbar.classList.add('navbar-solid');
-                    navbar.classList.remove('navbar-transparent');
-                } else {
-                    // Jika di paling atas, kembalikan jadi transparan
-                    navbar.classList.add('navbar-transparent');
-                    navbar.classList.remove('navbar-solid');
-                }
-            });
-        <?php endif; ?>
+    // --- SCRIPT NAVBAR SCROLL EFFECT ---
+    // Script ini hanya berjalan di halaman Home ($isHome)
+    <?php if ($isHome): ?>
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        // Jika scroll lebih dari 50px, ubah jadi solid
+        if (window.scrollY > 50) {
+            navbar.classList.add('navbar-solid');
+            navbar.classList.remove('navbar-transparent');
+        } else {
+            // Jika di paling atas, kembalikan jadi transparan
+            navbar.classList.add('navbar-transparent');
+            navbar.classList.remove('navbar-solid');
+        }
+    });
+    <?php endif; ?>
     </script>
 
     <?= $this->renderSection('scripts'); ?>

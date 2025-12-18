@@ -2142,3 +2142,197 @@ body {
     align-items: center;
     gap: 5px;
 }
+
+/* =========================================
+   PAGE: MY ORDERS (DASHBOARD)
+   ========================================= */
+
+/* Navigasi Tab Filter (Status) */
+.nav-pills-custom {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+}
+.nav-pills-custom::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Chrome */
+}
+
+.nav-pills-custom .nav-link {
+    color: #888;
+    background: transparent;
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 10px;
+    transition: 0.3s;
+    border: 1px solid transparent;
+}
+
+.nav-pills-custom .nav-link:hover {
+    color: #000;
+    background: #f8f9fa;
+}
+
+.nav-pills-custom .nav-link.active {
+    background: #111;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Kartu Pesanan */
+.order-card {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    background: #fff;
+    transition: 0.3s;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.order-card:hover {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border-color: #ddd;
+    transform: translateY(-2px);
+}
+
+.order-header {
+    background: #fcfcfc;
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.order-date {
+    font-size: 13px;
+    color: #666;
+    font-weight: 500;
+}
+
+.order-invoice {
+    font-weight: 700;
+    color: #333;
+    margin-left: 10px;
+}
+
+/* Badge Status */
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-pending { background: #fff3cd; color: #856404; }
+.status-paid { background: #d1e7dd; color: #0f5132; }
+.status-shipped { background: #cff4fc; color: #055160; }
+.status-completed { background: #d1e7dd; color: #198754; }
+.status-cancelled { background: #f8d7da; color: #842029; }
+
+/* Body Content */
+.order-body {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.order-product-preview {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    min-width: 250px;
+}
+
+.order-thumb {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+}
+
+.order-meta h5 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    color: #111;
+}
+
+.order-meta p {
+    font-size: 13px;
+    color: #888;
+    margin: 0;
+}
+
+.order-total-section {
+    text-align: right;
+    min-width: 120px;
+}
+
+.label-total {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.price-total {
+    font-size: 16px;
+    font-weight: 800;
+    color: #111;
+}
+
+/* Footer Actions */
+.order-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #f0f0f0;
+    text-align: right;
+    background: #fff;
+}
+
+.btn-action-small {
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-dark-custom {
+    background: #111;
+    color: #fff;
+    border: 1px solid #111;
+}
+.btn-dark-custom:hover {
+    background: #333;
+    color: #fff;
+}
+
+.btn-outline-custom {
+    background: transparent;
+    color: #111;
+    border: 1px solid #ddd;
+}
+.btn-outline-custom:hover {
+    border-color: #111;
+    background: #f9f9f9;
+}

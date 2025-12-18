@@ -10,7 +10,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Landing\\Home::index');
 $routes->get('kategori', 'Landing\\Kategori::kategori');
 $routes->get('detail/(:segment)', 'Landing\Detail::detail/$1');
-$routes->get('co', 'Landing\\Home::checkout');
+$routes->get('co', 'Landing\\Checkout::index');
 
 $routes->get('about', 'Landing\\Pages::about');
 $routes->get('contact', 'Landing\\Pages::contact');
@@ -22,6 +22,27 @@ $routes->post('auth/login', 'Landing\Auth::processLogin');
 $routes->get('register', 'Landing\Auth::register');
 $routes->post('auth/register', 'Landing\Auth::processRegister');
 $routes->get('logout', 'Landing\Auth::logout');
+
+$routes->get('/orders', 'Landing\Orders::index');
+$routes->get('/orders/confirm/(:num)', 'Landing\Orders::confirm/$1');
+
+
+$routes->post('payment/notification', 'Notification::index');
+
+// app/Config/Routes.php
+
+// Route Checkout (Wajib Login)
+// Pastikan user login dulu (authguard)
+$routes->group('checkout', ['filter' => 'authguard'], function ($routes) {
+    // Saat buka localhost:8080/checkout, panggil Checkout::index
+    $routes->get('/', 'Landing\Checkout::index'); 
+    
+    // Saat klik tombol bayar, panggil Checkout::process
+    $routes->post('process', 'Landing\Checkout::process'); 
+});
+
+// OPSI TAMBAHAN: Jika Anda tetap ingin bisa diakses lewat URL '/co'
+$routes->get('co', 'Landing\Checkout::index', ['filter' => 'authguard']);
 
 // Hapus atau timpa route 'cart' yang lama dengan grup ini:
 $routes->group('cart', ['filter' => 'authguard'], function ($routes) {
