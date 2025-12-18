@@ -281,7 +281,7 @@ main {
   height: 100vh;
   min-height: 600px;
   background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),
-    url("https://images.unsplash.com/photo-1490481651871-732db6182260?q=80&w=1470");
+  url("../../../images/photo-1552374196-1ab2a1c593e8.jpeg");
   background-size: cover;
   background-position: center;
   display: flex;
@@ -1568,7 +1568,7 @@ a {
 
 /* Banner */
 .cat-banner {
-  background: url("https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1200&q=80")
+  background: url("../../../images/photo-1441984904996-e0b6ba687e04.jpeg")
     no-repeat center center;
   background-size: cover;
   height: 200px;
@@ -1945,7 +1945,7 @@ a {
 /* 1. Gambar Background Kiri */
 .bg-login-image {
     /* Gambar Fashion / Streetwear Keren */
-    background-image: url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000'); 
+    background-image: url("../../../images/photo-1515886657613-9f3515b0c78f.jpeg"); 
     background-size: cover;
     background-position: center;
     height: 100vh;
